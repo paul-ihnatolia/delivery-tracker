@@ -1,0 +1,10 @@
+# A sample Bowerfile
+# Check out https://github.com/42dev/bower-rails#ruby-dsl-configuration for more options
+
+asset 'angular'
+asset 'angular-ui-router'
+asset 'bootstrap-sass-official'
+asset 'ng-token-auth'
+asset 'angular-resource'
+asset 'angular-ui-calendar'
+asset 'angular-bootstrap-datetimepicker'

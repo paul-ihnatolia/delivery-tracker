@@ -5,3 +5,9 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+10.times do 
+  Shipment.create(po: rand(1000).to_s,
+    start_date: Time.now - rand(10).day,
+    end_date: Time.now - rand(10).day)
+end
