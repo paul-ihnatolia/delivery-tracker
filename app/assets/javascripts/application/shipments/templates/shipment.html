@@ -1,1 +1,54 @@
-<h3 ng-repeat="shipment in sctrl.shipments">{{ shipment.po }}</h3>
+<div class="container" style="margin-top:50px">
+    <!-- Example row of columns -->
+    <div class="row">
+        <div class="col-md-8" >
+          <div calendar="myCalendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
+        </div>
+         <div class="col-md-4">
+              <div ng-show="schedulerOpened">
+              <h2>Scheduler</h2>
+                <form>
+                  <div class="form-group">
+                    <label for="poNumber">PO Number</label>
+                    <input type="text" class="form-control" ng-model="shipment.poNumber" id="poNumber" placeholder="PO Number">
+                  </div>
+                  <div class="form-group">
+                    <label for="company">Company</label>
+                    <input type="text" class="form-control" ng-model="shipment.company" id="company" placeholder="Company">
+                  </div> 
+                  <div class="form-group">
+                    <label for="datestart">Delivery date start</label>
+                      <div class="dropdown" >
+                          <a class="dropdown-toggle my-toggle-select" role="button" data-toggle="dropdown" data-target="#" href="">
+                              <div class="input-append">
+                                <input type="text" class="form-control" ng-model="shipment.start" data-date-time-input="MMMM Do YYYY HH:mm" >
+                              </div>
+                          </a>
+                          <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                              <datetimepicker data-ng-model="shipment.start"
+                                              data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select' }" ></datetimepicker>
+                          </ul>
+                    </div> 
+                  </div>
+
+                  <div class="form-group">
+                    <label for="estimated">Estimated Time</label>
+                     	<select ng-init="timeElapsed = timePredefined[0]" ng-model="timeElapsed"
+			                ng-options="opt.label for opt in timePredefined track by opt.value">
+			        	</select>
+                  </div>
+                  <button ng-click="addShipment(shipment)" class="btn btn-default">Submit</button>
+                </form>
+            </div>
+            <h2>Day delivery list</h2>
+            <ul class="list-unstyled">
+                <li ng-repeat="shipment in cal.dayDeliveryList">
+                    <div class="alert alert-info" ng-click="editShipment(shipment)">
+                        <a class="close" ng-click="removeShipment($index)"><i class="glyphicon glyphicon-remove"></i></a>
+                        <b> {{shipment.title}}</b> - {{shipment.start | date:"HH:mm"}} - {{shipment.end | date:"HH:mm"}}
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div> <!-- /container -->        
