@@ -4,6 +4,6 @@
 
 var dtracker = angular.module('dtracker');
 
-// dtracker.factory('Shipment', ['$resource', function ($resource) {
-//     return $resource('/api/shipments/:id', { id: '@id' }, { update: { method: 'PUT' }});
-// }]);
+dtracker.factory('Shipment', ['$resource', function ($resource) {
+    return $resource('/api/shipments/:id', { id: '@id' }, { update: { method: 'PUT' }});
+}]);

@@ -6,10 +6,6 @@ var dtracker = angular.module('dtracker');
 
 dtracker.controller('CalendarCtrl', ['$scope', function ($scope) {
 
-  $scope.callCal = function(){
-      console.log($scope.myCalendar.fullCalendar('clientEvents'));
-  }
-
   $scope.timePredefined = [
     { label: '15m', value: 15 },
     { label: '20m', value: 20 },
@@ -61,7 +57,7 @@ dtracker.controller('CalendarCtrl', ['$scope', function ($scope) {
 //OVERLAPPING CHECK
 //http://stackoverflow.com/questions/2369683/is-there-a-way-to-prevent-overlapping-events-in-jquery-fullcalendar
 // function isOverlapping(event){
-//     var array = calendar.fullCalendar('clientEvents');
+//     var array = $scope.myCalendar.fullCalendar('clientEvents'));
 //     for(i in array){
 //         if(array[i].id != event.id){
 //             if(!(array[i].start >= event.end || array[i].end <= event.start)){
