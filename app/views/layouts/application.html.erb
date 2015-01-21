@@ -6,8 +6,20 @@
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
 </head>
-<body ng-app="dtracker">
-
+<body ng-app="dtracker" ng-controller="ApplicationCtrl">
+  <h2> Current state: </h2>
+  <div class="alert" ng-show="flash.getMessage()">
+    <b>Alert!</b>
+    <p>{{flash.getMessage()}}</p>
+  </div>
+  <div class="current_user" ng-show="currentUser">
+    <h3> Current user: </h3>
+    {{ currentUser.email }}
+    <a ui-sref="application.auth.logout"> Logout </a>
+  </div>
+  <div class="login" ng-hide="currentUser || $state.includes('application.auth.sign_in');">
+    <a ui-sref="application.auth.sign_in"> Sign in </a>
+  </div>
 <%= yield %>
 
 </body>

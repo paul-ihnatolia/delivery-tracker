@@ -8,9 +8,16 @@
         'ngResource'
     ]);
     dtracker.config(['$urlRouterProvider', '$stateProvider', function ($urlRouterProvider, $stateProvider) {
-        $urlRouterProvider.otherwise('/auth/sign_up');
-        $stateProvider.state('shipments', {
-            url: '/shipments',
+        $urlRouterProvider.otherwise('/auth/sign_in');
+        $stateProvider
+        .state('application', {
+            url: '/',
+            //controller: 'ApplicationCtrl',
+            abstract: true,
+            template: '<ui-view/>'
+        })
+        .state('application.shipments', {
+            url: '^/shipments',
             views: {
                 '': {templateUrl: 'application/shipments/templates/shipments-container.html'},
                 'shipments@shipments': {
@@ -22,15 +29,22 @@
                     templateUrl: 'application/shipments/templates/shipment_form.html'
                 }
             }
-        }).state('auth', {
-            url: '/auth',
+        }).state('application.auth', {
+            url: '^/auth',
             templateUrl: 'application/auth/templates/container.html',
             controller: function ($scope) {}
             //abstract: true
-        }).state('auth.sign_up', {
+        }).state('application.auth.sign_up', {
             url: '/sign_up',
             controller: 'RegistrationCtrl as reg',
             templateUrl: 'application/auth/templates/sign-up-form.html'
+        }).state('application.auth.sign_in', {
+            url: '/sign_in',
+            controller: 'SessionCtrl as session',
+            templateUrl: 'application/auth/templates/sign-in-form.html'
+        }).state('application.auth.logout', {
+            url: '/logout',
+            controller: 'LogoutCtrl'
         });
     }]);
 }());
