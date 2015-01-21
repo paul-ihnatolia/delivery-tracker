@@ -4,7 +4,19 @@
 
 var dtracker = angular.module('dtracker');
 
-dtracker.controller('CalendarCtrl', ['$scope', function ($scope) {
+dtracker.controller('CalendarCtrl', ['$http', '$scope', function ($http, $scope) {
+
+  $scope.eventSources = [];
+
+  $http.get('/api/shipments').
+  success(function(data, status, headers, config) {
+    $scope.eventSources = [data];
+    console.log(data);
+  }).
+  error(function(data, status, headers, config) {
+    console.log(data);
+  });
+
 
   $scope.timePredefined = [
     { label: '15m', value: 15 },
@@ -16,7 +28,7 @@ dtracker.controller('CalendarCtrl', ['$scope', function ($scope) {
   ];
 
 
-  $scope.eventSources = [events];
+  // $scope.eventSources = [events];
 	
   $scope.eventClick = function(event){           
     $scope.editShipment(event);
