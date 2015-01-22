@@ -45,6 +45,14 @@
         }).state('application.auth.logout', {
             url: '/logout',
             controller: 'LogoutCtrl'
+        }).state('application.auth.forgot_pass', {
+            url: '/forgot_pass',
+            controller: 'ForgotPassCtrl as forgot',
+            templateUrl: 'application/auth/templates/forgot-pass-form.html'
+        }).state('application.auth.new_pass', {
+            url: '/new-pass',
+            controller: 'RestorePassCtrl as passRestore',
+            templateUrl: 'application/auth/templates/restore-pass-form.html'
         });
     }]);
 }());

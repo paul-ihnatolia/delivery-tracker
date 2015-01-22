@@ -1,0 +1,21 @@
+<h3> Forgot password: </h3>
+<auth-error></auth-error>
+<form name="forgotPass" ng-submit="forgot.resetPass(forgotPass.$valid)" novalidate>
+  <div class="form-group">
+    <label for="email"> Email: </label>
+    <input type="email" name="email" ng-model="forgot.credentials.email" required class="form-control">
+    <div class="error-container" ng-show="forgotPass.email.$dirty && forgotPass.email.$invalid">
+      <small class="error" ng-show="forgotPass.email.$error.required">
+        Your email is required.
+      </small>
+      <small class="error" ng-show="forgotPass.email.$error.email">
+        That is not a valid email. Please input a valid email.
+      </small>
+    </div>
+
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary btn-lg" ng-disabled="forgotPass.$invalid">
+    Request password change
+  </button>
+</form>

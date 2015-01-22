@@ -3,8 +3,8 @@
   
   var dtracker = angular.module('dtracker');
 
-  dtracker.controller('ApplicationCtrl', ['$scope', '$rootScope', 'user', '$state',
-    function ($scope, $rootScope, user, $state) {
+  dtracker.controller('ApplicationCtrl', ['$scope', '$rootScope', 'user', '$state', '$location',
+    function ($scope, $rootScope, user, $state, $location) {
     $scope.currentUser = user.getCurrentUser();
     $scope.$state = $state;
 
@@ -21,6 +21,17 @@
       console.log('user:change');
       console.log(user.getCurrentUser());
       $scope.setCurrentUser(user.getCurrentUser());
+    });
+
+    // Redirect to /new-password on $ng-auth
+    $rootScope.$on('auth:password-reset-confirm-success', function () {
+      alert('auth:password-reset-confirm-success');
+      $location.path('/auth/new-pass');
+    });
+
+    // Redirect to /new-password on $ng-auth
+    $rootScope.$on('auth:password-reset-confirm-error', function () {
+      alert('Password reset error');
     });
   }]);
 }());

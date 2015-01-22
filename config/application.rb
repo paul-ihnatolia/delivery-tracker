@@ -21,6 +21,16 @@ module DeliveryTracker
     # config.i18n.default_locale = :de
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
+
     config.active_record.raise_in_transactional_callbacks = true
+    # Configure Mandril through :smtp
+    config.action_mailer.delivery_method = :smtp
+    ActionMailer::Base.smtp_settings = {
+      :address   => "smtp.mandrillapp.com",
+      :port      => 587,
+      :user_name => ENV['MANDRILL_USERNAME'],
+      :password  => ENV['MANDRILL_API_KEY'],
+      :domain    => ENV['DTRACKER_DOMAIN']
+  }
   end
 end

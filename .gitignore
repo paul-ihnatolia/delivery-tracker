@@ -37,3 +37,5 @@ config/database.yml
 .tags
 .tags_sorted_by_file
 .gemtags
+# Ignore application configuration
+/config/application.yml
