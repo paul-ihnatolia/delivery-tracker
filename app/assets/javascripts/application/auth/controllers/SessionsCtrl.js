@@ -20,7 +20,7 @@ dtracker.controller('SessionCtrl', ['$rootScope', '$scope', '$auth', '$location'
 
   $scope.$on('auth:login-success', function (ev, user) {
     $rootScope.flash = flash;
-    $rootScope.flash.setMessage('You successfuly signed in.');
+    $rootScope.flash.setMessage('You successfully signed in.');
     $location.path('/shipments');
   });
 

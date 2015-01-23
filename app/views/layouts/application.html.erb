@@ -37,8 +37,8 @@
 
   <div class="container-fluid">
     <!-- info messages -->
-    <div class="alert" ng-show="flash.getMessage()">
-      <b>Alert!</b>
+    <div class="alert alert-warning alert-dismissible system-message" ng-show="flash.getMessage()" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       <p>{{flash.getMessage()}}</p>
     </div>
     

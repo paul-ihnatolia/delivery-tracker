@@ -6,7 +6,7 @@
       $auth.signOut()
         .then(function(resp) {
           $rootScope.flash = flash;
-          $rootScope.flash.setMessage('You successfuly signed in.');
+          $rootScope.flash.setMessage('You successfully logged out.');
           $location.path('/auth/sign-in');
         })
         .catch(function(resp) {

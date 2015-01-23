@@ -21,5 +21,6 @@
 //= require moment/moment.js
 //= require angular-bootstrap-datetimepicker/src/js/datetimepicker.js
 //= require angular-rails-templates
+//= require bootstrap-sass-official/assets/javascripts/bootstrap/alert.js
 //= require ./delivery-tracker
 //= require_tree ./application
