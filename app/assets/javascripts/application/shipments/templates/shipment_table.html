@@ -1,13 +1,18 @@
 <body ng-app="dtracker" ng-controller="ShipmentDataCtrl">
-    <table  class="table">
-      <tbody>
+    <a class="btn btn-primary" ng-mousedown="csv.generate()" ng-href="{{ csv.link() }}" download="test.csv">Export to CSV</a>
+
+    <button ng-click="tableParams.sorting({})" class="btn btn-default pull-right">Clear sorting</button>
+    <button ng-click="tableParams.filter({})" class="btn btn-default pull-right">Clear filter</button>
+    <p><strong>Sorting:</strong> {{tableParams.sorting()|json}}
+    <p><strong>Filter:</strong> {{tableParams.filter()|json}}
+ 
+    <table ng-table="tableParams" show-filter="true" class="table" export-csv="csv">
             <tr ng-repeat="shipment in shipments">
-                <td data-title="'Company'">{{shipment.company}}</td>
-                <td data-title="'User'">{{shipment.po}}</td>
-                <td data-title="'Time Start'">{{shipment.start}}</td>
-                <td data-title="'Time End'">{{shipment.end}}</td>
-                <td data-title="'Status'">{{shipment.status}}</td>            
+                <td data-title="'Company'" sortable="'company'" filter="{ 'company': 'text' }">{{shipment.company}}</td>
+                <td data-title="'Po'" sortable="'po'" filter="{ 'po': 'text' }">{{shipment.po}}</td>
+                <td data-title="'Time Start'" sortable="'start'" filter="{ 'start': 'text' }">{{shipment.start}}</td>
+                <td data-title="'Time End'" sortable="'end'" filter="{ 'end': 'text' }">{{shipment.end}}</td>
+                <td data-title="'Status'" sortable="'status'" filter="{ 'status': 'text' }">{{shipment.status}}</td>            
             </tr>
-      </tbody>
     </table>
 </body>

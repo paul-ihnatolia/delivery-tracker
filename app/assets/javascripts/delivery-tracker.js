@@ -7,7 +7,9 @@
         'ng-token-auth',
         'ngResource',
         'ui.calendar',
-        'ui.bootstrap.datetimepicker'
+        'ui.bootstrap.datetimepicker',
+        'ngTable',
+        'ngTableExport'
     ]);
     dtracker.config(['$urlRouterProvider', '$stateProvider', function ($urlRouterProvider, $stateProvider) {
         $urlRouterProvider.otherwise('/shipments');
