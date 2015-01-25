@@ -1,0 +1,13 @@
+<body ng-app="dtracker" ng-controller="ShipmentDataCtrl">
+    <table  class="table">
+      <tbody>
+            <tr ng-repeat="shipment in shipments">
+                <td data-title="'Company'">{{shipment.company}}</td>
+                <td data-title="'User'">{{shipment.po}}</td>
+                <td data-title="'Time Start'">{{shipment.start}}</td>
+                <td data-title="'Time End'">{{shipment.end}}</td>
+                <td data-title="'Status'">{{shipment.status}}</td>            
+            </tr>
+      </tbody>
+    </table>
+</body>

@@ -21,5 +21,12 @@
                 }
             }
         });
-    }]);
+
+        $stateProvider.state('admin', {
+            url: "/admin",
+            templateUrl : 'application/shipments/templates/shipment_table.html',
+            controller  : 'ShipmentDataCtrl as cal'
+        })
+
+    }]);    
 }());

@@ -7,6 +7,8 @@
     "ng-token-auth": "latest",
     "angular-resource": "latest",
     "angular-ui-calendar": "latest",
-    "angular-bootstrap-datetimepicker": "latest"
+    "angular-bootstrap-datetimepicker": "latest",
+    "ng-table": "latest",
+    "ng-table-export": "latest"
   }
 }

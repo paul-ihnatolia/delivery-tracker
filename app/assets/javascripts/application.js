@@ -24,5 +24,7 @@
 //= require bootstrap-sass-official/assets/javascripts/bootstrap.js
 //= require angular-bootstrap-datetimepicker/src/js/datetimepicker.js
 //= require angular-rails-templates
+//= require ng-table/dist/ng-table.js
+//= require ng-table-export/ng-table-export.js
 //= require ./delivery-tracker
 //= require_tree ./application
