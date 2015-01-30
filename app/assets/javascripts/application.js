@@ -10,7 +10,18 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
-//= require jquery_ujs
-//= require turbolinks
-//= require_tree .
+//= require jquery/jquery.js
+//= require jquery-ui/ui/jquery-ui.js
+//= require angular/angular.js
+//= require angular-cookie/angular-cookie.js
+//= require angular-resource/angular-resource.js
+//= require angular-ui-router/release/angular-ui-router.js
+//= require ng-token-auth/dist/ng-token-auth.js
+//= require angular-ui-calendar/src/calendar.js
+//= require moment/moment.js
+//= require angular-bootstrap-datetimepicker/src/js/datetimepicker.js
+//= require intl-tel-input/build/js/intlTelInput.js
+//= require angular-rails-templates
+//= require bootstrap-sass-official/assets/javascripts/bootstrap/alert.js
+//= require ./delivery-tracker
+//= require_tree ./application

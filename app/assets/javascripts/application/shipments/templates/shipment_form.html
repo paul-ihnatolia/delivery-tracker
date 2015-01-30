@@ -1,0 +1,7 @@
+<h2> Add new shipment </h2>
+<form type="POST" ng-submit="nsctrl.addShipment()">
+  <input type='text' name="po" ng-model="nsctrl.shipment.po">
+  <input type='date' name="start_date" ng-model="nsctrl.shipment.start_date">
+  <input type='date' name="end_date" ng-model="nsctrl.shipment.end_date">
+  <input type="Submit" value="Add Shipment">
+</form>

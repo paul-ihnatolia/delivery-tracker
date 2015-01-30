@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  root 'home#index'
+  
+  mount_devise_token_auth_for 'User', at: '/api/auth'
+
+  namespace :api, defaults: {format: :json} do
+    resources :shipments
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

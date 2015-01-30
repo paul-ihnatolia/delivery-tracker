@@ -13,6 +13,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'bower-rails'
 gem 'angular-rails-templates'
+gem 'figaro'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
@@ -26,7 +27,9 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'devise'
 gem 'devise_token_auth', '0.1.31beta9'
-
+gem 'devise-async'
+gem 'delayed_job_active_record'
+gem "daemons"
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -37,6 +40,7 @@ gem 'devise_token_auth', '0.1.31beta9'
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
+  gem 'byebug'
   gem 'rspec-rails', '~> 3.0.0'
   gem 'factory_girl_rails'
   gem 'capybara'
