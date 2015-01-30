@@ -1,0 +1,30 @@
+(function () {
+  "use strict";
+  angular.module('dtracker')
+    .directive('intlPhoneInput', [function () {
+      return {
+        replace: true,
+        restrict: 'E',
+        require: 'ngModel',
+        templateUrl: 'application/auth/templates/intlPhoneInput.html',
+        link: function (scope, element, iAttrs, ngModel) {
+          var read = function() {
+            var inputValue = element.val();
+            ngModel.$setViewValue(inputValue);
+          };
+          element.intlTelInput({
+            defaultCountry: 'us',
+            onlyCountries: ['us'],
+            validationScript: "<%= asset_url 'intl-tel-input/lib/libphonenumber/build/utils.js', type: :javascript %>"
+          });
+          element.on('focus blur keyup change', function() {
+            scope.$apply(read);
+            var isValid = element.intlTelInput("isValidNumber");
+            ngModel.$setValidity("intlPhoneInput", isValid);
+            scope.$digest();
+          });
+          read();
+        }
+      };
+    }]);
+}());

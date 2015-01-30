@@ -88,12 +88,17 @@
   </div>
   <div class="form-group">
     <label for="phone_number"> Phone number: </label>
-    <input type="phone_number" name="phone_number" id="phone_number" ng-model="reg.credentials.phone_number" class="form-control" required />
+    <intl-phone-input ng-model="reg.credentials.phone_number"></intl-phone-input>
+    <div class="error-container" 
+         ng-show="signUp.phone_number.$dirty && signUp.phone_number.$invalid">
+      <small ng-show="signUp.phone_number.$error.intlPhoneInput"> That is not a valid phone number. Please input a valid phone number. </small>
+    </div>
+<!--     <input type="phone_number" name="phone_number" id="phone_number" ng-model="reg.credentials.phone_number" class="form-control" required />
     <div class="error-container" ng-show="signUp.phone_number.$dirty && signUp.phone_number.$invalid">
       <small class="error" ng-show="signUp.phone_number.$error.required">
         Your phone number is required.
       </small>
-    </div>
+    </div> -->
   </div>
 
   <button type="submit" class="btn btn-primary btn-lg" ng-disabled="signUp.$invalid">Sign up</button>

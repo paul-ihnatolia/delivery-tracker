@@ -14,3 +14,4 @@ Rails.application.config.assets.paths << Rails.root.join("vendor","assets","bowe
 Rails.application.config.assets.paths << Rails.root.join("vendor","assets","bower_components","bootstrap-sass-official","assets","fonts")
 
 Rails.application.config.assets.precompile << %r(.*.(?:eot|svg|ttf|woff)$)
+Rails.application.config.assets.precompile += %w( intl-tel-input/lib/libphonenumber/build/utils.js )
