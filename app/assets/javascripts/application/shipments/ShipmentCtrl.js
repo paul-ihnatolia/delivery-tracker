@@ -4,18 +4,47 @@
 
 var dtracker = angular.module('dtracker');
 
-dtracker.controller('CalendarCtrl', ['$http', '$scope', function ($http, $scope) {
+dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout' , function ($http, $scope, Shipment, $timeout) {
 
-  $scope.eventSources = [];
 
-  $http.get('/api/shipments').
-  success(function(data, status, headers, config) {
-    $scope.eventSources = [data];
-    console.log(data);
-  }).
-  error(function(data, status, headers, config) {
-    console.log(data);
+  // Clear events and assign the events source.
+  $scope.events = [];
+  
+//  console.log(shipment.query());
+//  
+  console.log($scope.events)
+  Shipment.query().$promise.then(function(data) {
+      angular.forEach(data, function (event) {
+        $scope.events.push(event);
+      });
   });
+
+
+  $scope.UpdateCal = function () {
+    console.log($scope.events);
+    console.log('Clearing $scope.events via splice(0)');
+    $scope.events.splice(0);
+    
+
+    $timeout(function () {
+
+      angular.forEach(events2, function (event) {
+        $scope.events.push(event);
+      });
+      console.log('New Events pushed');
+
+    }, 100);
+  };
+
+  $scope.CallFromUrl = function () {
+    Shipment.query().$promise.then(function(data) {
+        angular.forEach(data, function (event) {
+          $scope.events.push(event);
+        });
+    });
+  };
+
+  $scope.eventSources =  [$scope.events];
 
 
   $scope.timePredefined = [
@@ -54,6 +83,8 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope', function ($http, $scope)
         allDaySlot: false,
         defaultView: 'agendaDay',
         slotEventOverlap: false,
+        minTime: "08:00:00",
+        maxTime: "23:00:00",
         header:{
           left: 'month agendaWeek agendaDay',
           center: 'title',
@@ -114,14 +145,12 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope', function ($http, $scope)
 
 }]);
 
-var events = [
-        {
-            title: 'Event1',
-            start: '2015-01-19'
-        },
-        {
-            title: 'Event2',
-            start: 'Mon Jan 19 2015 16:00:00 GMT+0200 (EET)',
-            end: 'Mon Jan 20 2015 16:00:00 GMT+0200 (EET)'
-        }
-    ];
+var events = [{"start":"2015-01-18 17:46:40 UTC","end":"2015-01-13 17:46:40 UTC"},{"start":"2015-01-18 17:46:40 UTC","end":"2015-01-09 17:46:40 UTC"},{"start":"2015-01-17 17:46:40 UTC","end":"2015-01-13 17:46:40 UTC"},{"start":"2015-01-16 17:46:40 UTC","end":"2015-01-16 17:46:40 UTC"},{"start":"2015-01-10 17:46:40 UTC","end":"2015-01-15 17:46:40 UTC"},{"start":"2015-01-13 17:46:40 UTC","end":"2015-01-13 17:46:40 UTC"},{"start":"2015-01-14 17:46:40 UTC","end":"2015-01-15 17:46:40 UTC"},{"start":"2015-01-10 17:46:40 UTC","end":"2015-01-12 17:46:40 UTC"},{"start":"2015-01-16 17:46:40 UTC","end":"2015-01-16 17:46:40 UTC"},{"start":"2015-01-14 17:46:40 UTC","end":"2015-01-16 17:46:40 UTC"},{"start":"2015-01-28 22:00:00 UTC","end":"2015-01-28 22:00:00 UTC"},{"start":"2015-01-13 12:51:31 UTC","end":"2015-01-18 12:51:31 UTC"},{"start":"2015-01-19 12:51:31 UTC","end":"2015-01-20 12:51:31 UTC"},{"start":"2015-01-15 12:51:31 UTC","end":"2015-01-21 12:51:31 UTC"},{"start":"2015-01-18 12:51:31 UTC","end":"2015-01-21 12:51:31 UTC"},{"start":"2015-01-12 12:51:31 UTC","end":"2015-01-13 12:51:31 UTC"},{"start":"2015-01-15 12:51:31 UTC","end":"2015-01-13 12:51:31 UTC"},{"start":"2015-01-17 12:51:31 UTC","end":"2015-01-21 12:51:31 UTC"},{"start":"2015-01-12 12:51:31 UTC","end":"2015-01-12 12:51:31 UTC"},{"start":"2015-01-15 12:51:31 UTC","end":"2015-01-16 12:51:31 UTC"},{"start":"2015-01-21 12:51:31 UTC","end":"2015-01-18 12:51:31 UTC"},{"start":"2015-01-17 13:03:01 UTC","end":"2015-01-21 13:03:01 UTC"},{"start":"2015-01-15 13:03:01 UTC","end":"2015-01-15 13:03:01 UTC"},{"start":"2015-01-16 13:03:01 UTC","end":"2015-01-15 13:03:01 UTC"},{"start":"2015-01-15 13:03:01 UTC","end":"2015-01-19 13:03:01 UTC"},{"start":"2015-01-21 13:03:01 UTC","end":"2015-01-21 13:03:01 UTC"},{"start":"2015-01-15 13:03:01 UTC","end":"2015-01-17 13:03:01 UTC"},{"start":"2015-01-21 13:03:01 UTC","end":"2015-01-18 13:03:01 UTC"},{"start":"2015-01-21 13:03:01 UTC","end":"2015-01-21 13:03:01 UTC"},{"start":"2015-01-20 13:03:01 UTC","end":"2015-01-14 13:03:01 UTC"},{"start":"2015-01-13 13:03:01 UTC","end":"2015-01-19 13:03:01 UTC"},{"start":"2015-01-21 13:15:48 UTC","end":"2015-01-18 13:15:48 UTC"},{"start":"2015-01-21 13:15:48 UTC","end":"2015-01-18 13:15:48 UTC"},{"start":"2015-01-18 13:15:48 UTC","end":"2015-01-17 13:15:48 UTC"},{"start":"2015-01-20 13:15:48 UTC","end":"2015-01-12 13:15:48 UTC"},{"start":"2015-01-13 13:15:48 UTC","end":"2015-01-13 13:15:48 UTC"},{"start":"2015-01-19 13:15:48 UTC","end":"2015-01-13 13:15:48 UTC"},{"start":"2015-01-13 13:15:48 UTC","end":"2015-01-18 13:15:48 UTC"},{"start":"2015-01-20 13:15:48 UTC","end":"2015-01-20 13:15:48 UTC"},{"start":"2015-01-15 13:15:48 UTC","end":"2015-01-15 13:15:48 UTC"},{"start":"2015-01-19 13:15:48 UTC","end":"2015-01-17 13:15:48 UTC"}];
+
+var events2 = [
+    {
+        title: 'EventNew',
+        start: "2015-01-22T17:46:40.488Z",
+        end: "2015-01-22T20:46:40.488Z"
+    }
+];

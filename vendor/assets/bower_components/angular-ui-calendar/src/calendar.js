@@ -240,9 +240,19 @@ angular.module('ui.calendar', [])
           scope.calendar.fullCalendar('renderEvent', event);
         };
 
+        // eventsWatcher.onRemoved = function(event) {
+        //     scope.calendar.fullCalendar('removeEvents', function(e) { 
+        //         return e._id === event._id;
+        //     });
+        // };
+        // 
         eventsWatcher.onRemoved = function(event) {
-          scope.calendar.fullCalendar('removeEvents', function(e) { return e === event; });
+          scope.calendar.fullCalendar('removeEvents', function(e) { 
+                    return e === event; 
+          });
         };
+
+      
 
         eventsWatcher.onChanged = function(event) {
           scope.calendar.fullCalendar('updateEvent', event);

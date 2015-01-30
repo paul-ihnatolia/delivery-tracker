@@ -2,7 +2,7 @@
     <!-- Example row of columns -->
     <div class="row">
         <div class="col-md-8" >
-          <div calendar="myCalendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
+          <div id="calendar" calendar="myCalendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
         </div>
          <div class="col-md-4">
               <div ng-show="schedulerOpened">
@@ -41,6 +41,8 @@
                 </form>
             </div>
             <h2>Day delivery list</h2>
+            <button ng-click="UpdateCal()">Update Claendar</button>
+            <button ng-click="CallFromUrl()">Call from resource</button>
             <ul class="list-unstyled">
                 <li ng-repeat="shipment in cal.dayDeliveryList">
                     <div class="alert alert-info" ng-click="editShipment(shipment)">
