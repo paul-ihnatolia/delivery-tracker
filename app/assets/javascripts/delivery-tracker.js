@@ -18,6 +18,10 @@
                 'shipments@shipments': {
                     controller: 'CalendarCtrl as cal',
                     templateUrl: 'application/shipments/templates/shipment.html'
+                },
+                'newShipment@shipments': {
+                    controller: 'NewShipmentCtrl as newShipment',
+                    templateUrl: 'application/shipments/templates/new-shipment.html'
                 }
             }
         });

@@ -1,10 +1,13 @@
-<div class="container" style="margin-top:50px">
+<div id="calendar" calendar="myCalendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
+<!-- <div class="container" style="margin-top:50px">
     <!-- Example row of columns -->
-    <div class="row">
+   <!--  <div class="row">
         <div class="col-md-8" >
-          <div id="calendar" calendar="myCalendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
+          
         </div>
          <div class="col-md-4">
+          <div ui-view="newShipment"></div>
+              
               <div ng-show="schedulerOpened">
               <h2>Scheduler</h2>
                 <form>
@@ -35,15 +38,15 @@
                     <label for="estimated">Estimated Time</label>
                      	<select ng-init="timeElapsed = timePredefined[0]" ng-model="timeElapsed"
 			                ng-options="opt.label for opt in timePredefined track by opt.value">
-			        	</select>
+			        	      </select>
                   </div>
                   <button ng-click="addShipment(shipment)" class="btn btn-default">Submit</button>
                 </form>
-            </div>
-            <h2>Day delivery list</h2>
+            </div> <!-- schedulerOpened -->
+ <!--            <h2>Day delivery list</h2>
             <button ng-click="UpdateCal()">Update Claendar</button>
-            <button ng-click="CallFromUrl()">Call from resource</button>
-            <ul class="list-unstyled">
+            <button ng-click="CallFromUrl()">Call from resource</button> -->
+<!--             <ul class="list-unstyled">
                 <li ng-repeat="shipment in cal.dayDeliveryList">
                     <div class="alert alert-info" ng-click="editShipment(shipment)">
                         <a class="close" ng-click="removeShipment($index)"><i class="glyphicon glyphicon-remove"></i></a>
@@ -51,6 +54,6 @@
                     </div>
                 </li>
             </ul>
-        </div>
-    </div>
-</div> <!-- /container -->        
+        </div> <!-- col-md-4 -->
+    <!-- </div> --> <!-- row -->
+<!-- </div> --> <!-- /container -->        

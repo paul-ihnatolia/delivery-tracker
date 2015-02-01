@@ -4,7 +4,7 @@
 
 var dtracker = angular.module('dtracker');
 
-dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout' , function ($http, $scope, Shipment, $timeout) {
+dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '$rootScope', function ($http, $scope, Shipment, $timeout, $rootScope) {
 
 
   // Clear events and assign the events source.
@@ -78,24 +78,25 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout' , 
 
 
 	$scope.uiConfig = {
-      calendar:{
-        editable: true,
-        allDaySlot: false,
-        defaultView: 'agendaDay',
-        slotEventOverlap: false,
-        minTime: "08:00:00",
-        maxTime: "23:00:00",
-        header:{
-          left: 'month agendaWeek agendaDay',
-          center: 'title',
-          right: 'today prev,next'
-        },
-  		eventClick: $scope.eventClick,
-          dayClick: $scope.dayClick,
-          eventDrop: $scope.alertOnDrop,
-          eventResize: $scope.alertOnResize
+    calendar:{
+      editable: true,
+      allDaySlot: false,
+      defaultView: 'agendaDay',
+      slotEventOverlap: false,
+      minTime: "08:00:00",
+      maxTime: "23:00:00",
+      header:{
+        left: 'month agendaWeek agendaDay',
+        center: 'title',
+        right: 'today prev,next'
       },
-    };
+  		eventClick: $scope.eventClick,
+      // it will passe clicked date into function
+      dayClick: $scope.dayClick,
+      eventDrop: $scope.alertOnDrop,
+      eventResize: $scope.alertOnResize
+    },
+  };
 
 //OVERLAPPING CHECK
 //http://stackoverflow.com/questions/2369683/is-there-a-way-to-prevent-overlapping-events-in-jquery-fullcalendar
@@ -118,9 +119,10 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout' , 
   $scope.schedulerOpened = false;
 
   $scope.createShipment = function(date){
-    $scope.schedulerOpened = true;
-    $scope.shipment = {};
-        $scope.shipment.start = date;
+    $rootScope.$emit("showShipmentForm", {start: date});
+    // $scope.schedulerOpened = true;
+    // $scope.shipment = {};
+    //     $scope.shipment.start = date;
   }
 
   $scope.editShipment = function(shipment){
@@ -129,6 +131,7 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout' , 
   }
 
 
+  $scope.events.push({"start":"2015-01-18 17:46:40 UTC","end":"2015-01-13 17:46:40 UTC"});
 
   $scope.addShipment = function(newShipment){
     //Date manipulations
@@ -141,8 +144,15 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout' , 
     console.log(newShipment);
     events.push(newShipment);
     $scope.shipment = {};
-  }
+  };
 
+  // Normal code
+  $scope.addShipmentToCalendar = function (e, data) {
+    console.log("addShipmentToCalendar");
+    console.log(data.shipment);
+    $scope.events.push(data);
+  };
+  $rootScope.$on('addShipmentToCalendar', $scope.addShipmentToCalendar);
 }]);
 
 var events = [{"start":"2015-01-18 17:46:40 UTC","end":"2015-01-13 17:46:40 UTC"},{"start":"2015-01-18 17:46:40 UTC","end":"2015-01-09 17:46:40 UTC"},{"start":"2015-01-17 17:46:40 UTC","end":"2015-01-13 17:46:40 UTC"},{"start":"2015-01-16 17:46:40 UTC","end":"2015-01-16 17:46:40 UTC"},{"start":"2015-01-10 17:46:40 UTC","end":"2015-01-15 17:46:40 UTC"},{"start":"2015-01-13 17:46:40 UTC","end":"2015-01-13 17:46:40 UTC"},{"start":"2015-01-14 17:46:40 UTC","end":"2015-01-15 17:46:40 UTC"},{"start":"2015-01-10 17:46:40 UTC","end":"2015-01-12 17:46:40 UTC"},{"start":"2015-01-16 17:46:40 UTC","end":"2015-01-16 17:46:40 UTC"},{"start":"2015-01-14 17:46:40 UTC","end":"2015-01-16 17:46:40 UTC"},{"start":"2015-01-28 22:00:00 UTC","end":"2015-01-28 22:00:00 UTC"},{"start":"2015-01-13 12:51:31 UTC","end":"2015-01-18 12:51:31 UTC"},{"start":"2015-01-19 12:51:31 UTC","end":"2015-01-20 12:51:31 UTC"},{"start":"2015-01-15 12:51:31 UTC","end":"2015-01-21 12:51:31 UTC"},{"start":"2015-01-18 12:51:31 UTC","end":"2015-01-21 12:51:31 UTC"},{"start":"2015-01-12 12:51:31 UTC","end":"2015-01-13 12:51:31 UTC"},{"start":"2015-01-15 12:51:31 UTC","end":"2015-01-13 12:51:31 UTC"},{"start":"2015-01-17 12:51:31 UTC","end":"2015-01-21 12:51:31 UTC"},{"start":"2015-01-12 12:51:31 UTC","end":"2015-01-12 12:51:31 UTC"},{"start":"2015-01-15 12:51:31 UTC","end":"2015-01-16 12:51:31 UTC"},{"start":"2015-01-21 12:51:31 UTC","end":"2015-01-18 12:51:31 UTC"},{"start":"2015-01-17 13:03:01 UTC","end":"2015-01-21 13:03:01 UTC"},{"start":"2015-01-15 13:03:01 UTC","end":"2015-01-15 13:03:01 UTC"},{"start":"2015-01-16 13:03:01 UTC","end":"2015-01-15 13:03:01 UTC"},{"start":"2015-01-15 13:03:01 UTC","end":"2015-01-19 13:03:01 UTC"},{"start":"2015-01-21 13:03:01 UTC","end":"2015-01-21 13:03:01 UTC"},{"start":"2015-01-15 13:03:01 UTC","end":"2015-01-17 13:03:01 UTC"},{"start":"2015-01-21 13:03:01 UTC","end":"2015-01-18 13:03:01 UTC"},{"start":"2015-01-21 13:03:01 UTC","end":"2015-01-21 13:03:01 UTC"},{"start":"2015-01-20 13:03:01 UTC","end":"2015-01-14 13:03:01 UTC"},{"start":"2015-01-13 13:03:01 UTC","end":"2015-01-19 13:03:01 UTC"},{"start":"2015-01-21 13:15:48 UTC","end":"2015-01-18 13:15:48 UTC"},{"start":"2015-01-21 13:15:48 UTC","end":"2015-01-18 13:15:48 UTC"},{"start":"2015-01-18 13:15:48 UTC","end":"2015-01-17 13:15:48 UTC"},{"start":"2015-01-20 13:15:48 UTC","end":"2015-01-12 13:15:48 UTC"},{"start":"2015-01-13 13:15:48 UTC","end":"2015-01-13 13:15:48 UTC"},{"start":"2015-01-19 13:15:48 UTC","end":"2015-01-13 13:15:48 UTC"},{"start":"2015-01-13 13:15:48 UTC","end":"2015-01-18 13:15:48 UTC"},{"start":"2015-01-20 13:15:48 UTC","end":"2015-01-20 13:15:48 UTC"},{"start":"2015-01-15 13:15:48 UTC","end":"2015-01-15 13:15:48 UTC"},{"start":"2015-01-19 13:15:48 UTC","end":"2015-01-17 13:15:48 UTC"}];
