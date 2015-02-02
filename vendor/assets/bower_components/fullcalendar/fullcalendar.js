@@ -1642,6 +1642,7 @@ function EventManager(options) { // assumed to be a calendar
 	
 	
 	function renderEvent(eventData, stick) {
+		stick = true;
 		var event = buildEvent(eventData);
 		if (event) {
 			if (!event.source) {

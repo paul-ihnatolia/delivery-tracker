@@ -13,26 +13,16 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
   // Clear events and assign the events source.
   $scope.events = [];
   
-//  console.log(shipment.query());
-//  
-  // $scope.events = [
-  //   {title: 'All Day Event',start: new Date(y, m, 1)},
-  //   {title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
-  //   {id: 999,title: 'Repeating Event',start: new Date(y, m, d - 3, 16, 0),allDay: false},
-  //   {id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: false},
-  //   {title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 22, 30),allDay: false},
-  //   {title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
-  // ];
-
   Shipment.query().$promise.then(function(data) {
-      angular.forEach(data, function (r) {
-        $scope.events.push({
-          id: r._id,
-          start: r.start_date,
-          end: r.end_date,
-          title: r.po + ' - ' + r.company
-        });
+    angular.forEach(data, function (r) {
+      $scope.events.push({
+        id: r._id,
+        start: r.start_date,
+        end: r.end_date,
+        title: r.po + ' - ' + r.company,
+        allDay: false
       });
+    });
   });
 
   /* Render calendar */
@@ -76,7 +66,6 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
     //get this event and edit it
   };
 
-
   $scope.dayClick = function(date){
     //alert(date);
     $scope.createShipment(date);
@@ -87,38 +76,17 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
     events.splice(index,1);
   };
 
-
-  //OVERLAPPING CHECK
-  //http://stackoverflow.com/questions/2369683/is-there-a-way-to-prevent-overlapping-events-in-jquery-fullcalendar
-  // function isOverlapping(event){
-  //   var array = uiCalendarConfig.calendars.myCalendar.fullCalendar('clientEvents');
-  //   for(var i = 0; i < array.length; i++) {
-  //     if(array[i]._id != event.id){
-  //       if (moment.utc(array[i].start) <= moment.utc(event.start) && moment.utc(array[i].end) > moment.utc(event.start)) {
-  //         return true;
-  //       }
-  //     }
-  //   }
-  //   return false;
-  // }
-
-//Scheduler
+  //Scheduler
   $scope.schedulerOpened = false;
 
   $scope.createShipment = function(date){
     $rootScope.$emit("showShipmentForm", {start: date});
-    // $scope.schedulerOpened = true;
-    // $scope.shipment = {};
-    //     $scope.shipment.start = date;
   };
 
   $scope.editShipment = function(shipment){
     $scope.schedulerOpened = true;
     $scope.shipment = shipment;
   };
-
-
-  var tevents = [{"start":"2015-01-18 17:46:40 UTC","end":"2015-01-13 17:46:40 UTC"},{"start":"2015-01-18 17:46:40 UTC","end":"2015-01-09 17:46:40 UTC"},{"start":"2015-01-17 17:46:40 UTC","end":"2015-01-13 17:46:40 UTC"},{"start":"2015-01-16 17:46:40 UTC","end":"2015-01-16 17:46:40 UTC"},{"start":"2015-01-10 17:46:40 UTC","end":"2015-01-15 17:46:40 UTC"},{"start":"2015-01-13 17:46:40 UTC","end":"2015-01-13 17:46:40 UTC"},{"start":"2015-01-14 17:46:40 UTC","end":"2015-01-15 17:46:40 UTC"},{"start":"2015-01-10 17:46:40 UTC","end":"2015-01-12 17:46:40 UTC"},{"start":"2015-01-16 17:46:40 UTC","end":"2015-01-16 17:46:40 UTC"},{"start":"2015-01-14 17:46:40 UTC","end":"2015-01-16 17:46:40 UTC"},{"start":"2015-01-28 22:00:00 UTC","end":"2015-01-28 22:00:00 UTC"},{"start":"2015-01-13 12:51:31 UTC","end":"2015-01-18 12:51:31 UTC"},{"start":"2015-01-19 12:51:31 UTC","end":"2015-01-20 12:51:31 UTC"},{"start":"2015-01-15 12:51:31 UTC","end":"2015-01-21 12:51:31 UTC"},{"start":"2015-01-18 12:51:31 UTC","end":"2015-01-21 12:51:31 UTC"},{"start":"2015-01-12 12:51:31 UTC","end":"2015-01-13 12:51:31 UTC"},{"start":"2015-01-15 12:51:31 UTC","end":"2015-01-13 12:51:31 UTC"},{"start":"2015-01-17 12:51:31 UTC","end":"2015-01-21 12:51:31 UTC"},{"start":"2015-01-12 12:51:31 UTC","end":"2015-01-12 12:51:31 UTC"},{"start":"2015-01-15 12:51:31 UTC","end":"2015-01-16 12:51:31 UTC"},{"start":"2015-01-21 12:51:31 UTC","end":"2015-01-18 12:51:31 UTC"},{"start":"2015-01-17 13:03:01 UTC","end":"2015-01-21 13:03:01 UTC"},{"start":"2015-01-15 13:03:01 UTC","end":"2015-01-15 13:03:01 UTC"},{"start":"2015-01-16 13:03:01 UTC","end":"2015-01-15 13:03:01 UTC"},{"start":"2015-01-15 13:03:01 UTC","end":"2015-01-19 13:03:01 UTC"},{"start":"2015-01-21 13:03:01 UTC","end":"2015-01-21 13:03:01 UTC"},{"start":"2015-01-15 13:03:01 UTC","end":"2015-01-17 13:03:01 UTC"},{"start":"2015-01-21 13:03:01 UTC","end":"2015-01-18 13:03:01 UTC"},{"start":"2015-01-21 13:03:01 UTC","end":"2015-01-21 13:03:01 UTC"},{"start":"2015-01-20 13:03:01 UTC","end":"2015-01-14 13:03:01 UTC"},{"start":"2015-01-13 13:03:01 UTC","end":"2015-01-19 13:03:01 UTC"},{"start":"2015-01-21 13:15:48 UTC","end":"2015-01-18 13:15:48 UTC"},{"start":"2015-01-21 13:15:48 UTC","end":"2015-01-18 13:15:48 UTC"},{"start":"2015-01-18 13:15:48 UTC","end":"2015-01-17 13:15:48 UTC"},{"start":"2015-01-20 13:15:48 UTC","end":"2015-01-12 13:15:48 UTC"},{"start":"2015-01-13 13:15:48 UTC","end":"2015-01-13 13:15:48 UTC"},{"start":"2015-01-19 13:15:48 UTC","end":"2015-01-13 13:15:48 UTC"},{"start":"2015-01-13 13:15:48 UTC","end":"2015-01-18 13:15:48 UTC"},{"start":"2015-01-20 13:15:48 UTC","end":"2015-01-20 13:15:48 UTC"},{"start":"2015-01-15 13:15:48 UTC","end":"2015-01-15 13:15:48 UTC"},{"start":"2015-01-19 13:15:48 UTC","end":"2015-01-17 13:15:48 UTC"}];
 
   $scope.addShipment = function(newShipment){
     //Date manipulations
@@ -128,9 +96,7 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
     newShipment.end = moment(newShipment.start).add(newShipment.timeElapsed, 'minutes')._d;
     newShipment.allDay = false;
 
-    console.log(newShipment);
     events.push(newShipment);
-    $scope.shipment = {};
   };
 
   // Normal code
@@ -164,6 +130,7 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
       eventResize: $scope.alertOnResize
     }
   };
-
+  // Set stick option
+  //  uiCalendarConfig.calendars.myCalendar.fullCalendar('renderEvent', {}, true);
   $scope.eventSources =  [$scope.events];
 }]);
