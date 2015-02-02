@@ -37,7 +37,7 @@ class Api::ShipmentsController < ApplicationController
 
   private
   def shipment_params
-    params.require(:shipment).permit(:po, :start_date, :end_date)
+    params.require(:shipment).permit(:po, :start_date, :end_date, :company, :status)
   end
 
   def set_shipment

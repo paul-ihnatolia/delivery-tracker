@@ -1,0 +1,4 @@
+development:
+  MANDRILL_USERNAME: vertoldo3@gmail.com
+  MANDRILL_API_KEY: b9UNsP88NBvbNOV2b01okg
+  DTRACKER_DOMAIN: localhost:3000

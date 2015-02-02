@@ -1,2 +1,9 @@
-<h3> All shipments there </h3>
-<h3 ng-repeat="shipment in sctrl.shipments">{{ shipment.po }}</h3>
+<div class="calendar-container">
+  <div class="btn-group">
+    <button class="btn btn-success" ng-click="changeView('agendaDay')">AgendaDay</button>
+    <button class="btn btn-success" ng-click="changeView('agendaWeek')">AgendaWeek</button>
+    <button class="btn btn-success" ng-click="changeView('month')">Month</button>
+  </div>
+  <div id="calendar" calendar="myCalendar" ui-calendar="uiConfig.calendar" ng-model="eventSources">
+  </div>
+</div>

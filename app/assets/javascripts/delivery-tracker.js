@@ -5,7 +5,9 @@
         'templates',
         'ipCookie',
         'ng-token-auth',
-        'ngResource'
+        'ngResource',
+        'ui.calendar',
+        'ui.bootstrap.datetimepicker'
     ]);
     dtracker.config(['$urlRouterProvider', '$stateProvider', function ($urlRouterProvider, $stateProvider) {
         $urlRouterProvider.otherwise('/auth/sign_in');
@@ -21,12 +23,12 @@
             views: {
                 '': {templateUrl: 'application/shipments/templates/shipments-container.html'},
                 'shipments@application.shipments': {
-                    controller: 'ShipmentCtrl as sctrl',
+                    controller: 'CalendarCtrl as cal',
                     templateUrl: 'application/shipments/templates/shipment.html'
                 },
-                'new-shipment@application.shipments': {
-                    controller: 'NewShipmentCtrl as nsctrl',
-                    templateUrl: 'application/shipments/templates/shipment_form.html'
+                'newShipment@application.shipments': {
+                    controller: 'NewShipmentCtrl as newShipment',
+                    templateUrl: 'application/shipments/templates/new-shipment.html'
                 }
             }
         }).state('application.auth', {
