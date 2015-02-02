@@ -1,6 +1,6 @@
 class Shipment < ActiveRecord::Base
   validates :po, presence: true
-  enum status: { unresolved: 0, resolved: 1 }
+  enum status: { shipping: 0, receiving: 1 }
   belongs_to :user
 
   def self.by_user user
@@ -12,10 +12,12 @@ class Shipment < ActiveRecord::Base
 
   def as_json(options={})
   	{
+      id: self.id,
     	start_date: self.start_date.to_s,
     	end_date: self.end_date.to_s,
       po: self.po,
-      company: self.company
+      company: self.company,
+      status: self.status
    	}
   end
 end

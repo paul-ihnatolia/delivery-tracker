@@ -24,7 +24,13 @@ class Api::ShipmentsController < ApplicationController
   end
 
   def update
-    if @shipment.update_attriubutes(:shipment_params)
+    # If user tries to update foreign shipment
+    if @shipment.user != current_user
+      render json: { errors: "You don't have permissions" }, status: 403
+      return
+    end
+
+    if @shipment.update_attributes(shipment_params)
       respond_with(:api, @shipment)
     else
       render json: { errors: @shipment.errors.full_messages }, status: :unprocessable_entity
@@ -32,8 +38,13 @@ class Api::ShipmentsController < ApplicationController
   end
 
   def destroy
-    @shipment.destroy
+    if @shipment.current_user != user
+      render json: { errors: "You don't have permissions" }, status: 403
+      return
+    end
 
+    @shipment.destroy
+    # TODO notify user
     respond_with(@shipment)
   end
 
