@@ -56,5 +56,8 @@
             controller: 'RestorePassCtrl as passRestore',
             templateUrl: 'application/auth/templates/restore-pass-form.html'
         });
+    }]).config(['$httpProvider',function($httpProvider) {
+        //Http Intercpetor to check auth failures for xhr requests
+        $httpProvider.interceptors.push('authHttpResponseInterceptor');
     }]);
 }());
