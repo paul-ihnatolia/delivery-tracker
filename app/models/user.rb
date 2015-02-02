@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   validates_presence_of :first_name, :last_name, :phone_number
+  has_many :shipments
 
   # def send_on_create_confirmation_instructions
   #   # do nothing

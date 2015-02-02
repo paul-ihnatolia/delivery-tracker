@@ -1,9 +1,10 @@
 class Api::ShipmentsController < ApplicationController
   respond_to :json
   before_action :set_shipment, only: [:show, :update, :destroy]
+  before_action :authenticate_user!
 
   def index
-    @shipment = Shipment.all
+    @shipment = Shipment.by_user(current_user)
     respond_with(@shipment)
   end
 
@@ -13,6 +14,7 @@ class Api::ShipmentsController < ApplicationController
 
   def create
     @shipment = Shipment.new(shipment_params)
+    @shipment.user = current_user
 
     if @shipment.save
       render json: { shipment: @shipment }
