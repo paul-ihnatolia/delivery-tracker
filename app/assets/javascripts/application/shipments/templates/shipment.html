@@ -1,4 +1,13 @@
-<div id="calendar" calendar="myCalendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
+<div class="calendar-container">
+  <div class="btn-group">
+    <button class="btn btn-success" ng-click="changeView('agendaDay')">AgendaDay</button>
+    <button class="btn btn-success" ng-click="changeView('agendaWeek')">AgendaWeek</button>
+    <button class="btn btn-success" ng-click="changeView('month')">Month</button>
+  </div>
+  <div id="calendar" calendar="myCalendar" ui-calendar="uiConfig.calendar" ng-model="eventSources">
+  </div>
+</div>
+
 <!-- <div class="container" style="margin-top:50px">
     <!-- Example row of columns -->
    <!--  <div class="row">

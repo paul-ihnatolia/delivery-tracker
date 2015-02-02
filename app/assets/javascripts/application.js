@@ -17,10 +17,9 @@
 //= require angular-resource/angular-resource.js
 //= require angular-ui-router/release/angular-ui-router.js
 //= require ng-token-auth/dist/ng-token-auth.js
-//= require angular-ui-calendar/src/calendar.js
-//= require fullcalendar/fullcalendar.js
-//= require fullcalendar/gcal.js
 //= require moment/moment.js
+//= require fullcalendar/fullcalendar.js
+//= require angular-ui-calendar/src/calendar.js
 //= require bootstrap-sass-official/assets/javascripts/bootstrap.js
 //= require angular-bootstrap-datetimepicker/src/js/datetimepicker.js
 //= require angular-rails-templates

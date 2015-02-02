@@ -1,7 +1,7 @@
 (function () {
   "use strict";
   angular.module('dtracker')
-    .controller('NewShipmentCtrl', ['$scope', '$rootScope','Shipment', function ($scope, $rootScope, Shipment) {
+    .controller('NewShipmentCtrl', ['$scope', '$rootScope','Shipment', 'CheckShipment', function ($scope, $rootScope, Shipment, CheckShipment) {
       var newShipment = this;
       newShipment.shipment = {
         po: '',
@@ -14,7 +14,7 @@
       newShipment.showShipmentForm = false;
 
       newShipment.timePredefined = [
-        { label: '15m', value: 15 },
+        { label: '10m', value: 10 },
         { label: '20m', value: 20 },
         { label: '30m', value: 30 },
         { label: '40m', value: 40 },
@@ -25,12 +25,30 @@
       newShipment.createNewShipment = function () {
         var shipmentCal = {};
         var s = newShipment.shipment;
+        shipmentCal.start = s.startDate;
         shipmentCal.title = s.po +
         ' - ' + s.company;
-        shipmentCal.end = moment(s.startDate).add(s.timeElapsed, 'minutes')._d;
+        shipmentCal.start = moment(s.startDate).format("YYYY-MM-DD HH:mm:ss z");
+        shipmentCal.end = moment(s.startDate).add(s.timeElapsed.value, 'minutes').format("YYYY-MM-DD HH:mm:ss z");
         shipmentCal.allDay = false;
-        console.log(shipmentCal);
-        $rootScope.$emit('addShipmentToCalendar', {shipment: shipmentCal});
+        // Contact to service
+        if (CheckShipment.isOverlapping(shipmentCal)) {
+          alert('New shipment is overlapping existing!');
+        } else {
+          // Call to the server
+          var shipment = new Shipment({shipment: {start_date: shipmentCal.start,
+                                                  end_date: shipmentCal.end,
+                                                  po: s.po,
+                                                  company: s.company}});
+          shipment.$save(
+            function (data) {
+              $rootScope.$emit('addShipmentToCalendar', {shipment: shipmentCal});
+            },
+            function (error) {
+              alert("Some errors happened!");
+            }
+          );
+        }
         newShipment.shipment = {
           po: '',
           company: '',

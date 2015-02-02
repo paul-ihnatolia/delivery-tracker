@@ -4,8 +4,10 @@ class Shipment < ActiveRecord::Base
 
   def as_json(options={})
   	{
-  	start_date: self.start_date.to_s,
-  	end_date: self.end_date.to_s
+    	start_date: self.start_date.to_s,
+    	end_date: self.end_date.to_s,
+      po: self.po,
+      company: self.company
    	}
   end
 end

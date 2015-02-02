@@ -26,7 +26,7 @@
 
       <div class="form-group">
         <label for="estimated">Estimated Time</label>
-          <select ng-init="timeElapsed = newShipment.timePredefined[0]" ng-model="newShipment.shipment.timeElapsed"
+          <select ng-init="newShipment.shipment.timeElapsed = newShipment.timePredefined[0]" ng-model="newShipment.shipment.timeElapsed"
           ng-options="opt.label for opt in newShipment.timePredefined track by opt.value">
           </select>
       </div>
