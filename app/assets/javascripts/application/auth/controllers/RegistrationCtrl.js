@@ -1,7 +1,8 @@
 
 var dtracker = angular.module('dtracker');
 
-dtracker.controller('RegistrationCtrl', ['$scope', '$auth', function ($scope, $auth) {
+dtracker.controller('RegistrationCtrl', ['$scope', '$auth', '$location', 'flash', '$rootScope',
+  function ($scope, $auth, $location, flash, $rootScope) {
   var registration = this;
 
   registration.credentials = {
@@ -22,9 +23,11 @@ dtracker.controller('RegistrationCtrl', ['$scope', '$auth', function ($scope, $a
   };
 
   $scope.$on('auth:registration-email-success', function (ev, message) {
-    // Redirect user to sign in
-    console.log("Success");
-    console.log(message);
+    // Redirect user sign in
+    $rootScope.flash = flash;
+    $rootScope.flash.setMessage('You successfully created account.');
+    $location.path('/shipments');
+
   });
 
   $scope.$on('auth:registration-email-error', function (ev, reason) {
