@@ -1,8 +1,8 @@
 
 var dtracker = angular.module('dtracker');
 
-dtracker.controller('SessionCtrl', ['$rootScope', '$scope', '$auth', '$location', 'flash', 
-  function ($rootScope, $scope, $auth, $location, flash) {
+dtracker.controller('SessionCtrl', ['$rootScope', '$scope', '$auth', '$location', 'flash', 'Session',
+  function ($rootScope, $scope, $auth, $location, flash, sessionF) {
   var session = this;
 
   session.credentials = {
@@ -19,6 +19,7 @@ dtracker.controller('SessionCtrl', ['$rootScope', '$scope', '$auth', '$location'
   };
 
   $scope.$on('auth:login-success', function (ev, user) {
+    sessionF.create(user);
     $rootScope.flash = flash;
     $rootScope.flash.setMessage('You successfully signed in.');
     $location.path('/shipments');

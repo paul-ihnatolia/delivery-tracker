@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
           :recoverable, :rememberable, :trackable, :validatable,
           :async
   include DeviseTokenAuth::Concerns::User
+  enum role: { carrier: 0, admin: 1 }
 
   validates_presence_of :first_name, :last_name, :phone_number
   has_many :shipments
