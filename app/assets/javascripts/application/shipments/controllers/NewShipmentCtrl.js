@@ -43,19 +43,20 @@
           shipment.$save(
             function (data) {
               $rootScope.$emit('addShipmentToCalendar', {shipment: shipmentCal});
+              newShipment.shipment = {
+                po: '',
+                company: '',
+                startDate: '',
+                endDate: '',
+                timeElapsed: ''
+              };
+              newShipment.showShipmentForm = false;
             },
             function (error) {
               alert("Some errors happened!");
             }
           );
         }
-        newShipment.shipment = {
-          po: '',
-          company: '',
-          startDate: '',
-          endDate: '',
-          timeElapsed: ''
-        };
       };
 
       newShipment.addShipment = function () {
@@ -63,7 +64,6 @@
       };
       
       newShipment.showForm = function (e, data) {
-        console.log("showForm");
         newShipment.showShipmentForm = true;
         newShipment.shipment = {
           po: '',

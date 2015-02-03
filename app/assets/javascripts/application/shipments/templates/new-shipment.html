@@ -1,13 +1,26 @@
-<div ng-show="newShipment.showShipmentForm">
+<div ng-if="newShipment.showShipmentForm">
   <h2>New shipment</h2>
-  <form name="createShipment" ng-submit="newShipment.createNewShipment()">
+  <form novalidate name="createShipment" ng-submit="newShipment.createNewShipment()">
     <div class="form-group">
       <label for="poNumber">PO Number</label>
-      <input type="text" class="form-control" ng-model="newShipment.shipment.po" id="poNumber" placeholder="PO Number">
+      <input type="text" class="form-control" ng-model="newShipment.shipment.po" id="poNumber" placeholder="PO Number" name="poNumber" required ng-pattern="/^(\d)+$/">
+      <div class="error-container" ng-show="createShipment.poNumber.$dirty && createShipment.poNumber.$invalid">
+        <small class="error" ng-show="createShipment.poNumber.$error.required">
+          PO number is required.
+        </small>
+        <small class="error" ng-show="createShipment.poNumber.$error.pattern">
+          Enter only numbers
+        </small>
+      </div>
     </div>
     <div class="form-group">
       <label for="company">Company</label>
-      <input type="text" class="form-control" ng-model="newShipment.shipment.company" id="company" placeholder="Company">
+      <input type="text" class="form-control" ng-model="newShipment.shipment.company" id="company" placeholder="Company" name="company" required>
+      <div class="error-container" ng-show="createShipment.company.$dirty && createShipment.company.$invalid">
+        <small class="error" ng-show="createShipment.company.$error.required">
+          Company is required.
+        </small>
+      </div>
     </div> 
     <div class="form-group">
       <label for="datestart">Delivery date start</label>
@@ -24,17 +37,18 @@
         </div> 
     </div>
 
-      <div class="form-group">
-        <label for="estimated">Estimated Time</label>
-          <select ng-init="newShipment.shipment.timeElapsed = newShipment.timePredefined[0]" ng-model="newShipment.shipment.timeElapsed"
-          ng-options="opt.label for opt in newShipment.timePredefined track by opt.value">
-          </select>
+    <div class="form-group">
+      <label for="estimated">Estimated Time</label>
+      <select ng-init="newShipment.shipment.timeElapsed = newShipment.timePredefined[0]" ng-model="newShipment.shipment.timeElapsed" ng-options="opt.label for opt in newShipment.timePredefined track by opt.value" name="estimatedTime" required>
+      </select>
+      <div class="error-container" ng-show="createShipment.estimatedTime.$dirty && createShipment.estimatedTime.$invalid">
+        <small class="error" ng-show="createShipment.estimatedTime.$error.required">
+          Company is required.
+        </small>
       </div>
-    <button type="submit" class="btn btn-default">Submit</button>
+    </div>
+    <button type="submit" class="btn btn-primary" ng-disabled="createShipment.$invalid">Submit</button>
   </form>
-  <h2>Day delivery list</h2>
-  <button ng-click="UpdateCal()">Update Calendar</button>
-  <button ng-click="CallFromUrl()">Call from resource</button>
   <ul class="list-unstyled">
     <li ng-repeat="shipment in cal.dayDeliveryList">
         <div class="alert alert-info" ng-click="editShipment(shipment)">
