@@ -21,7 +21,8 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
         start: r.start_date,
         end: r.end_date,
         title: r.po + ' - ' + r.company,
-        allDay: false
+        allDay: false,
+        color: r.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)"
       });
     });
   });
@@ -60,7 +61,7 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
                    'tooltip-append-to-body': true});
       $compile(element)($scope);
   };
-	
+  
   $scope.eventClick = function(event){
     $scope.editShipment(event);
     //alert("event is clicked");
@@ -89,16 +90,17 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
     $scope.shipment = shipment;
   };
 
-  $scope.addShipment = function(newShipment){
-    //Date manipulations
-    //newSipment.eventDateTime = new Date(newSipment.date.getFullYear(), newSipment.date.getMonth(), newSipment.date.getDay(), newSipment.time.getHours(), newSipment.time.getMinutes(), 0 , 0);
-    
-    newShipment.title = newShipment.poNumber + " - " + newShipment.company;
-    newShipment.end = moment(newShipment.start).add(newShipment.timeElapsed, 'minutes')._d;
-    newShipment.allDay = false;
+  // $scope.addShipment = function(newShipment){
+  //   //Date manipulations
+  //   //newSipment.eventDateTime = new Date(newSipment.date.getFullYear(), newSipment.date.getMonth(), newSipment.date.getDay(), newSipment.time.getHours(), newSipment.time.getMinutes(), 0 , 0);
+  //   debugger;
+  //   newShipment.color = newShipment.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)";
+  //   newShipment.title = newShipment.poNumber + " - " + newShipment.company;
+  //   newShipment.end = moment(newShipment.start).add(newShipment.timeElapsed, 'minutes')._d;
+  //   newShipment.allDay = false;
 
-    events.push(newShipment);
-  };
+  //   events.push(newShipment);
+  // };
 
   // Normal code
   $scope.addShipmentToCalendar = function (e, data) {
@@ -110,7 +112,7 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
   $rootScope.$on('addShipmentToCalendar', $scope.addShipmentToCalendar);
 
   // Calendar config
-	$scope.uiConfig = {
+  $scope.uiConfig = {
     calendar:{
       editable: userRoles.hasRole('admin') ? true : false,
       allDaySlot: false,

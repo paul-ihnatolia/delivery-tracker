@@ -42,6 +42,8 @@
                                                   company: s.company}});
           shipment.$save(
             function (data) {
+              console.log(data);
+              shipmentCal.color = data.shipment.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)";
               $rootScope.$emit('addShipmentToCalendar', {shipment: shipmentCal});
               newShipment.shipment = {
                 po: '',
@@ -59,10 +61,6 @@
         }
       };
 
-      newShipment.addShipment = function () {
-
-      };
-      
       newShipment.showForm = function (e, data) {
         newShipment.showShipmentForm = true;
         newShipment.shipment = {
