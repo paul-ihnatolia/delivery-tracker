@@ -4,7 +4,8 @@
 
 var dtracker = angular.module('dtracker');
 
-dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '$rootScope', "uiCalendarConfig", function ($http, $scope, Shipment, $timeout, $rootScope, uiCalendarConfig) {
+dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '$rootScope', "uiCalendarConfig", 'userRoles',
+  function ($http, $scope, Shipment, $timeout, $rootScope, uiCalendarConfig, userRoles) {
   var date = new Date();
   var d = date.getDate();
   var m = date.getMonth();
@@ -111,7 +112,7 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
   // Calendar config
 	$scope.uiConfig = {
     calendar:{
-      editable: true,
+      editable: userRoles.hasRole('admin') ? true : false,
       allDaySlot: false,
       defaultView: 'agendaDay',
       slotEventOverlap: false,
