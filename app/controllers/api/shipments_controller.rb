@@ -30,7 +30,7 @@ class Api::ShipmentsController < ApplicationController
       return
     end
 
-    if @shipment.update_attributes(shipment_params)
+    if @shipment.update_attributes(shipment_update_params)
       respond_with(:api, @shipment)
     else
       render json: { errors: @shipment.errors.full_messages }, status: :unprocessable_entity
@@ -51,6 +51,15 @@ class Api::ShipmentsController < ApplicationController
   private
   def shipment_params
     params.require(:shipment).permit(:po, :start_date, :end_date, :company, :status)
+  end
+
+  def shipment_update_params
+    if current_user.admin?
+      params.require(:shipment).permit(:po, :start_date, :end_date, :company, :status)
+    else
+      # Carrier can only update a shiping status
+      params.require(:shipment).permit(:status)
+    end
   end
 
   def set_shipment

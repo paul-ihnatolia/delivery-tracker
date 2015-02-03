@@ -29,11 +29,11 @@
                 'newShipment@application.shipments': {
                     controller: 'NewShipmentCtrl as newShipment',
                     templateUrl: 'application/shipments/templates/new-shipment.html'
-                },
-                'dailyShipments@application.shipments': {
-                    controller: 'DailyShipmentCtrl as daily',
-                    templateUrl: 'application/shipments/templates/daily-shipment-list.html'
-                }
+                }//,
+                // 'dailyShipments@application.shipments': {
+                //     controller: 'DailyShipmentCtrl as daily',
+                //     templateUrl: 'application/shipments/templates/daily-shipment-list.html'
+                // }
             }
         }).state('application.auth', {
             url: '^/auth',

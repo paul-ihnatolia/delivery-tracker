@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   root 'home#index'
   
-  mount_devise_token_auth_for 'User', at: '/api/auth'
+  mount_devise_token_auth_for 'User', at: '/api/auth', controllers: {
+    passwords: 'overrides/devise_token_auth/passwords'
+  }
 
   namespace :api, defaults: {format: :json} do
     resources :shipments
