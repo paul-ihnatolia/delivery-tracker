@@ -75,5 +75,3 @@
       };
 
       $rootScope.$on('showShipmentForm', newShipment.showForm);
-    }]);
-}());

@@ -17,7 +17,10 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
   Shipment.query().$promise.then(function(data) {
     angular.forEach(data, function (r) {
       $scope.events.push({
-        id: r._id,
+        id: r.id,
+        po: r.po,
+        company: r.company,
+        status: r.status,
         start: r.start_date,
         end: r.end_date,
         title: r.po + ' - ' + r.company,
@@ -59,12 +62,6 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
       element.attr({'tooltip': event.title,
                    'tooltip-append-to-body': true});
       $compile(element)($scope);
-  };
-	
-  $scope.eventClick = function(event){
-    $scope.editShipment(event);
-    //alert("event is clicked");
-    //get this event and edit it
   };
 
   $scope.dayClick = function(date){
@@ -108,6 +105,32 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
   };
 
   $rootScope.$on('addShipmentToCalendar', $scope.addShipmentToCalendar);
+
+
+  $rootScope.$on('updateEventSuccessful', function(event, data){
+      console.log("RECEIVED after update: ");
+      console.log(data);
+
+      console.log($scope.events);
+      
+      angular.forEach($scope.events, function(e, i) {
+        if (e._id === data._id ) {
+          events.splice(i, 1);
+          events.push(data);
+        }
+      });
+
+      console.log($scope.events);
+
+    });
+
+
+  $scope.eventClick = function(data){
+    console.log(data);
+    $rootScope.$emit('sendShipmentToEditController', data);
+
+  };
+
 
   // Calendar config
 	$scope.uiConfig = {

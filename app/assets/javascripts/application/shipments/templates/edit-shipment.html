@@ -1,0 +1,28 @@
+<div>
+  <h2>Edit shipment</h2>
+  <form name="createShipment" ng-submit="editShipment.updateShipment()">
+    <div class="form-group">
+      <label for="poNumber">PO Number</label>
+      <input type="text" class="form-control" ng-readonly="editShipment.canEdit" ng-model="editShipment.shipment.po" id="poNumber" placeholder="PO Number">
+    </div>
+    <div class="form-group">
+      <label for="company">Company</label>
+      <input type="text" class="form-control" ng-readonly="editShipment.canEdit" ng-model="editShipment.shipment.company" id="company" placeholder="Company">
+    </div> 
+    <div class="form-group">
+      <label for="datestart">Time start</label>
+        <input type="text" class="form-control" ng-readonly="editShipment.canEdit" ng-model="editShipment.shipment.start" id="start">
+    </div>
+    <div class="form-group">
+      <label for="datestart">Time end</label>
+        <input type="text" class="form-control" ng-readonly="editShipment.canEdit" ng-model="editShipment.shipment.end" id="end">
+    </div>
+
+    <div class="form-group">
+      <label for="datestart">Status</label>
+ 	  <select ng-model="editShipment.shipment.status" ng-options="option as option for option in editShipment.statuses"></select>
+    </div>
+
+    <button type="submit" class="btn btn-default">Submit</button>
+  </form>
+</div>

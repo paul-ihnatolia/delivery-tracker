@@ -30,9 +30,9 @@
                     controller: 'NewShipmentCtrl as newShipment',
                     templateUrl: 'application/shipments/templates/new-shipment.html'
                 },
-                'dailyShipments@application.shipments': {
-                    controller: 'DailyShipmentCtrl as daily',
-                    templateUrl: 'application/shipments/templates/daily-shipment-list.html'
+                'editShipment@application.shipments': {
+                    controller: 'EditShipmentCtrl as editShipment',
+                    templateUrl: 'application/shipments/templates/edit-shipment.html'
                 }
             }
         }).state('application.auth', {
