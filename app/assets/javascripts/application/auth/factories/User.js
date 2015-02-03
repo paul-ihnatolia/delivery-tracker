@@ -23,23 +23,22 @@
 
     $rootScope.$on("auth:validation-success", function (e, user) {
       userFactory.setCurrentUser(user);
-      alert("auth:validation-success");
     });
 
     $rootScope.$on("auth:email-confirmation-succes", function (e) {
       console.log(e);
-      alert("auth:email-confirmation-succes");
+     // alert("auth:email-confirmation-succes");
     });
 
     // reset current user after logout
     $rootScope.$on("auth:logout-success", function () {
-      alert("logout-success => session");
+      //alert("logout-success => session");
       userFactory.clearUser();
     });
 
     // reset when token is expired
     $rootScope.$on("auth:invalid", function () {
-      alert("auth:invalid => session");
+      //alert("auth:invalid => session");
       userFactory.cleanUser();
     });
 

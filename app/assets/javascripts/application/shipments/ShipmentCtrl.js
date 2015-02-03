@@ -14,18 +14,50 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
   // Clear events and assign the events source.
   $scope.events = [];
   
-  Shipment.query().$promise.then(function(data) {
-    angular.forEach(data, function (r) {
-      $scope.events.push({
-        id: r._id,
-        start: r.start_date,
-        end: r.end_date,
-        title: r.po + ' - ' + r.company,
-        allDay: false,
-        color: r.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)"
+  if (userRoles.hasRole('carrier')) {  
+    Shipment.query().$promise.then(function(data) {
+      angular.forEach(data, function (r) {
+        $scope.events.push({
+          id: r._id,
+          start: r.start_date,
+          end: r.end_date,
+          title: r.po + ' - ' + r.company,
+          allDay: false,
+          color: r.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)"
+        });
       });
     });
-  });
+  } else {
+    $scope.userEmail = '';
+    // Retrieve urls
+    $http.get('/api/users')
+    .success(function(data, status, headers, config) {
+      // this callback will be called asynchronously
+      // when the response is available
+      $scope.userEmails = data;
+    })
+    .error(function(data, status, headers, config) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+      alert('Error happens when retrieving data');
+    });
+    
+    $scope.getEventsByEmail = function (userEmail) {
+      Shipment.query({email: userEmail}).$promise.then(function(data) {
+      $scope.events.splice(0, $scope.events.length);
+      angular.forEach(data, function (r) {
+        $scope.events.push({
+          id: r._id,
+          start: r.start_date,
+          end: r.end_date,
+          title: r.po + ' - ' + r.company,
+          allDay: false,
+          color: r.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)"
+        });
+      });
+    });
+    };
+  }
 
   /* Render calendar */
   $scope.changeView = function (view) {
@@ -122,8 +154,8 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
       maxTime: "23:00:00",
       slotDuration: '00:05:00',
       header:{
-        left: '',
-        center: 'title',
+        left: 'title',
+        center: '',
         right: 'today prev,next'
       },
       eventClick: $scope.eventClick,

@@ -25,13 +25,12 @@
 
     // Redirect to /new-password on $ng-auth
     $rootScope.$on('auth:password-reset-confirm-success', function () {
-      alert('auth:password-reset-confirm-success');
       $location.path('/auth/new-pass');
     });
 
     // Redirect to /new-password on $ng-auth
     $rootScope.$on('auth:password-reset-confirm-error', function () {
-      alert('Password reset error');
+      console.log('Password reset error');
     });
   }]);
 }());

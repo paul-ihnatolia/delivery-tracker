@@ -1,9 +1,21 @@
 <div class="calendar-container">
-  <div class="btn-group">
-    <button class="btn btn-success" ng-click="changeView('agendaDay')">AgendaDay</button>
-    <button class="btn btn-success" ng-click="changeView('agendaWeek')">AgendaWeek</button>
-    <button class="btn btn-success" ng-click="changeView('month')">Month</button>
-  </div>
-  <div id="calendar" calendar="myCalendar" ui-calendar="uiConfig.calendar" ng-model="eventSources">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="btn-group">
+        <button class="btn btn-success" ng-click="changeView('agendaDay')">AgendaDay</button>
+        <button class="btn btn-success" ng-click="changeView('agendaWeek')">AgendaWeek</button>
+        <button class="btn btn-success" ng-click="changeView('month')">Month</button>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div can-view="admin">
+        <select ng-model="userEmail" ng-options="option as option for option in userEmails" name="userEmail" ng-change="getEventsByEmail(userEmail)" style="float: right;">
+        </select>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div id="calendar" calendar="myCalendar" ui-calendar="uiConfig.calendar" ng-model="eventSources">
+      </div>
+    </div>
   </div>
 </div>

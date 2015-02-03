@@ -4,8 +4,14 @@ class Api::ShipmentsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @shipment = Shipment.by_user(current_user)
-    respond_with(@shipment)
+    if current_user.admin?
+      if params[:email].present?
+        @shipments = Shipment.joins(:user).where('users.email = ?', params[:email])
+      end
+    else
+      @shipments = Shipment.by_user(current_user)
+    end
+    respond_with(@shipments)
   end
 
   def show
