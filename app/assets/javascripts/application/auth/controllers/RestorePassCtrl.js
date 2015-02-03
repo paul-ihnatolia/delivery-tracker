@@ -15,7 +15,7 @@
           .then(function(resp) {
             $rootScope.flash = flash;
             $rootScope.flash.setMessage('You have successfully changed your password.');
-            $location.path('/shipment');
+            $location.path('/shipments');
           })
           .catch(function(resp) {
             $scope.errors = resp.errors;
