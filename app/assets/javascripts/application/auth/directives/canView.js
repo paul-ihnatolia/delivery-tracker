@@ -1,7 +1,7 @@
 
 var dtracker = angular.module('dtracker');
 
-dtracker.directive('canView', ['$rootScope', 'userRoles', function ($rootScope, userRoles) {
+dtracker.directive('canView', ['$rootScope', 'Session', function ($rootScope, session) {
   return {
     restrict: 'A',
     link: function (scope, iElement, iAttrs) {
@@ -17,13 +17,14 @@ dtracker.directive('canView', ['$rootScope', 'userRoles', function ($rootScope, 
         value = value.slice(1).trim();
       }
 
-      var permittRoles = value.split(',').map(function (el) {
-        return el.trim();
-      });
+      var permittRoles = value;
 
       function toggleVisibilityBasedOnPermission () {
-        console.log(userRoles.hasRole(permittRoles));
-        var hasPermission = userRoles.hasRole(permittRoles);
+        var currentUser = session.getCurrentUser();
+        if (!currentUser) {
+          return false;
+        }
+        var hasPermission = currentUser.hasRole(permittRoles);
 
         if(hasPermission && !notPermissionFlag || !hasPermission && notPermissionFlag)
           iElement.show();
@@ -31,7 +32,7 @@ dtracker.directive('canView', ['$rootScope', 'userRoles', function ($rootScope, 
           iElement.hide();
       }
       toggleVisibilityBasedOnPermission();
-      $rootScope.$on('session:change', function () { console.log('Listening to events'); toggleVisibilityBasedOnPermission();});
+      $rootScope.$on('session:change', function () { toggleVisibilityBasedOnPermission();});
     }
   };
 }]);

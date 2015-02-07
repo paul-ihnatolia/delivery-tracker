@@ -64,4 +64,17 @@
         //Http Intercpetor to check auth failures for xhr requests
         $httpProvider.interceptors.push('authHttpResponseInterceptor');
     }]);
+
+    dtracker.run(['Session', '$auth', 'UserDecorator', '$location',
+        function (session, $auth, UserDecorator, $location) {
+        session.authPromise = $auth.validateUser().then(function (user) {
+            console.log("authPromise");
+            session.create(user);
+            return new UserDecorator(user);
+        }, function (q, w, e, r) {
+            session.destroy();
+            $location.path('/auth/sign_in');
+            return null;
+        });
+    }]);
 }());

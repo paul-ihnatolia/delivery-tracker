@@ -1,171 +1,100 @@
-/**
- * Created by paul on 1/16/15.
- */
+// /**
+//  * Created by paul on 1/16/15.
+//  */
 
 var dtracker = angular.module('dtracker');
 
-dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '$rootScope', "uiCalendarConfig", 'userRoles',
-  function ($http, $scope, Shipment, $timeout, $rootScope, uiCalendarConfig, userRoles) {
-  var date = new Date();
-  var d = date.getDate();
-  var m = date.getMonth();
-  var y = date.getFullYear();
-
-  // Clear events and assign the events source.
-  $scope.events = [];
-  
-  if (userRoles.hasRole('carrier')) {  
-    Shipment.query().$promise.then(function(data) {
-      angular.forEach(data, function (r) {
-        $scope.events.push({
-          id: r._id,
-          start: r.start_date,
-          end: r.end_date,
-          title: r.po + ' - ' + r.company,
-          allDay: false,
-          color: r.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)"
-        });
-      });
-    });
-  } else {
-    $scope.userEmail = '';
-    // Retrieve urls
-    $http.get('/api/users')
-    .success(function(data, status, headers, config) {
-      // this callback will be called asynchronously
-      // when the response is available
-      $scope.userEmails = data;
-    })
-    .error(function(data, status, headers, config) {
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
-      alert('Error happens when retrieving data');
-    });
+dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '$rootScope', "uiCalendarConfig", 'Session', '$q',
+  function ($http, $scope, Shipment, $timeout, $rootScope, uiCalendarConfig, session) {
+    // Events for calendar
+    $scope.events = [];
+    // Assign events sources to calendar.
+    $scope.eventSources =  [$scope.events];
     
-    $scope.getEventsByEmail = function (userEmail) {
-      Shipment.query({email: userEmail}).$promise.then(function(data) {
-      $scope.events.splice(0, $scope.events.length);
-      angular.forEach(data, function (r) {
-        $scope.events.push({
-          id: r._id,
-          start: r.start_date,
-          end: r.end_date,
-          title: r.po + ' - ' + r.company,
-          allDay: false,
-          color: r.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)"
-        });
-      });
-    });
+    // Re-render calendar view on click
+    $scope.changeView = function (view) {
+      uiCalendarConfig.calendars.myCalendar.fullCalendar('changeView',view);
     };
-  }
-
-  /* Render calendar */
-  $scope.changeView = function (view) {
-    uiCalendarConfig.calendars.myCalendar.fullCalendar('changeView',view);
-  };
-
-  $scope.UpdateCal = function () {
-    console.log($scope.events);
-    console.log('Clearing $scope.events via splice(0)');
-    $scope.events.splice(0);
     
+    // This function will run when user is confirmed
+    function init (user) {
+      $scope.uiConfig = {
+        calendar:{
+          editable: user.hasRole('admin') ? true : false,
+          allDaySlot: false,
+          defaultView: 'agendaDay',
+          slotEventOverlap: false,
+          minTime: "08:00:00",
+          maxTime: "23:00:00",
+          slotDuration: '00:05:00',
+          header:{
+            left: 'title',
+            center: '',
+            right: 'today prev,next'
+          },
+          // it will passe clicked date into function
+          dayClick: $scope.createShipment
+        }
+      };
 
-    $timeout(function () {
-
-      angular.forEach(events2, function (event) {
-        $scope.events.push(event);
-      });
-      console.log('New Events pushed');
-
-    }, 100);
-  };
-
-  $scope.CallFromUrl = function () {
-    Shipment.query().$promise.then(function(data) {
-        angular.forEach(data, function (event) {
-          $scope.events.push(event);
+      if (user.hasRole('carrier')) {
+        Shipment.query().$promise.then(function(data) {
+          angular.forEach(data, function (r) {
+            $scope.events.push({
+              id: r._id,
+              start: r.start_date,
+              end: r.end_date,
+              title: r.po + ' - ' + r.company,
+              allDay: false,
+              color: r.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)"
+            });
+          });
         });
-    });
-  };
-
-  $scope.eventRender = function( event, element, view ) { 
-      element.attr({'tooltip': event.title,
-                   'tooltip-append-to-body': true});
-      $compile(element)($scope);
-  };
-  
-  $scope.eventClick = function(event){
-    $scope.editShipment(event);
-    //alert("event is clicked");
-    //get this event and edit it
-  };
-
-  $scope.dayClick = function(date){
-    //alert(date);
-    $scope.createShipment(date);
-    //get all the events for this day and place them to the list
-  };
-
-  $scope.removeShipment = function(index){
-    events.splice(index,1);
-  };
-
-  //Scheduler
-  $scope.schedulerOpened = false;
-
-  $scope.createShipment = function(date){
-    $rootScope.$emit("showShipmentForm", {start: date});
-  };
-
-  $scope.editShipment = function(shipment){
-    $scope.schedulerOpened = true;
-    $scope.shipment = shipment;
-  };
-
-  // $scope.addShipment = function(newShipment){
-  //   //Date manipulations
-  //   //newSipment.eventDateTime = new Date(newSipment.date.getFullYear(), newSipment.date.getMonth(), newSipment.date.getDay(), newSipment.time.getHours(), newSipment.time.getMinutes(), 0 , 0);
-  //   debugger;
-  //   newShipment.color = newShipment.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)";
-  //   newShipment.title = newShipment.poNumber + " - " + newShipment.company;
-  //   newShipment.end = moment(newShipment.start).add(newShipment.timeElapsed, 'minutes')._d;
-  //   newShipment.allDay = false;
-
-  //   events.push(newShipment);
-  // };
-
-  // Normal code
-  $scope.addShipmentToCalendar = function (e, data) {
-    console.log("addShipmentToCalendar");
-    console.log(data.shipment);
-    $scope.events.push(data.shipment);
-  };
-
-  $rootScope.$on('addShipmentToCalendar', $scope.addShipmentToCalendar);
-
-  // Calendar config
-  $scope.uiConfig = {
-    calendar:{
-      editable: userRoles.hasRole('admin') ? true : false,
-      allDaySlot: false,
-      defaultView: 'agendaDay',
-      slotEventOverlap: false,
-      minTime: "08:00:00",
-      maxTime: "23:00:00",
-      slotDuration: '00:05:00',
-      header:{
-        left: 'title',
-        center: '',
-        right: 'today prev,next'
-      },
-      eventClick: $scope.eventClick,
-      // it will passe clicked date into function
-      dayClick: $scope.dayClick,
-      eventDrop: $scope.alertOnDrop,
-      eventResize: $scope.alertOnResize
+      } else {
+        $scope.userEmail = '';
+        // Retrieve urls
+        $http.get('/api/users')
+        .success(function(data, status, headers, config) {
+          // this callback will be called asynchronously
+          // when the response is available
+          $scope.userEmails = data;
+        })
+        .error(function(data, status, headers, config) {
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+          alert('Error happens when retrieving data');
+        });
+        
+        $scope.getEventsByEmail = function (userEmail) {
+          Shipment.query({email: userEmail}).$promise.then(function(data) {
+          $scope.events.splice(0, $scope.events.length);
+          angular.forEach(data, function (r) {
+            $scope.events.push({
+              id: r._id,
+              start: r.start_date,
+              end: r.end_date,
+              title: r.po + ' - ' + r.company,
+              allDay: false,
+              color: r.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)"
+            });
+          });
+        });
+        };
+      }
     }
-  };
-  // Set stick option
-  //  uiCalendarConfig.calendars.myCalendar.fullCalendar('renderEvent', {}, true);
-  $scope.eventSources =  [$scope.events];
-}]);
+    
+    $scope.createShipment = function(date){
+      $rootScope.$emit("showShipmentForm", {start: date});
+    };
+
+    $scope.addShipmentToCalendar = function (e, data) {
+      $scope.events.push(data.shipment);
+    };
+
+    $rootScope.$on('addShipmentToCalendar', $scope.addShipmentToCalendar);
+
+    // When user is resolved
+    session.authPromise.then(function (user) {
+      init(session.getCurrentUser());
+    });
+  }]);
