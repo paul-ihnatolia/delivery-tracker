@@ -1,9 +1,20 @@
-<div class="calendar-container">
-  <div class="btn-group">
-    <button class="btn btn-success" ng-click="changeView('agendaDay')">AgendaDay</button>
-    <button class="btn btn-success" ng-click="changeView('agendaWeek')">AgendaWeek</button>
-    <button class="btn btn-success" ng-click="changeView('month')">Month</button>
-  </div>
-  <div id="calendar" calendar="myCalendar" ui-calendar="uiConfig.calendar" ng-model="eventSources">
-  </div>
+<div style="height:50px">
+	<div class="btn-group pull-left">
+		<button class="btn btn-danger" ng-click="changeView('agendaDay')">AgendaDay</button>
+		<button class="btn btn-danger" ng-click="changeView('agendaWeek')">AgendaWeek</button>
+		<button class="btn btn-danger" ng-click="changeView('month')">Month</button>
+	</div>
+	<div class="btn-row pull-right">
+	      <div class="btn-group" data-toggle="buttons">
+	          <label class="btn btn-default active">
+	              <input type="radio" name="options" id="option1"> Shipping
+	          </label>
+	          <label class="btn btn-default">
+	              <input type="radio" name="options" id="option2"> Receiving
+	          </label>
+	      </div>
+	 </div>
+ </div>
+
+<div id="calendar" calendar="myCalendar" class="calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources">
 </div>

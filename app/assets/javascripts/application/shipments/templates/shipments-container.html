@@ -1,11 +1,19 @@
-<div class="container" style="margin-top:50px">
-  <div class="row">
-    <div class="col-md-8">
-      <div ui-view="shipments"></div>
-    </div>
-    <div class="col-md-4">
-    	<div ui-view="dailyShipments"></div>
-      	<div ui-view="newShipment"></div>
-    </div>
-  </div>
-</div>
+<section id="main-content">
+  <section class="wrapper">
+      <!-- page start-->
+      <div class="row">
+          <aside class="col-lg-9">
+              <section class="panel">
+                  <div class="panel-body">
+                      <div ui-view="shipments"></div>
+                  </div>
+              </section>
+          </aside>
+          <aside class="col-lg-3">
+            <div ui-view="dailyShipments"></div>
+      		<div ui-view="newShipment"></div>	
+          </aside>
+      </div>
+      <!-- page end-->
+  </section>
+</section>

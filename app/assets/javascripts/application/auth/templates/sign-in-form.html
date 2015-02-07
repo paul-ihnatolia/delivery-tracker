@@ -1,41 +1,68 @@
-<h2> Sign in: </h2>
-<auth-error></auth-error>
-<form novalidate ng-submit="session.signIn(signIn.$valid)" name="signIn">
-  <div class="form-group">
-    <label for="email"> Email: </label>
-    <input type="email" ng-model="session.credentials.email" name="email" class="form-control" required />
-    <div class="error-container" 
-         ng-show="signIn.email.$dirty && signIn.email.$invalid">
-      <small class="error" 
-             ng-show="signIn.email.$error.required">
-             Your email is required.
-      </small>
-      <small class="error" 
-             ng-show="signIn.email.$error.minlength">
-              Your email is required to be at least 3 characters
-      </small>
-      <small class="error" 
-             ng-show="signIn.email.$error.email">
-             That is not a valid email. Please input a valid email.
-      </small>
-      <small class="error" 
-             ng-show="signIn.email.$error.maxlength">
-              Your email cannot be longer than 20 characters
-      </small>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="password"> Password: </label>
-    <input type="password" name="password" id="password" ng-model="session.credentials.password" class="form-control" ng-minlength="8" required />
-    <div class="error-container" ng-show="signIn.password.$dirty && signIn.password.$invalid">
-      <small class="error" ng-show="signIn.password.$error.required">
-        Your password is required.
-      </small>
-      <small class="error" ng-show="signIn.password.$error.minlength">
-        Your password is required to be at least 8 characters.
-      </small>
-    </div>
+<form class="form-signin" novalidate ng-submit="session.signIn(signIn.$valid)" name="signIn">
+  <h2 class="form-signin-heading">sign in now</h2>
+  <div class="login-wrap">
+      <auth-error></auth-error>
+      <div class="error-container" 
+           ng-show="signIn.email.$dirty && signIn.email.$invalid">
+        <small class="error" 
+               ng-show="signIn.email.$error.required">
+               Your email is required.
+        </small>
+        <small class="error" 
+               ng-show="signIn.email.$error.minlength">
+                Your email is required to be at least 3 characters
+        </small>
+        <small class="error" 
+               ng-show="signIn.email.$error.email">
+               That is not a valid email. Please input a valid email.
+        </small>
+        <small class="error" 
+               ng-show="signIn.email.$error.maxlength">
+                Your email cannot be longer than 20 characters
+        </small>
+      </div>
+      <input type="text" class="form-control" placeholder="Email" ng-model="session.credentials.email" name="email" autofocus required>
+
+        <div class="error-container" ng-show="signIn.password.$dirty && signIn.password.$invalid">
+          <small class="error" ng-show="signIn.password.$error.required">
+            Your password is required.
+          </small>
+          <small class="error" ng-show="signIn.password.$error.minlength">
+            Your password is required to be at least 8 characters.
+          </small>
+        </div> 
+      <input type="password" name="password" id="password" ng-model="session.credentials.password" class="form-control" ng-minlength="8" placeholder="Password" required />
+     
+      <label class="links">
+          <span class="pull-left" ng-hide="$state.includes('application.auth.sign_up')">
+            <a ui-sref="application.auth.sign_up"> Create new account </a>
+          </span>
+          <span class="pull-right" ng-hide="$state.includes('application.auth.forgot_pass')">
+            <a ui-sref="application.auth.forgot_pass"> Forgot password </a>
+          </span>
+      </label>
+      <button class="btn btn-lg btn-login btn-block" ng-disabled="signIn.$invalid">Sign in</button>
   </div>
 
-  <button type="submit" class="btn btn-primary btn-lg" ng-disabled="signIn.$invalid">Sign in</button>
+    <!-- Modal -->
+    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Forgot Password ?</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Enter your e-mail address below to reset your password.</p>
+                    <input type="text" name="email" placeholder="Email" autocomplete="off" class="form-control placeholder-no-fix">
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
+                    <button class="btn btn-success" type="button">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal -->
+
 </form>
