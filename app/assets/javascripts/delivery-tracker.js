@@ -29,11 +29,24 @@
                 'newShipment@application.shipments': {
                     controller: 'NewShipmentCtrl as newShipment',
                     templateUrl: 'application/shipments/templates/new-shipment.html'
-                }//,
-                // 'dailyShipments@application.shipments': {
-                //     controller: 'DailyShipmentCtrl as daily',
-                //     templateUrl: 'application/shipments/templates/daily-shipment-list.html'
-                // }
+                }
+            }
+        }).state('application.adminSide', {
+            url: '^/admin',
+            views: {
+                '': {templateUrl: 'application/shipments/templates/admin/admin-container.html'},
+                'adminControls@application.adminSide': {
+                    controller: 'CalendarCtrl as cal',
+                    templateUrl: 'application/shipments/templates/admin/admin-controls.html'
+                },
+                'adminShipping@application.adminSide': {
+                    controller: 'CalendarCtrl as cal',
+                    templateUrl: 'application/shipments/templates/admin/admin-calendar.html'
+                },
+                'adminReceiving@application.adminSide': {
+                    controller: 'CalendarCtrl as cal',
+                    templateUrl: 'application/shipments/templates/admin/admin-calendar.html'
+                }
             }
         }).state('application.auth', {
             url: '^/auth',
