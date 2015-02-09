@@ -41,11 +41,11 @@
                 },
                 'adminShipping@application.adminSide': {
                     controller: 'CalendarCtrl as cal',
-                    templateUrl: 'application/shipments/templates/admin/admin-calendar.html'
+                    templateUrl: 'application/shipments/templates/admin/admin-calendar-shipping.html'
                 },
                 'adminReceiving@application.adminSide': {
                     controller: 'CalendarCtrl as cal',
-                    templateUrl: 'application/shipments/templates/admin/admin-calendar.html'
+                    templateUrl: 'application/shipments/templates/admin/admin-calendar-receiving.html'
                 }
             }
         }).state('application.auth', {

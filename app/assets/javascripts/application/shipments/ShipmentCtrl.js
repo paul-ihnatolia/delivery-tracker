@@ -28,8 +28,8 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
   });
 
   /* Render calendar */
-  $scope.changeView = function (view) {
-    uiCalendarConfig.calendars.myCalendar.fullCalendar('changeView',view);
+  $scope.changeView = function (calendarName, view) {
+    uiCalendarConfig.calendars[calendarName].fullCalendar('changeView',view);
   };
 
   $scope.UpdateCal = function () {
