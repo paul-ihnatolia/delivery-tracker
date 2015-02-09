@@ -1,0 +1,28 @@
+<div>
+  <h2> Edit shipment: </h2>
+  <auth-error></auth-error>
+  <form novalidate name="shipmentForm" ng-submit="editShipment.updateShipment()">
+  <div class="form-group">
+    <label for="poNumber">PO Number</label>
+    <input type="text" class="form-control" ng-model="editShipment.shipment.po" id="poNumber" placeholder="PO Number" name="poNumber" required ng-pattern="/^(\d)+$/">
+    <div class="error-container" ng-show="shipmentForm.poNumber.$dirty && shipmentForm.poNumber.$invalid">
+      <small class="error" ng-show="shipmentForm.poNumber.$error.required">
+        PO number is required.
+      </small>
+      <small class="error" ng-show="shipmentForm.poNumber.$error.pattern">
+        Enter only numbers
+      </small>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="company">Company</label>
+    <input type="text" class="form-control" ng-model="editShipment.shipment.company" id="company" placeholder="Company" name="company" required>
+    <div class="error-container" ng-show="shipmentForm.company.$dirty && shipmentForm.company.$invalid">
+      <small class="error" ng-show="shipmentForm.company.$error.required">
+        Company is required.
+      </small>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary" ng-disabled="shipmentForm.$invalid">Update shipment</button>
+</form>
+</div>

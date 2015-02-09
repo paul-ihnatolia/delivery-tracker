@@ -9,7 +9,6 @@
 </head>
 <body class="full-width" ng-app="dtracker" ng-controller="ApplicationCtrl">
   <section id="container" class="">
-
       <!--header start-->
       <header class="header white-bg">
           <div class="navbar-header">
@@ -33,6 +32,9 @@
                   <ul class="nav pull-right top-menu">
                       <!-- user login dropdown start-->
                       <li ng-hide="currentUser"><a ui-sref="application.auth.sign_in"> Sign in </a></li>
+                      <li ng-show="currentUser">
+                        <a> Hello, {{ currentUser.getEmail() }} </a>
+                      </li>
                       <li ng-show="currentUser"><a ui-sref="application.auth.logout"> Logout </a></li>
                       <!-- user login dropdown end -->
                   </ul>

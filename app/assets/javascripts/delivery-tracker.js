@@ -48,7 +48,17 @@
                     templateUrl: 'application/shipments/templates/admin/admin-calendar-receiving.html'
                 }
             }
-        }).state('application.auth', {
+        }).state('application.shipments.newShipment', {
+            url: '/new',
+            controller: 'NewShipmentCtrl as newShipment',
+            templateUrl: 'application/shipments/templates/new-shipment.html'
+        }).state('application.shipments.editShipment', {
+            url: '/edit',
+            controller: 'EditShipmentCtrl as editShipment',
+            templateUrl: 'application/shipments/templates/edit.html'
+        })
+
+        .state('application.auth', {
             url: '^/auth',
             templateUrl: 'application/auth/templates/container.html',
             controller: function ($scope) {}
@@ -76,5 +86,18 @@
     }]).config(['$httpProvider',function($httpProvider) {
         //Http Intercpetor to check auth failures for xhr requests
         $httpProvider.interceptors.push('authHttpResponseInterceptor');
+    }]);
+
+    dtracker.run(['Session', '$auth', 'UserDecorator', '$location',
+        function (session, $auth, UserDecorator, $location) {
+        session.authPromise = $auth.validateUser().then(function (user) {
+            console.log("authPromise");
+            session.create(user);
+            return new UserDecorator(user);
+        }, function (q, w, e, r) {
+            session.destroy();
+            $location.path('/auth/sign_in');
+            return null;
+        });
     }]);
 }());
