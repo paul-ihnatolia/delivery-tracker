@@ -25,17 +25,19 @@
                 'shipments@application.shipments': {
                     controller: 'CalendarCtrl as cal',
                     templateUrl: 'application/shipments/templates/shipment.html'
-                },
-                'newShipment@application.shipments': {
-                    controller: 'NewShipmentCtrl as newShipment',
-                    templateUrl: 'application/shipments/templates/new-shipment.html'
-                }//,
-                // 'dailyShipments@application.shipments': {
-                //     controller: 'DailyShipmentCtrl as daily',
-                //     templateUrl: 'application/shipments/templates/daily-shipment-list.html'
-                // }
+                }
             }
-        }).state('application.auth', {
+        }).state('application.shipments.newShipment', {
+            url: '/new',
+            controller: 'NewShipmentCtrl as newShipment',
+            templateUrl: 'application/shipments/templates/new-shipment.html'
+        }).state('application.shipments.editShipment', {
+            url: '/edit',
+            controller: 'EditShipmentCtrl as editShipment',
+            templateUrl: 'application/shipments/templates/edit.html'
+        })
+
+        .state('application.auth', {
             url: '^/auth',
             templateUrl: 'application/auth/templates/container.html',
             controller: function ($scope) {}

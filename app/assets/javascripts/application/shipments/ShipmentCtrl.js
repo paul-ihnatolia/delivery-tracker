@@ -4,8 +4,8 @@
 
 var dtracker = angular.module('dtracker');
 
-dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '$rootScope', "uiCalendarConfig", 'Session', '$q',
-  function ($http, $scope, Shipment, $timeout, $rootScope, uiCalendarConfig, session) {
+dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '$rootScope', "uiCalendarConfig", 'Session', '$state',
+  function ($http, $scope, Shipment, $timeout, $rootScope, uiCalendarConfig, session, $state) {
     // Events for calendar
     $scope.events = [];
     // Assign events sources to calendar.
@@ -33,7 +33,8 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
             right: 'today prev,next'
           },
           // it will passe clicked date into function
-          dayClick: $scope.createShipment
+          dayClick: $scope.createShipment,
+          eventClick: $scope.editShipment
         }
       };
 
@@ -41,7 +42,7 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
         Shipment.query().$promise.then(function(data) {
           angular.forEach(data, function (r) {
             $scope.events.push({
-              id: r._id,
+              sid: r.id,
               start: r.start_date,
               end: r.end_date,
               title: r.po + ' - ' + r.company,
@@ -70,7 +71,7 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
           $scope.events.splice(0, $scope.events.length);
           angular.forEach(data, function (r) {
             $scope.events.push({
-              id: r._id,
+              sid: r.id,
               start: r.start_date,
               end: r.end_date,
               title: r.po + ' - ' + r.company,
@@ -84,14 +85,37 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
     }
     
     $scope.createShipment = function(date){
-      $rootScope.$emit("showShipmentForm", {start: date});
+      $state.go('application.shipments.newShipment');
+      setTimeout(function () {
+        $rootScope.$emit("shipment:create", {start: date});
+      }, 100);
+    };
+
+    $scope.editShipment = function (data) {
+      $state.go('application.shipments.editShipment');
+      setTimeout(function () {
+        $rootScope.$emit("shipment:edit", data);
+      }, 100);
     };
 
     $scope.addShipmentToCalendar = function (e, data) {
       $scope.events.push(data.shipment);
     };
 
+    $scope.updateEvent = function (e, data) {
+      var events = $scope.events;
+      angular.forEach(events, function(e, i) {
+        if (e.sid === data.sid ) {
+          var newEvent = {};
+          angular.extend(newEvent, e, { title: data.po + ' - ' + data.company, sid: e.sid});
+          events.splice(i, 1);
+          events.push(newEvent);
+        }
+      });
+    };
+
     $rootScope.$on('addShipmentToCalendar', $scope.addShipmentToCalendar);
+    $rootScope.$on('shipment:updateEvent', $scope.updateEvent);
 
     // When user is resolved
     session.authPromise.then(function (user) {

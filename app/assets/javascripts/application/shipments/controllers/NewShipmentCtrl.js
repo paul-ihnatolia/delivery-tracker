@@ -1,7 +1,8 @@
 (function () {
   "use strict";
   angular.module('dtracker')
-    .controller('NewShipmentCtrl', ['$scope', '$rootScope','Shipment', 'CheckShipment', function ($scope, $rootScope, Shipment, CheckShipment) {
+    .controller('NewShipmentCtrl', ['$scope', '$rootScope','Shipment', 'CheckShipment', '$state',
+      function ($scope, $rootScope, Shipment, CheckShipment, $state) {
       var newShipment = this;
       newShipment.shipment = {
         po: '',
@@ -62,7 +63,8 @@
       };
 
       newShipment.showForm = function (e, data) {
-        newShipment.showShipmentForm = true;
+        $state.go("application.shipments.newShipment");
+        
         newShipment.shipment = {
           po: '',
           company: '',
@@ -72,6 +74,6 @@
         };
       };
 
-      $rootScope.$on('showShipmentForm', newShipment.showForm);
+      $rootScope.$on('shipment:create', newShipment.showForm);
     }]);
 }());
