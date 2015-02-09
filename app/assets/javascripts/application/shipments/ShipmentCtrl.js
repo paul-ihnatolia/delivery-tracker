@@ -6,11 +6,16 @@ var dtracker = angular.module('dtracker');
 
 dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '$rootScope', "uiCalendarConfig", 'Session', '$state',
   function ($http, $scope, Shipment, $timeout, $rootScope, uiCalendarConfig, session, $state) {
+    // Duration of event
+    var shipmentsInterval = parseInt($('.settings').data("schedule-interval"), 10);
+    var slotDuration = "00:30:00";
     // Events for calendar
     $scope.events = [];
     // Assign events sources to calendar.
     $scope.eventSources =  [$scope.events];
-    
+    $scope.activeShipment = 'shipping';
+    var shippingEvents = [];
+    var receivingEvents = [];
     // Re-render calendar view on click
     $scope.changeView = function (view) {
       uiCalendarConfig.calendars.myCalendar.fullCalendar('changeView',view);
@@ -26,7 +31,7 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
           slotEventOverlap: false,
           minTime: "08:00:00",
           maxTime: "23:00:00",
-          slotDuration: '00:05:00',
+          slotDuration: slotDuration,
           header:{
             left: 'title',
             center: '',
@@ -40,8 +45,17 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
 
       if (user.hasRole('carrier')) {
         Shipment.query().$promise.then(function(data) {
+          shippingEvents = [];
+          receivingEvents = [];
+          var source = null;
           angular.forEach(data, function (r) {
-            $scope.events.push({
+            if (r.status === 'shipping') {
+              source = shippingEvents;
+            } else {
+              source = receivingEvents;
+            }
+
+            source.push({
               sid: r.id,
               start: r.start_date,
               end: r.end_date,
@@ -49,7 +63,10 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
               allDay: false,
               color: r.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)"
             });
+
           });
+          //$scope.events.splice(0, $scope.events.length);
+          changeShipmentSource();
         });
       } else {
         $scope.userEmail = '';
@@ -84,10 +101,37 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
       }
     }
     
+    // Watch on active shipment status change
+    $scope.$watch("activeShipment", function () {
+      changeShipmentSource();
+    });
+
+    function changeShipmentSource () {
+      $scope.eventSources.pop();
+      if ($scope.activeShipment === 'shipping') {
+        $scope.eventSources.push(shippingEvents);
+      } else {
+        $scope.eventSources.push(receivingEvents);
+      }
+    }
+
+    function getActiveShipments () {
+      if ($scope.activeShipment === 'shipping') {
+        return shippingEvents;
+      } else {
+        return receivingEvents;
+      }
+    }
+
+    // function calculateSlot(minutes) {
+    //   var hours = Math.floor( minutes / 60);
+    //   var minutes = $('.totalMin').html() % 60;
+      
+    // }
     $scope.createShipment = function(date){
       $state.go('application.shipments.newShipment');
       setTimeout(function () {
-        $rootScope.$emit("shipment:create", {start: date});
+        $rootScope.$emit("shipment:create", {start: date, interval: shipmentsInterval});
       }, 100);
     };
 
@@ -100,11 +144,13 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
     };
 
     $scope.addShipmentToCalendar = function (e, data) {
-      $scope.events.push(data.shipment);
+      var events = getActiveShipments();
+      events.push(data.shipment);
     };
 
     $scope.updateEvent = function (e, data) {
-      var events = $scope.events;
+      var events = getActiveShipments();
+      console.log(events);
       angular.forEach(events, function(e, i) {
         if (e.sid === data.sid ) {
           var newEvent = {};
@@ -113,6 +159,9 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
           events.push(newEvent);
         }
       });
+      console.log(events);
+
+      uiCalendarConfig.calendars.myCalendar.fullCalendar('refetchEvents');
     };
 
     $rootScope.$on('addShipmentToCalendar', $scope.addShipmentToCalendar);
