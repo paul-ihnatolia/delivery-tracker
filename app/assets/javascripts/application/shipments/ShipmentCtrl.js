@@ -92,6 +92,7 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
     };
 
     $scope.editShipment = function (data) {
+      console.log("Edit shipment");
       $state.go('application.shipments.editShipment');
       setTimeout(function () {
         $rootScope.$emit("shipment:edit", data);

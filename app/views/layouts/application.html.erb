@@ -2,54 +2,70 @@
 <html>
 <head>
   <title>DeliveryTracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
 </head>
-<body ng-app="dtracker" ng-controller="ApplicationCtrl">
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">Delivery tracker</a>
-      </div>
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav navbar-right">
-          <li ng-hide="currentUser">
-            <a ui-sref="application.auth.sign_in"> Sign in </a>
-          </li>
-          <li ng-show="currentUser">
-            <a> Hello, {{ currentUser.getEmail() }} </a>
-          </li>
-          <li ng-show="currentUser">
-            <a ui-sref="application.auth.logout"> Logout </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+<body class="full-width" ng-app="dtracker" ng-controller="ApplicationCtrl">
+  <section id="container" class="">
+      <!--header start-->
+      <header class="header white-bg">
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
 
-  <div class="container-fluid main-wrapper">
-    <!-- info messages -->
-    <div class="alert alert-warning alert-dismissible system-message" ng-show="flash.getMessage()" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <p>{{flash.getMessage()}}</p>
-    </div>
+              <!--logo start-->
+              <a href="index.html" class="logo" ><%= image_tag 'logo.jpg', alt:"Hanzo Logistics" %></a>
+              <!--logo end-->
+              <div class="horizontal-menu navbar-collapse collapse ">
+                  <ul class="nav navbar-nav">
+                      <li class="active"><a href="#">My Shipments</a></li>
+                      <li><a href="#">Admin</a></li>
+                      <li><a href="#">Orders</a></li>
+                  </ul>
+              </div>
+              <div class="top-nav ">
+                  <ul class="nav pull-right top-menu">
+                      <!-- user login dropdown start-->
+                      <li ng-hide="currentUser"><a ui-sref="application.auth.sign_in"> Sign in </a></li>
+                      <li ng-show="currentUser">
+                        <a> Hello, {{ currentUser.getEmail() }} </a>
+                      </li>
+                      <li ng-show="currentUser"><a ui-sref="application.auth.logout"> Logout </a></li>
+                      <!-- user login dropdown end -->
+                  </ul>
+              </div>
+
+          </div>
+      </header>
+      <!--header end-->
+
+    <div class="container">
+      <!-- info messages -->
+      <div class="alert alert-warning alert-dismissible system-message" ng-show="flash.getMessage()" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p>{{flash.getMessage()}}</p>
+      </div>
+      
+      <%= yield %>
     
-    <%= yield %>
-  
-  </div>
+    </div>
 
 
-  <div class="footer">
-    <p> &copy; Delivery tracker 2015 </p>
-  </div>
-
+    <!--footer start-->
+    <footer class="site-footer">
+        <div class="text-center">
+            2013 &copy; FlatLab by VectorLab.
+            <a href="#" class="go-top">
+                <i class="icon-angle-up"></i>
+            </a>
+        </div>
+    </footer>
+    <!--footer end-->
+  </section>
 </body>
 </html>

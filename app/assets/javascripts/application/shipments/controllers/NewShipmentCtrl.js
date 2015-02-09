@@ -9,19 +9,12 @@
         company: '',
         startDate: '',
         endDate: '',
-        timeElapsed: ''
+        status: ''
       };
 
       newShipment.showShipmentForm = false;
 
-      newShipment.timePredefined = [
-        { label: '10m', value: 10 },
-        { label: '20m', value: 20 },
-        { label: '30m', value: 30 },
-        { label: '40m', value: 40 },
-        { label: '50m', value: 50 },
-        { label: '1h', value: 60 }
-      ];
+      newShipment.avaliableStatuses = ["Shippng", "Receiving"];
 
       newShipment.createNewShipment = function () {
         var shipmentCal = {};
