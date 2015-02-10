@@ -1,14 +1,37 @@
 <aside class="col-lg-6">
     <section class="panel">
         <div class="panel-body">
-            <div ui-view="adminShipping"></div>
+            <div class="admin-shipping">
+                <div style="height:50px">
+                    <div class="btn-group pull-left">
+                        <button class="btn btn-danger" ng-click="changeView('shippingCal', 'agendaDay')">AgendaDay</button>
+                        <button class="btn btn-danger" ng-click="changeView('shippingCal', 'agendaWeek')">AgendaWeek</button>
+                        <button class="btn btn-danger" ng-click="changeView('shippingCal', 'month')">Month</button>
+                    </div>
+                </div>
+
+                <div id="calendar" calendar="shippingCal" class="calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources">
+                </div>
+            </div>
+            <!-- <div ui-view="adminShipping"></div> -->
         </div>
     </section>
 </aside>
+
 <aside class="col-lg-6">
     <section class="panel">
         <div class="panel-body">
-            <div ui-view="adminReceiving"></div>
+            <div style="height:50px">
+                <div class="btn-group pull-left">
+                    <button class="btn btn-danger" ng-click="changeView('receivingCal', 'agendaDay')">AgendaDay</button>
+                    <button class="btn btn-danger" ng-click="changeView('receivingCal', 'agendaWeek')">AgendaWeek</button>
+                    <button class="btn btn-danger" ng-click="changeView('receivingCal', 'month')">Month</button>
+                </div>
+            </div>
+
+            <div id="calendar" calendar="receivingCal" class="calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources">
+            </div>
+            <!-- <div ui-view="adminReceiving"></div> -->
         </div>
     </section>
 

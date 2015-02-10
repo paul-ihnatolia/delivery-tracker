@@ -39,21 +39,23 @@
             abstract: true
         }).state('application.adminSide.shipments', {
             url: '/shipments',
-            views: {
-                '': {templateUrl: 'application/shipments/templates/admin/admin-shipments-container.html'},
-                'adminControls@application.adminSide': {
-                    controller: 'CalendarCtrl as cal',
-                    templateUrl: 'application/shipments/templates/admin/admin-controls.html'
-                },
-                'adminShipping@application.adminSide': {
-                    controller: 'CalendarCtrl as cal',
-                    templateUrl: 'application/shipments/templates/admin/admin-calendar-shipping.html'
-                },
-                'adminReceiving@application.adminSide': {
-                    controller: 'CalendarCtrl as cal',
-                    templateUrl: 'application/shipments/templates/admin/admin-calendar-receiving.html'
-                }
-            }
+            //views: {
+            controller: 'CalendarCtrl as cal',
+            templateUrl: 'application/shipments/templates/admin/admin-shipments-container.html'
+                // '': {templateUrl: 'application/shipments/templates/admin/admin-shipments-container.html'},
+                // 'adminControls@application.adminSide.shipments': {
+                //     //controller: 'CalendarCtrl as cal',
+                //     templateUrl: 'application/shipments/templates/admin/admin-controls.html'
+                // },
+                // 'adminShipping@application.adminSide.shipments': {
+                //     //controller: 'CalendarCtrl as cal',
+                //     templateUrl: 'application/shipments/templates/admin/admin-calendar-shipping.html'
+                // },
+                // 'adminReceiving@application.adminSide.shipments': {
+                //     //controller: 'CalendarCtrl as cal',
+                //     templateUrl: 'application/shipments/templates/admin/admin-calendar-receiving.html'
+                // }
+            //}
         }).state('application.shipments.newShipment', {
             url: '/new',
             controller: 'NewShipmentCtrl as newShipment',

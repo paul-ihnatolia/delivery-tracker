@@ -9,13 +9,16 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
     // Duration of event
     var shipmentsInterval = parseInt($('.settings').data("schedule-interval"), 10);
     var slotDuration = "00:30:00";
+    var carrier = {};
+    var admin = {};
     // Events for calendar
     $scope.events = [];
-    // Assign events sources to calendar.
-    $scope.eventSources =  [$scope.events];
-    $scope.activeShipment = 'shipping';
-    var shippingEvents = [];
-    var receivingEvents = [];
+    // Assign carrier events sources to calendar.
+    $scope.eventSources =  [];
+    // Assign admin event sources
+    $scope.shippingSources =  [];
+    $scope.receivingSources = [];
+
     /* Render calendar */
     $scope.changeView = function (calendarName, view) {
       uiCalendarConfig.calendars[calendarName].fullCalendar('changeView',view);
@@ -45,6 +48,8 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
       };
 
       if (user.hasRole('carrier')) {
+        // For carrier
+        $scope.activeShipment = 'shipping';
         Shipment.query().$promise.then(function(data) {
           shippingEvents = [];
           receivingEvents = [];
@@ -71,6 +76,8 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
         });
       } else {
         $scope.userEmail = '';
+        var shippingEvents = [];
+        var receivingEvents = [];
         // Retrieve urls
         $http.get('/api/users')
         .success(function(data, status, headers, config) {
@@ -105,7 +112,7 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
     // Watch on active shipment status change
     $scope.$watch("activeShipment", function () {
       // Hide edit or show form
-      $state.go("application.shipments");
+      //$state.go("application.shipments");
       changeShipmentSource();
     });
 
