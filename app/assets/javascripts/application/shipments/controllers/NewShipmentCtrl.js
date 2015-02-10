@@ -11,8 +11,7 @@
         endDate: '',
         status: ''
       };
-
-      newShipment.showShipmentForm = false;
+      newShipment.message = null;
 
       newShipment.avaliableStatuses = ["shipping", "receiving"];
 
@@ -30,6 +29,7 @@
           alert('New shipment is overlapping existing!');
         } else {
           // Call to the server
+          newShipment.message = null;
           var shipment = new Shipment({shipment: {start_date: shipmentCal.start,
                                                   end_date: shipmentCal.end,
                                                   po: s.po,
@@ -48,7 +48,10 @@
                 endDate: '',
                 timeElapsed: ''
               };
-              newShipment.showShipmentForm = false;
+              newShipment.message = {
+                content: 'Shipment was saved.',
+                type: 'success'
+              };
             },
             function (error) {
               alert("Some errors happened!");
@@ -58,14 +61,16 @@
       };
 
       newShipment.showForm = function (e, data) {
-        
         newShipment.shipment = {
           po: '',
           company: '',
           startDate: data.start,
           endDate: '',
-          timeElapsed: data.interval
+          timeElapsed: data.interval,
+          status: data.status
         };
+        newShipment.message = null;
+        $scope.$apply();
       };
 
       $rootScope.$on('shipment:create', newShipment.showForm);

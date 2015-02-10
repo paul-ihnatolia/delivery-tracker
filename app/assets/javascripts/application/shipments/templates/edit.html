@@ -1,4 +1,9 @@
-<div>
+<div class="{{ 'alert alert-dismissible alert-' + editShipment.message.type}}" role="alert" ng-if="editShipment.message">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  {{ editShipment.message.content }}
+</div>
+
+<div ng-if="!editShipment.message">
   <h2> Edit shipment: </h2>
   <auth-error></auth-error>
   <form novalidate name="shipmentForm" ng-submit="editShipment.updateShipment()">

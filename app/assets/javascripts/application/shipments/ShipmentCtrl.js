@@ -104,15 +104,26 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
     
     // Watch on active shipment status change
     $scope.$watch("activeShipment", function () {
+      // Hide edit or show form
+      $state.go("application.shipments");
       changeShipmentSource();
     });
 
+    // Change events source, when shipment status changed
     function changeShipmentSource () {
-      $scope.eventSources.pop();
-      if ($scope.activeShipment === 'shipping') {
-        $scope.eventSources.push(shippingEvents);
-      } else {
-        $scope.eventSources.push(receivingEvents);
+      // It fails first time, so wee need to
+      // make a check
+      var calendar = getCalendar();
+      if (calendar) {
+        if ($scope.activeShipment === 'shipping') {
+          calendar.fullCalendar( 'removeEventSource',  receivingEvents);
+          calendar.fullCalendar( 'addEventSource',  shippingEvents);
+         // $scope.eventSources.push(shippingEvents);
+        } else {
+          calendar.fullCalendar( 'removeEventSource',  shippingEvents);
+          calendar.fullCalendar( 'addEventSource',  receivingEvents);
+  //        $scope.eventSources.push(receivingEvents);
+        }
       }
     }
 
@@ -132,12 +143,13 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
     $scope.createShipment = function(date){
       $state.go('application.shipments.newShipment');
       setTimeout(function () {
-        $rootScope.$emit("shipment:create", {start: date, interval: shipmentsInterval});
+        $rootScope.$emit("shipment:create", {start: date,
+                                              interval: shipmentsInterval,
+                                              status: $scope.activeShipment});
       }, 100);
     };
 
     $scope.editShipment = function (data) {
-      console.log("Edit shipment");
       $state.go('application.shipments.editShipment');
       setTimeout(function () {
         $rootScope.$emit("shipment:edit", data);
@@ -145,29 +157,41 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
     };
 
     $scope.addShipmentToCalendar = function (e, data) {
+      var calendar = getCalendar();
       var events = getActiveShipments();
+      // Algorithm works next:
+      // firstly remove all sources from fullcalendar,
+      // than add event to source, and then add that source again
+      calendar.fullCalendar( 'removeEventSource',  events);
       events.push(data.shipment);
+      uiCalendarConfig.calendars.myCalendar.fullCalendar('addEventSource', events);
     };
 
     $scope.updateEvent = function (e, data) {
-      var events = getActiveShipments();
-      console.log(events);
+      var events = uiCalendarConfig.calendars.myCalendar.fullCalendar('clientEvents');
+      var sourceEvents = getActiveShipments();
       angular.forEach(events, function(e, i) {
         if (e.sid === data.sid ) {
-          var newEvent = {};
-          angular.extend(newEvent, e, { title: data.po + ' - ' + data.company, sid: e.sid});
-          events.splice(i, 1);
-          events.push(newEvent);
+          e.title = data.po + ' - ' + data.company;
+          uiCalendarConfig.calendars.myCalendar.fullCalendar('updateEvent', e);
         }
       });
-      console.log(events);
-
-      uiCalendarConfig.calendars.myCalendar.fullCalendar('refetchEvents');
+      
+      // Also update event in source
+      for (var i = 0; i < sourceEvents.length; i++) {
+        if (sourceEvents[i].sid === data.sid) {
+          sourceEvents[i].title = data.po + ' - ' + data.company;
+          break;
+        }
+      }
     };
 
     $rootScope.$on('addShipmentToCalendar', $scope.addShipmentToCalendar);
     $rootScope.$on('shipment:updateEvent', $scope.updateEvent);
 
+    function getCalendar() {
+      return uiCalendarConfig.calendars.myCalendar;
+    }
     // When user is resolved
     session.authPromise.then(function (user) {
       init(session.getCurrentUser());
