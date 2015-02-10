@@ -44,7 +44,7 @@ class Api::ShipmentsController < ApplicationController
   end
 
   def destroy
-    if @shipment.current_user != user
+    if @shipment.user != current_user
       render json: { errors: "You don't have permissions" }, status: 403
       return
     end

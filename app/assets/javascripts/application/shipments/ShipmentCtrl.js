@@ -186,8 +186,24 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
       }
     };
 
+    $scope.deleteEvent = function (e, data) {
+      var sid = data.sid;
+      var _id = data._id;
+      var calendar = getCalendar();
+      calendar.fullCalendar('removeEvents', _id);
+      var events = getActiveShipments();
+      // Also remove it manually from event source
+      for (var i = 0; i < events.length; i++) {
+        if(events[i].sid === sid){
+          events.splice(i, 1);
+          break;
+        }
+      }
+    };
+
     $rootScope.$on('addShipmentToCalendar', $scope.addShipmentToCalendar);
     $rootScope.$on('shipment:updateEvent', $scope.updateEvent);
+    $rootScope.$on('shipment:deleteEvent', $scope.deleteEvent);
 
     function getCalendar() {
       return uiCalendarConfig.calendars.myCalendar;
