@@ -25,5 +25,7 @@
 //= require intl-tel-input/build/js/intlTelInput.js
 //= require angular-rails-templates
 //= require bootstrap-sass-official/assets/javascripts/bootstrap/alert.js
+//= require ng-table/dist/ng-table.js
+//= require ng-table-export/ng-table-export.js
 //= require ./delivery-tracker
 //= require_tree ./application

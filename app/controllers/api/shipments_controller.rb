@@ -1,10 +1,12 @@
 class Api::ShipmentsController < ApplicationController
   respond_to :json
   before_action :set_shipment, only: [:show, :update, :destroy]
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
 
   def index
-    @shipment = Shipment.by_user(current_user)
+    # current_user = User.first
+    # @shipment = Shipment.by_user(current_user)
+    @shipment = Shipment.all
     respond_with(@shipment)
   end
 

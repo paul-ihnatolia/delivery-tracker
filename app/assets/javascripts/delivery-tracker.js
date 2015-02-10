@@ -7,7 +7,9 @@
         'ng-token-auth',
         'ngResource',
         'ui.calendar',
-        'ui.bootstrap.datetimepicker'
+        'ui.bootstrap.datetimepicker',
+        'ngTable',
+        'ngTableExport'
     ]);
     dtracker.config(['$urlRouterProvider', '$stateProvider', function ($urlRouterProvider, $stateProvider) {
         $urlRouterProvider.otherwise('/auth/sign_in');
@@ -33,8 +35,12 @@
             }
         }).state('application.adminSide', {
             url: '^/admin',
+            templateUrl: 'application/shipments/templates/admin/admin-container.html',
+            abstract: true
+        }).state('application.adminSide.shipments', {
+            url: '/shipments',
             views: {
-                '': {templateUrl: 'application/shipments/templates/admin/admin-container.html'},
+                '': {templateUrl: 'application/shipments/templates/admin/admin-shipments-container.html'},
                 'adminControls@application.adminSide': {
                     controller: 'CalendarCtrl as cal',
                     templateUrl: 'application/shipments/templates/admin/admin-controls.html'
@@ -47,7 +53,7 @@
                     controller: 'CalendarCtrl as cal',
                     templateUrl: 'application/shipments/templates/admin/admin-calendar.html'
                 }
-            }
+            }   
         }).state('application.auth', {
             url: '^/auth',
             templateUrl: 'application/auth/templates/container.html',
@@ -72,9 +78,13 @@
             url: '/new-pass',
             controller: 'RestorePassCtrl as passRestore',
             templateUrl: 'application/auth/templates/restore-pass-form.html'
+        }).state('application.adminSide.statistics', {
+            url: "/statistics",
+            templateUrl : 'application/shipments/templates/shipment_table.html',
+            controller  : 'ShipmentDataCtrl as statistics'
         });
     }]).config(['$httpProvider',function($httpProvider) {
         //Http Intercpetor to check auth failures for xhr requests
         $httpProvider.interceptors.push('authHttpResponseInterceptor');
-    }]);
+    }]);    
 }());

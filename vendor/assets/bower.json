@@ -8,6 +8,8 @@
     "angular-resource": "latest",
     "angular-ui-calendar": "latest",
     "angular-bootstrap-datetimepicker": "latest",
-    "intl-tel-input": "latest"
+    "intl-tel-input": "latest",
+    "ng-table": "latest",
+    "ng-table-export": "latest"
   }
 }

@@ -22,7 +22,11 @@ dtracker.controller('SessionCtrl', ['$rootScope', '$scope', '$auth', '$location'
     sessionF.create(user);
     $rootScope.flash = flash;
     $rootScope.flash.setMessage('You successfully signed in.');
-    $location.path('/shipments');
+    if (user.role === "admin") {
+      $location.path('/admin/statistics');
+    } else {
+      $location.path('/shipments');
+    }
   });
 
   $scope.$on('auth:login-error', function (ev, reason) {
