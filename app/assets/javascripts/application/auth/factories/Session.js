@@ -1,25 +1,32 @@
 angular.module('dtracker')
-.factory('Session', ['$auth', '$rootScope', function ($auth, $rootScope) {
+.factory('Session', ['$auth', '$rootScope', '$q', 'UserDecorator',
+  function ($auth, $rootScope, $q, UserDecorator) {
   
   var currentUser;
 
   var session = {
     create: function (user) {
-      currentUser = user;
-      $rootScope.$broadcast('session:change');
+      currentUser = new UserDecorator(user);
+      $rootScope.$emit('session:change', currentUser);
     },
     destroy: function () {
       currentUser = null;
+      $rootScope.$emit('session:change', currentUser);
     },
     getCurrentUser: function () {
-      //$auth.validateUser();
       return currentUser;
-    }
+    },
+    authPromise: {}
   };
+
+  $rootScope.$on('auth:login-success', function (ev, user) {
+    // alert('auth login-success');
+    // session.create(user);
+  });
 
   $rootScope.$on("auth:validation-success", function (e, user) {
     console.log("auth:validation-success");
-    session.create(user);
+    //session.create(user);
   });
 
   $rootScope.$on("auth:email-confirmation-succes", function (e) {
@@ -28,15 +35,13 @@ angular.module('dtracker')
   });
 
   // reset current user after logout
-  $rootScope.$on("logout-success", function () {
-    console.log("logout-success => session");
-    session.destroy();
+  $rootScope.$on("auth:logout-success", function () {
+    //session.destroy();
   });
 
   // reset when token is expired
   $rootScope.$on("auth:invalid", function () {
-    console.log("auth:invalid => session");
-    session.destroy();
+    //session.destroy();
   });
 
   return session;

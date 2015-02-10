@@ -1,0 +1,10 @@
+<div style="height:50px">
+  <div class="btn-group pull-left">
+    <button class="btn btn-danger" ng-click="changeView('receivingCal', 'agendaDay')">AgendaDay</button>
+    <button class="btn btn-danger" ng-click="changeView('receivingCal', 'agendaWeek')">AgendaWeek</button>
+    <button class="btn btn-danger" ng-click="changeView('receivingCal', 'month')">Month</button>
+  </div>
+ </div>
+
+<div id="calendar" calendar="receivingCal" class="calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources">
+</div>

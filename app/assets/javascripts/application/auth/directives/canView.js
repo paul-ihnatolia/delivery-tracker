@@ -1,7 +1,7 @@
 
-// usage <div has-permissions>
-angular.module('dtracker').directive('canView', ['userRoles', 'session',
-    function (userRoles, session) {
+var dtracker = angular.module('dtracker');
+
+dtracker.directive('canView', ['$rootScope', 'Session', function ($rootScope, session) {
   return {
     restrict: 'A',
     link: function (scope, iElement, iAttrs) {
@@ -17,12 +17,14 @@ angular.module('dtracker').directive('canView', ['userRoles', 'session',
         value = value.slice(1).trim();
       }
 
-      var permittRoles = value.split(',').map(function (el) {
-        return el.trim();
-      });
+      var permittRoles = value;
 
       function toggleVisibilityBasedOnPermission () {
-        var hasPermission = userRoles.hasRole(permittRoles);
+        var currentUser = session.getCurrentUser();
+        if (!currentUser) {
+          return false;
+        }
+        var hasPermission = currentUser.hasRole(permittRoles);
 
         if(hasPermission && !notPermissionFlag || !hasPermission && notPermissionFlag)
           iElement.show();
@@ -30,7 +32,7 @@ angular.module('dtracker').directive('canView', ['userRoles', 'session',
           iElement.hide();
       }
       toggleVisibilityBasedOnPermission();
-      scope.$on('session:change', function () { console.log('Listening to events'); toggleVisibilityBasedOnPermission();});
+      $rootScope.$on('session:change', function () { toggleVisibilityBasedOnPermission();});
     }
   };
 }]);

@@ -1,13 +1,19 @@
 class Api::ShipmentsController < ApplicationController
   respond_to :json
   before_action :set_shipment, only: [:show, :update, :destroy]
-  # before_action :authenticate_user!
+  before_action :authenticate_user!
 
   def index
-    # current_user = User.first
-    # @shipment = Shipment.by_user(current_user)
-    @shipment = Shipment.all
-    respond_with(@shipment)
+    if current_user.admin?
+      if params[:email].present?
+        @shipments = Shipment.joins(:user).where('users.email = ?', params[:email])
+      else
+        @shipments = Shipment.all
+      end
+    else
+      @shipments = Shipment.by_user(current_user)
+    end
+    respond_with(@shipments)
   end
 
   def show
@@ -40,7 +46,7 @@ class Api::ShipmentsController < ApplicationController
   end
 
   def destroy
-    if @shipment.current_user != user
+    if @shipment.user != current_user
       render json: { errors: "You don't have permissions" }, status: 403
       return
     end
@@ -57,14 +63,17 @@ class Api::ShipmentsController < ApplicationController
 
   def shipment_update_params
     if current_user.admin?
-      params.require(:shipment).permit(:po, :start_date, :end_date, :company, :status)
+      params.require(:shipment).permit(:po, :start_date, :end_date, :company)
     else
       # Carrier can only update a shiping status
-      params.require(:shipment).permit(:status)
+      params.require(:shipment).permit(:po, :company)
     end
   end
 
   def set_shipment
     @shipment = Shipment.find_by(id: params[:id].to_i)
+    if @shipment.nil?
+      render json: { errors: ['Shipment not found.'] }, status: :not_found
+    end
   end
 end
