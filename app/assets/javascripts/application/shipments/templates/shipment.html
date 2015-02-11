@@ -6,15 +6,15 @@
 	</div>
 	<div class="btn-row pull-right">    
     <div class="btn-group" data-toggle="buttons">
-        <label class="btn btn-default active" ng-click="activeShipment='shipping'">
-            <input type="radio" name="activeShipment" id="option1"> Shipping
+        <label class="btn btn-default active" ng-click="carrierActiveShipment='shipping'">
+            <input type="radio" id="option1"> Shipping
         </label>
-        <label class="btn btn-default" ng-click="activeShipment='receiving'">
-            <input type="radio" name="activeShipment" id="option2"> Receiving
+        <label class="btn btn-default" ng-click="carrierActiveShipment='receiving'">
+            <input type="radio" id="option2"> Receiving
         </label>
     </div>
 	 </div>
  </div>
 
-<div id="calendar" calendar="myCalendar" class="calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources">
+<div id="calendar" calendar="myCalendar" class="calendar" ui-calendar="uiConfig.calendar" ng-model="carrierEventSources">
 </div>

@@ -9,13 +9,12 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
     // Duration of event
     var shipmentsInterval = parseInt($('.settings').data("schedule-interval"), 10);
     var slotDuration = "00:30:00";
-    // Events for calendar
-    $scope.events = [];
-    // Assign events sources to calendar.
-    $scope.eventSources =  [$scope.events];
-    $scope.activeShipment = 'shipping';
-    var shippingEvents = [];
-    var receivingEvents = [];
+    // Object which contains carrier specific logic
+    var carrier = null;
+    var admin = null;
+
+    $scope.carrierEventSources =  [];
+
     /* Render calendar */
     $scope.changeView = function (calendarName, view) {
       uiCalendarConfig.calendars[calendarName].fullCalendar('changeView',view);
@@ -45,15 +44,24 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
       };
 
       if (user.hasRole('carrier')) {
+        // Active shippment
+        $scope.carrierActiveShipment = 'shipping';
+        carrier = {};
+        // Watch on active shipment status change
+        $scope.$watch("carrierActiveShipment", function () {
+          // Hide edit or show form
+          $state.go("application.shipments");
+          changeShipmentSource();
+        });
         Shipment.query().$promise.then(function(data) {
-          shippingEvents = [];
-          receivingEvents = [];
+          carrier.shippingEvents = [];
+          carrier.receivingEvents = [];
           var source = null;
           angular.forEach(data, function (r) {
             if (r.status === 'shipping') {
-              source = shippingEvents;
+              source = carrier.shippingEvents;
             } else {
-              source = receivingEvents;
+              source = carrier.receivingEvents;
             }
 
             source.push({
@@ -66,7 +74,6 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
             });
 
           });
-          //$scope.events.splice(0, $scope.events.length);
           changeShipmentSource();
         });
       } else {
@@ -101,13 +108,6 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
         };
       }
     }
-    
-    // Watch on active shipment status change
-    $scope.$watch("activeShipment", function () {
-      // Hide edit or show form
-      $state.go("application.shipments");
-      changeShipmentSource();
-    });
 
     // Change events source, when shipment status changed
     function changeShipmentSource () {
@@ -115,37 +115,34 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
       // make a check
       var calendar = getCalendar();
       if (calendar) {
-        if ($scope.activeShipment === 'shipping') {
-          calendar.fullCalendar( 'removeEventSource',  receivingEvents);
-          calendar.fullCalendar( 'addEventSource',  shippingEvents);
-         // $scope.eventSources.push(shippingEvents);
+        if ($scope.carrierActiveShipment === 'shipping') {
+          calendar.fullCalendar( 'removeEventSource',  carrier.receivingEvents);
+          calendar.fullCalendar( 'addEventSource',  carrier.shippingEvents);
         } else {
-          calendar.fullCalendar( 'removeEventSource',  shippingEvents);
-          calendar.fullCalendar( 'addEventSource',  receivingEvents);
-  //        $scope.eventSources.push(receivingEvents);
+          calendar.fullCalendar( 'removeEventSource',  carrier.shippingEvents);
+          calendar.fullCalendar( 'addEventSource',  carrier.receivingEvents);
         }
       }
     }
 
     function getActiveShipments () {
-      if ($scope.activeShipment === 'shipping') {
-        return shippingEvents;
+      if (carrier) {
+        if ($scope.carrierActiveShipment === 'shipping') {
+          return carrier.shippingEvents;
+        } else {
+          return carrier.receivingEvents;
+        }
       } else {
-        return receivingEvents;
+        // TODO admin
       }
     }
 
-    // function calculateSlot(minutes) {
-    //   var hours = Math.floor( minutes / 60);
-    //   var minutes = $('.totalMin').html() % 60;
-      
-    // }
     $scope.createShipment = function(date){
       $state.go('application.shipments.newShipment');
       setTimeout(function () {
         $rootScope.$emit("shipment:create", {start: date,
                                               interval: shipmentsInterval,
-                                              status: $scope.activeShipment});
+                                              status: $scope.carrierActiveShipment});
       }, 100);
     };
 
