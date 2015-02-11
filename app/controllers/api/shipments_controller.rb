@@ -15,7 +15,13 @@ class Api::ShipmentsController < ApplicationController
         @shipments = @shipments.by_status(params[:status])
       end
     else
-      @shipments = Shipment.by_user(current_user)
+      if params[:date].present?
+        # return shipments by date
+        @shipments = Shipment.by_date(params[:date])
+      else
+        @shipments = Shipment.by_user(current_user) + 
+          Shipment.from_today.not_by_user(current_user).select(:start_date, :end_date, :status);
+      end
     end
     respond_with(@shipments)
   end

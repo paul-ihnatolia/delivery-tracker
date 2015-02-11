@@ -16,7 +16,6 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
     $scope.carrierEventSources =  [];
     $scope.adminShipmentSources = [];
     $scope.adminReceivingSources = [];
-    $scope.shippingUsers = ['dddd'];
 
     /* Render calendar */
     $scope.changeView = function (calendarName, view) {
@@ -59,6 +58,7 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
         Shipment.query().$promise.then(function(data) {
           carrier.shippingEvents = [];
           carrier.receivingEvents = [];
+
           var source = null;
           angular.forEach(data, function (r) {
             if (r.status === 'shipping') {
@@ -67,15 +67,27 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
               source = carrier.receivingEvents;
             }
 
-            source.push({
-              sid: r.id,
-              start: r.start_date,
-              end: r.end_date,
-              title: r.po + ' - ' + r.company,
+            var event = {
               allDay: false,
-              color: r.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)"
-            });
+              start: r.start_date,
+              end: r.end_date
+            };
 
+            if (r.id) {
+              event.sid = r.id;
+              event.color = r.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)";
+            } else {
+              event.color = 'grey';
+              event.stub = true;
+            }
+
+            if (r.po) {
+              event.title = r.po + ' - ' + r.company;
+            } else {
+              event.title = 'Time is booked';
+            }
+
+            source.push(event);
           });
           changeShipmentSource();
         });
@@ -195,9 +207,11 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
     };
 
     $scope.editShipment = function (data, jsEvent, view) {
+      if (data.stub)
+        return;
       if (admin) {
         data.admin = true,
-        data.status = data.color === "#FF8C00" ? 'shipping' : 'receiving'
+        data.status = data.color === "#FF8C00" ? 'shipping' : 'receiving';
       }
 
       $state.go('application.shipments.editShipment');
