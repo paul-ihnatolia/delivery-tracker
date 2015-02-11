@@ -1,59 +1,62 @@
-<div ng-if="newShipment.alert">
-  <div class="{{ 'alert alert-dismissible alert-' + newShipment.message.type}}" role="alert" ng-if="newShipment.message">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+<div ng-if="newShipment.message">
+  <div class="{{ 'alert alert-dismissible alert-' + newShipment.message.type}}" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
     {{ newShipment.message.content }}
   </div>
-<div>
-  <span ng-if="!newShipment.message">
-    <h2>New shipment</h2>
-    <form novalidate name="createShipment" ng-submit="newShipment.createNewShipment()">
-      <div class="form-group">
-        <label for="poNumber">PO Number</label>
-        <input type="text" class="form-control" ng-model="newShipment.shipment.po" id="poNumber" placeholder="PO Number" name="poNumber" required ng-pattern="/^(\d)+$/">
-        <div class="error-container" ng-show="createShipment.poNumber.$dirty && createShipment.poNumber.$invalid">
-          <small class="error" ng-show="createShipment.poNumber.$error.required">
-            PO number is required.
-          </small>
-          <small class="error" ng-show="createShipment.poNumber.$error.pattern">
-            Enter only numbers
-          </small>
-        </div>
+</div>
+
+<span ng-if="!newShipment.message">
+  <h2>New shipment</h2>
+  <form novalidate name="createShipment" ng-submit="newShipment.createNewShipment()">
+    <div class="form-group">
+      <label for="poNumber">PO Number</label>
+      <input type="text" class="form-control" ng-model="newShipment.shipment.po" id="poNumber" placeholder="PO Number" name="poNumber" required ng-pattern="/^(\d)+$/">
+      <div class="error-container" ng-show="createShipment.poNumber.$dirty && createShipment.poNumber.$invalid">
+        <small class="error" ng-show="createShipment.poNumber.$error.required">
+          PO number is required.
+        </small>
+        <small class="error" ng-show="createShipment.poNumber.$error.pattern">
+          Enter only numbers
+        </small>
       </div>
+    </div>
+    <div class="form-group">
+      <label for="company">Company</label>
+      <input type="text" class="form-control" ng-model="newShipment.shipment.company" id="company" placeholder="Company" name="company" required>
+      <div class="error-container" ng-show="createShipment.company.$dirty && createShipment.company.$invalid">
+        <small class="error" ng-show="createShipment.company.$error.required">
+          Company is required.
+        </small>
+      </div>
+    </div> 
+    <div class="form-group">
+      <label for="datestart">Delivery date start</label>
+        <div class="dropdown" >
+          <a class="dropdown-toggle my-toggle-select" role="button" data-toggle="dropdown" data-target="#" href="">
+            <div class="input-append">
+              <input type="text" class="form-control" ng-model="newShipment.shipment.startDate" data-date-time-input="MMMM Do YYYY HH:mm" >
+            </div>
+          </a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+              <datetimepicker data-ng-model="newShipment.shipment.startDate"
+                              data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select' }" ></datetimepicker>
+          </ul>
+        </div> 
+    </div>
+
       <div class="form-group">
-        <label for="company">Company</label>
-        <input type="text" class="form-control" ng-model="newShipment.shipment.company" id="company" placeholder="Company" name="company" required>
-        <div class="error-container" ng-show="createShipment.company.$dirty && createShipment.company.$invalid">
-          <small class="error" ng-show="createShipment.company.$error.required">
+        <label for="status">Status</label>
+        <select ng-model="newShipment.shipment.status" ng-options="option as option for option in newShipment.avaliableStatuses">
+        </select>
+        <div class="error-container" ng-show="createShipment.estimatedTime.$dirty && createShipment.estimatedTime.$invalid">
+          <small class="error" ng-show="createShipment.estimatedTime.$error.required">
             Company is required.
           </small>
         </div>
-      </div> 
-      <div class="form-group">
-        <label for="datestart">Delivery date start</label>
-          <div class="dropdown" >
-            <a class="dropdown-toggle my-toggle-select" role="button" data-toggle="dropdown" data-target="#" href="">
-              <div class="input-append">
-                <input type="text" class="form-control" ng-model="newShipment.shipment.startDate" data-date-time-input="MMMM Do YYYY HH:mm" >
-              </div>
-            </a>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                <datetimepicker data-ng-model="newShipment.shipment.startDate"
-                                data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select' }" ></datetimepicker>
-            </ul>
-          </div> 
       </div>
-
-        <div class="form-group">
-          <label for="status">Status</label>
-          <select ng-model="newShipment.shipment.status" ng-options="option as option for option in newShipment.avaliableStatuses">
-          </select>
-          <div class="error-container" ng-show="createShipment.estimatedTime.$dirty && createShipment.estimatedTime.$invalid">
-            <small class="error" ng-show="createShipment.estimatedTime.$error.required">
-              Company is required.
-            </small>
-          </div>
-        </div>
-      </div>
-      <button type="submit" class="btn btn-primary" ng-disabled="createShipment.$invalid">Submit</button>
-    </form>
-  </span>
+    </div>
+    <button type="submit" class="btn btn-primary" ng-disabled="createShipment.$invalid">Submit</button>
+  </form>
+</span>

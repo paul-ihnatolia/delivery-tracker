@@ -1,4 +1,4 @@
-(function () {
+  (function () {
   "use strict";
   angular.module('dtracker')
     .controller('NewShipmentCtrl', ['$scope', '$rootScope','Shipment', 'CheckShipment', '$state',
@@ -61,6 +61,7 @@
       };
 
       newShipment.showForm = function (e, data) {
+        console.log("showForm");
         newShipment.shipment = {
           po: '',
           company: '',
@@ -73,6 +74,7 @@
         $scope.$apply();
       };
 
-      $rootScope.$on('shipment:create', newShipment.showForm);
+      var createHandle = $rootScope.$on('shipment:create', newShipment.showForm);
+      $scope.$on('$destroy', createHandle);
     }]);
 }());

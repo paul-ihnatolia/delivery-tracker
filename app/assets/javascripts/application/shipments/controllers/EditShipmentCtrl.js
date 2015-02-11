@@ -24,7 +24,8 @@
       $scope.$apply();
     };
 
-    $rootScope.$on('shipment:edit', editShipment.showShipment);
+    var editHandle = $rootScope.$on('shipment:edit', editShipment.showShipment);
+    $scope.$on('$destroy', editHandle);
 
     editShipment.updateShipment = function () {
       editShipment.message = null;
