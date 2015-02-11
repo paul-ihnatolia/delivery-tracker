@@ -37,7 +37,8 @@
             url: '^/admin',
             templateUrl: 'application/shipments/templates/admin/admin-container.html',
             abstract: true
-        }).state('application.adminSide.shipments', {
+        })
+        .state('application.adminSide.shipments', {
             url: '/shipments',
             //views: {
             controller: 'CalendarCtrl as cal',
@@ -56,7 +57,13 @@
                 //     templateUrl: 'application/shipments/templates/admin/admin-calendar-receiving.html'
                 // }
             //}
-        }).state('application.shipments.newShipment', {
+        })
+        .state('application.adminSide.shipments.newShipment', {
+            url: '/new',
+            controller: "NewShipmentCtrl as newShipment",
+            templateUrl: 'application/shipments/templates/admin/admin-new-shipment.html'
+        })
+        .state('application.shipments.newShipment', {
             url: '/new',
             controller: 'NewShipmentCtrl as newShipment',
             templateUrl: 'application/shipments/templates/new-shipment.html'

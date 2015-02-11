@@ -188,7 +188,7 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
                 interval: shipmentsInterval,
                 status: $scope.carrierActiveShipment};
       }
-      $state.go('application.shipments.newShipment');
+      //$state.go('application.shipments.newShipment');
       setTimeout(function () {
         $rootScope.$emit("shipment:create", data);
       }, 100);

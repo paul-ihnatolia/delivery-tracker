@@ -18,6 +18,8 @@
       newShipment.createNewShipment = function () {
         var shipmentCal = {};
         var s = newShipment.shipment;
+
+        // if admin add admin true and status
         shipmentCal.start = s.startDate;
         shipmentCal.title = s.po +
         ' - ' + s.company;
@@ -61,6 +63,9 @@
       };
 
       newShipment.showForm = function (e, data) {
+        //if data admin - show modal window with standart new-shipment template.
+
+        //else if not admin?
         newShipment.shipment = {
           po: '',
           company: '',
