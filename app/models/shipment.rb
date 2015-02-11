@@ -7,7 +7,8 @@ class Shipment < ActiveRecord::Base
     # For carrier
     where(user_id: user.id)
   end
-
+  scope :by_email, ->(email) { joins(:user).where('users.email = ?', email) }
+  scope :by_status, ->(name) { where('shipments.status = ?', Shipment::statuses[name]) }
   validates_presence_of :user_id, message: "Your are not logged in."
 
   def as_json(options={})

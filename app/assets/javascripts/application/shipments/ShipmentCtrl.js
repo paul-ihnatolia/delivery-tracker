@@ -14,6 +14,9 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
     var admin = null;
 
     $scope.carrierEventSources =  [];
+    $scope.adminShipmentSources = [];
+    $scope.adminReceivingSources = [];
+    $scope.shippingUsers = ['dddd'];
 
     /* Render calendar */
     $scope.changeView = function (calendarName, view) {
@@ -77,39 +80,69 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
           changeShipmentSource();
         });
       } else {
-        $scope.userEmail = '';
+        // Create data objects and attach them to sources
+        admin = {};
+        admin.shippings = [];
+        //$scope.adminShipmentSources.push(admin.shippings);
+        admin.receivings = [];
+        //$scope.adminReceivingSources.push(admin.receivings);
         // Retrieve urls
         $http.get('/api/users')
         .success(function(data, status, headers, config) {
           // this callback will be called asynchronously
           // when the response is available
-          $scope.userEmails = data;
+          $scope.shippingUsers = data;
         })
         .error(function(data, status, headers, config) {
           // called asynchronously if an error occurs
           // or server returns response with an error status.
-          alert('Error happens when retrieving data');
+          alert('Error happens when retrieving user data');
         });
         
-        $scope.getEventsByEmail = function (userEmail) {
-          Shipment.query({email: userEmail}).$promise.then(function(data) {
-          $scope.events.splice(0, $scope.events.length);
-          angular.forEach(data, function (r) {
-            $scope.events.push({
-              sid: r.id,
-              start: r.start_date,
-              end: r.end_date,
-              title: r.po + ' - ' + r.company,
-              allDay: false,
-              color: r.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)"
-            });
-          });
+        // Separate user email for each calendar
+        //$scope.receivingUsers = userEmails;
+
+        $scope.$watch('shippingUser', function () {
+          // Retrieve data for that user
+          getEventsByEmail($scope.shippingUser, 'shipping');
         });
-        };
+
+        $scope.$watch('receivingUser', function () {
+          // Retrieve data for that user
+          getEventsByEmail($scope.receivingUser, 'receiving');
+        });
       }
     }
 
-    // Change events source, when shipment status changed
+    function getEventsByEmail(userEmail, status) {
+      Shipment.query({email: userEmail, status: status}).$promise.then(function(data) {
+      //$scope.events.splice(0, $scope.events.length);
+        var source = null;
+        var calendar = getCalendar(status);
+        if (status === 'shipping') {
+          calendar.fullCalendar('removeEventSource', admin.shippings);
+          admin.shippings = [];
+          source = admin.shippings;
+        } else {
+          calendar.fullCalendar('removeEventSource', admin.receivings);
+          admin.receivings = [];
+          source = admin.receivings;
+        }
+        angular.forEach(data, function (r) {
+          source.push({
+            sid: r.id,
+            start: r.start_date,
+            end: r.end_date,
+            title: r.po + ' - ' + r.company,
+            allDay: false,
+            color: r.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)"
+          });
+        });
+        calendar.fullCalendar('addEventSource', source);
+      });
+    }
+
+    // Change events source, when shipment status changed for carrier
     function changeShipmentSource () {
       // It fails first time, so wee need to
       // make a check
@@ -202,8 +235,16 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
     $rootScope.$on('shipment:updateEvent', $scope.updateEvent);
     $rootScope.$on('shipment:deleteEvent', $scope.deleteEvent);
 
-    function getCalendar() {
-      return uiCalendarConfig.calendars.myCalendar;
+    function getCalendar(type) {
+      if (type) {
+        if (type === 'shipping') {
+          return uiCalendarConfig.calendars.shippingCal;
+        } else {
+          return uiCalendarConfig.calendars.receivingCal;
+        }
+      } else {
+        return uiCalendarConfig.calendars.myCalendar;
+      }
     }
     // When user is resolved
     session.authPromise.then(function (user) {

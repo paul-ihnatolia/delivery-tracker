@@ -5,10 +5,14 @@ class Api::ShipmentsController < ApplicationController
 
   def index
     if current_user.admin?
+      @shipments = Shipment.all
+      
       if params[:email].present?
-        @shipments = Shipment.joins(:user).where('users.email = ?', params[:email])
-      else
-        @shipments = Shipment.all
+        @shipments = @shipments.by_email(params[:email])
+      end
+
+      if params[:status].present?
+        @shipments = @shipments.by_status(params[:status])
       end
     else
       @shipments = Shipment.by_user(current_user)

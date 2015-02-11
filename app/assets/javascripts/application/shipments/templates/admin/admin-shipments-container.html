@@ -1,3 +1,4 @@
+{{ llll }}
 <aside class="col-lg-6">
     <section class="panel">
         <div class="panel-body">
@@ -8,12 +9,15 @@
                         <button class="btn btn-danger" ng-click="changeView('shippingCal', 'agendaWeek')">AgendaWeek</button>
                         <button class="btn btn-danger" ng-click="changeView('shippingCal', 'month')">Month</button>
                     </div>
+                    <div class="pull-right">
+                        <select ng-model="shippingUser" ng-options="option as option for option in shippingUsers">
+                        </select>
+                    </div>
                 </div>
 
-                <div id="calendar" calendar="shippingCal" class="calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources">
+                <div id="calendar" calendar="shippingCal" class="calendar" ui-calendar="uiConfig.calendar" ng-model="adminShipmentSources">
                 </div>
             </div>
-            <!-- <div ui-view="adminShipping"></div> -->
         </div>
     </section>
 </aside>
@@ -27,12 +31,15 @@
                     <button class="btn btn-danger" ng-click="changeView('receivingCal', 'agendaWeek')">AgendaWeek</button>
                     <button class="btn btn-danger" ng-click="changeView('receivingCal', 'month')">Month</button>
                 </div>
+                <div class="pull-right">
+                    <select ng-model="receivingUser" ng-options="option as option for option in shippingUsers">
+                    </select>
+                </div>
             </div>
 
-            <div id="calendar" calendar="receivingCal" class="calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources">
+            <div id="calendar" calendar="receivingCal" class="calendar" ui-calendar="uiConfig.calendar" ng-model="adminReceivingSources">
             </div>
             <!-- <div ui-view="adminReceiving"></div> -->
         </div>
     </section>
-
 </aside>
