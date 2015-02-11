@@ -158,7 +158,7 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
       }
     }
 
-    function getActiveShipments () {
+    function getActiveShipments (status) {
       if (carrier) {
         if ($scope.carrierActiveShipment === 'shipping') {
           return carrier.shippingEvents;
@@ -166,20 +166,40 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
           return carrier.receivingEvents;
         }
       } else {
-        // TODO admin
+        if (status === 'shipping') {
+          return admin.shippings;
+        } else {
+          return admin.receivings;
+        }
       }
     }
 
-    $scope.createShipment = function(date){
+    $scope.createShipment = function(date, jsEvent, view){
+      var data = {};
+      if (admin) {
+        data = {
+          start: date,
+          interval: shipmentsInterval,
+          status: $(jsEvent.target).parents('.shipping-calendar').length > 0 ? 'shipping' : 'receiving',
+          admin: true
+        };
+      } else {
+        data = {start: date,
+                interval: shipmentsInterval,
+                status: $scope.carrierActiveShipment};
+      }
       $state.go('application.shipments.newShipment');
       setTimeout(function () {
-        $rootScope.$emit("shipment:create", {start: date,
-                                              interval: shipmentsInterval,
-                                              status: $scope.carrierActiveShipment});
+        $rootScope.$emit("shipment:create", data);
       }, 100);
     };
 
-    $scope.editShipment = function (data) {
+    $scope.editShipment = function (data, jsEvent, view) {
+      if (admin) {
+        data.admin = true,
+        data.status = data.color === "#FF8C00" ? 'shipping' : 'receiving'
+      }
+
       $state.go('application.shipments.editShipment');
       setTimeout(function () {
         $rootScope.$emit("shipment:edit", data);
@@ -187,8 +207,9 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
     };
 
     $scope.addShipmentToCalendar = function (e, data) {
-      var calendar = getCalendar();
-      var events = getActiveShipments();
+      // type: ShippingVSReceiving
+      var calendar = getCalendar(data.status);
+      var events = getActiveShipments(data.status);
       // Algorithm works next:
       // firstly remove all sources from fullcalendar,
       // than add event to source, and then add that source again
@@ -198,12 +219,13 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
     };
 
     $scope.updateEvent = function (e, data) {
-      var events = uiCalendarConfig.calendars.myCalendar.fullCalendar('clientEvents');
-      var sourceEvents = getActiveShipments();
+      var calendar = getCalendar(data.status);
+      var events = calendar.fullCalendar('clientEvents');
+      var sourceEvents = getActiveShipments(data.status);
       angular.forEach(events, function(e, i) {
         if (e.sid === data.sid ) {
           e.title = data.po + ' - ' + data.company;
-          uiCalendarConfig.calendars.myCalendar.fullCalendar('updateEvent', e);
+          calendar.fullCalendar('updateEvent', e);
         }
       });
       

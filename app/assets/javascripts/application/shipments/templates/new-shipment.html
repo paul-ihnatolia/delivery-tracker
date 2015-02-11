@@ -3,6 +3,7 @@
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     {{ newShipment.message.content }}
   </div>
+<div>
   <span ng-if="!newShipment.message">
     <h2>New shipment</h2>
     <form novalidate name="createShipment" ng-submit="newShipment.createNewShipment()">
@@ -56,4 +57,3 @@
       <button type="submit" class="btn btn-primary" ng-disabled="createShipment.$invalid">Submit</button>
     </form>
   </span>
-</div>
