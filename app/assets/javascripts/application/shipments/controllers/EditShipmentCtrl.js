@@ -9,6 +9,7 @@
     formShipment.shipment = {};
     formShipment.formTitle = "Edit Shipment";
     formShipment.action = 'edit';
+    formShipment.isAdmin = false;
 
     formShipment.avaliableStatuses = ["shipping", "receiving"];
 
@@ -27,6 +28,10 @@
       // shipment._id = shipmentData._id;
       // shipment.startDate = shipmentData.start;
       // shipment.endDate = shipmentData.end;
+      
+      //set admin
+      if(shipmentData.admin)
+        formShipment.isAdmin = true
 
       formShipment.shipment = {
         po        : companyPo[0],
@@ -35,7 +40,7 @@
         _id       : shipmentData._id,
         startDate : shipmentData.start,
         endDate   : shipmentData.end,
-        status    : shipmentData.status
+        status    : shipmentData.status,
       };
 
     //  formShipment.shipment = shipment;
@@ -46,19 +51,28 @@
 
     formShipment.process = function () {
       formShipment.message = null;
-      $http.put('/api/shipments/' + formShipment.shipment.sid,
-        { shipment: { po: formShipment.shipment.po,
-                      company: formShipment.shipment.company} })
-        .success(function(data, status, headers, config) {
-          $rootScope.$emit('shipment:updateEvent', formShipment.shipment);
-          formShipment.message = {
-            type: 'success',
-            content: 'Shipment was updated.'
-          };
-        })
-        .error(function(data, status, headers, config) {
-          $scope.errors = data.errors;
-        });
+      
+      if(formShipment.isAdmin){
+        var update = $http.put('/api/shipments/' + formShipment.shipment.sid,
+            { shipment: { po: formShipment.shipment.po,
+                          company: formShipment.shipment.company} });
+      }
+      else{
+        var update = $http.put('/api/shipments/' + formShipment.shipment.sid,
+            { shipment: formShipment.shipment });
+      }
+
+
+      update.success(function(data, status, headers, config) {
+        $rootScope.$emit('shipment:updateEvent', formShipment.shipment);
+        formShipment.message = {
+          type: 'success',
+          content: 'Shipment was updated.'
+        };
+      })
+      .error(function(data, status, headers, config) {
+        $scope.errors = data.errors;
+      });
     };
 
     formShipment.deleteShipment = function (event) {
