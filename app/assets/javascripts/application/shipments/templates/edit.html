@@ -6,7 +6,7 @@
 <div ng-if="!editShipment.message">
   <h2> Edit shipment: </h2>
   <auth-error></auth-error>
-  <form novalidate name="shipmentForm" ng-submit="editShipment.updateShipment()">
+  <form novalidate name="shipmentForm" ng-submit="editShipment.process()">
   <div class="form-group">
     <label for="poNumber">PO Number</label>
     <input type="text" class="form-control" ng-model="editShipment.shipment.po" id="poNumber" placeholder="PO Number" name="poNumber" required ng-pattern="/^(\d)+$/">

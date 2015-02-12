@@ -3,21 +3,23 @@
   angular.module('dtracker')
     .controller('NewShipmentCtrl', ['$scope', '$rootScope','Shipment', 'CheckShipment', '$state',
       function ($scope, $rootScope, Shipment, CheckShipment, $state) {
-      var newShipment = this;
-      newShipment.shipment = {
+      var formShipment = this;
+      formShipment.shipment = {
         po: '',
         company: '',
         startDate: '',
         endDate: '',
         status: ''
       };
-      newShipment.message = null;
+      formShipment.message = null;
+      formShipment.formTitle = "Create Shipment";
+      formShipment.action = 'create';
 
-      newShipment.avaliableStatuses = ["shipping", "receiving"];
+      formShipment.avaliableStatuses = ["shipping", "receiving"];
 
-      newShipment.createNewShipment = function () {
+      formShipment.process = function () {
         var shipmentCal = {};
-        var s = newShipment.shipment;
+        var s = formShipment.shipment;
 
         // if admin add admin true and status
         shipmentCal.start = s.startDate;
@@ -31,7 +33,7 @@
           alert('New shipment is overlapping existing!');
         } else {
           // Call to the server
-          newShipment.message = null;
+          formShipment.message = null;
           var shipment = new Shipment({shipment: {start_date: shipmentCal.start,
                                                   end_date: shipmentCal.end,
                                                   po: s.po,
@@ -43,14 +45,14 @@
               shipmentCal.color = data.shipment.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)";
               shipmentCal.sid = data.shipment.id;
               $rootScope.$emit('addShipmentToCalendar', {shipment: shipmentCal});
-              newShipment.shipment = {
+              formShipment.shipment = {
                 po: '',
                 company: '',
                 startDate: '',
                 endDate: '',
                 timeElapsed: ''
               };
-              newShipment.message = {
+              formShipment.message = {
                 content: 'Shipment was saved.',
                 type: 'success'
               };
@@ -62,11 +64,13 @@
         }
       };
 
-      newShipment.showForm = function (e, data) {
+      formShipment.showForm = function (e, data) {
         //if data admin - show modal window with standart new-shipment template.
+        // if(data.admin){
+        // }
 
         //else if not admin?
-        newShipment.shipment = {
+        formShipment.shipment = {
           po: '',
           company: '',
           startDate: data.start,
@@ -74,10 +78,10 @@
           timeElapsed: data.interval,
           status: data.status
         };
-        newShipment.message = null;
+        formShipment.message = null;
         $scope.$apply();
       };
 
-      $rootScope.$on('shipment:create', newShipment.showForm);
+      $rootScope.$on('shipment:create', formShipment.showForm);
     }]);
 }());

@@ -60,8 +60,13 @@
         })
         .state('application.adminSide.shipments.newShipment', {
             url: '/new',
-            controller: "NewShipmentCtrl as newShipment",
-            templateUrl: 'application/shipments/templates/admin/admin-new-shipment.html'
+            controller: "NewShipmentCtrl as formShipment",
+            templateUrl: 'application/shipments/templates/admin/admin-form-shipment.html'
+        })
+        .state('application.adminSide.shipments.editShipment', {
+            url: '/edit',
+            controller: "EditShipmentCtrl as formShipment",
+            templateUrl: 'application/shipments/templates/admin/admin-form-shipment.html'
         })
         .state('application.shipments.newShipment', {
             url: '/new',

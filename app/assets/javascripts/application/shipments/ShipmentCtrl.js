@@ -18,6 +18,7 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
     $scope.adminReceivingSources = [];
     $scope.shippingUsers = ['dddd'];
 
+
     /* Render calendar */
     $scope.changeView = function (calendarName, view) {
       uiCalendarConfig.calendars[calendarName].fullCalendar('changeView',view);
@@ -183,12 +184,14 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
           status: $(jsEvent.target).parents('.shipping-calendar').length > 0 ? 'shipping' : 'receiving',
           admin: true
         };
+        $state.go('application.adminSide.shipments.newShipment');
       } else {
         data = {start: date,
                 interval: shipmentsInterval,
                 status: $scope.carrierActiveShipment};
+        $state.go('application.shipments.newShipment');
       }
-      //$state.go('application.shipments.newShipment');
+      //broadcast status on
       setTimeout(function () {
         $rootScope.$emit("shipment:create", data);
       }, 100);
@@ -198,9 +201,12 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
       if (admin) {
         data.admin = true,
         data.status = data.color === "#FF8C00" ? 'shipping' : 'receiving'
+        $state.go('application.adminSide.shipments.editShipment');
+      }
+      else{
+        $state.go('application.shipments.editShipment');
       }
 
-      $state.go('application.shipments.editShipment');
       setTimeout(function () {
         $rootScope.$emit("shipment:edit", data);
       }, 100);
