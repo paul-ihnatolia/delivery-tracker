@@ -10,6 +10,7 @@
     "angular-bootstrap-datetimepicker": "latest",
     "intl-tel-input": "latest",
     "ng-table": "latest",
-    "ng-table-export": "latest"
+    "ng-table-export": "latest",
+    "angular-daterangepicker": "~0.1.12"
   }
 }

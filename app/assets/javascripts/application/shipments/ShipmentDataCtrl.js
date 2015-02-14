@@ -2,6 +2,20 @@ var dtracker = angular.module('dtracker');
 
 dtracker.controller('ShipmentDataCtrl', ['$http', '$scope', '$filter', 'ngTableParams', function ($http, $scope, $filter, ngTableParams) {
 	var statistics = this;
+    $scope.dateRangeFilter = {startDate: null, endDate: null};
+    //after updating data in filter - apply filter
+    
+    $scope.shippingUsers = {};
+    $scope.chosenUser = "";
+    //when chosenUser will be set perform filter by user
+
+    $http.get('/api/users')
+    .success(function(data, status, headers, config) {
+      // this callback will be called asynchronously
+      // when the response is available
+      $scope.shippingUsers = data;
+    })
+
     $http.get('/api/shipments').
     success(function(data) {
         statistics.shipments = data;
