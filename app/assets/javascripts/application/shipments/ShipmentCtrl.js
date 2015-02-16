@@ -178,10 +178,23 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
     $scope.createShipment = function(date, jsEvent, view){
       var data = {};
       if (admin) {
+        var status = $(jsEvent.target).parents('.shipping-calendar').length > 0 ? 'shipping' : 'receiving';
+        var user = null;
+        if (status == 'shipping') {
+          user = $scope.shippingUser;
+        } else {
+          user = $scope.receivingUser;
+        }
+
+        if (!user) {
+          alert('Select carrier first.');
+          return;
+        }
         data = {
           start: date,
           interval: shipmentsInterval,
-          status: $(jsEvent.target).parents('.shipping-calendar').length > 0 ? 'shipping' : 'receiving',
+          status: status,
+          user: user,
           admin: true
         };
         $state.go('application.adminSide.shipments.newShipment');

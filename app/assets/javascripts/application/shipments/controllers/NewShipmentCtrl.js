@@ -20,38 +20,34 @@
       formShipment.avaliableStatuses = ["shipping", "receiving"];
 
       formShipment.process = function () {
-        var shipmentCal = {};
         var s = formShipment.shipment;
-
-        shipmentCal.start = s.startDate;
-        shipmentCal.title = s.po +
-        ' - ' + s.company;
-        shipmentCal.start = moment(s.startDate).format("YYYY-MM-DD HH:mm:ss z");
         
-        //if is admin
-        if (formShipment.isAdmin){
-          shipmentCal.end = s.endDate;
-          shipmentCal.status = s.status;
-          shipmentCal.admin = formShipment.isAdmin;
+        //Data which will be send to server
+        var shipmentServerData = {
+          start_date: moment(s.startDate).format("YYYY-MM-DD HH:mm:ss z"),
+          end_date: moment(s.startDate).add(s.timeElapsed, 'minutes').format("YYYY-MM-DD HH:mm:ss z"),
+          po: s.po,
+          status: s.status,
+          company: s.company
+        };
+        
+        if (formShipment.isAdmin) {
+          shipmentServerData.user = s.user;
         }
-        else
-          shipmentCal.end = moment(s.startDate).add(s.timeElapsed, 'minutes').format("YYYY-MM-DD HH:mm:ss z");
         
-        shipmentCal.allDay = false;
-        // Contact to service
-        if (CheckShipment.isOverlapping(shipmentCal)) {
+        if (CheckShipment.isOverlapping(shipmentServerData, s.status)) {
           alert('New shipment is overlapping existing!');
         } else {
           // Call to the server
           formShipment.message = null;
-          var shipment = new Shipment({shipment: {start_date: shipmentCal.start,
-                                                  end_date: shipmentCal.end,
-                                                  po: s.po,
-                                                  company: s.company,
-                                                  status: s.status}});
+          var shipment = new Shipment({shipment: shipmentServerData});
           shipment.$save(
             function (data) {
-              console.log(data);
+              var shipmentCal = {};
+              shipmentCal.allDay = false;
+              shipmentCal.title = shipmentServerData.po + ' - ' + shipmentServerData.company;
+              shipmentCal.start = shipmentServerData.start_date;
+              shipmentCal.end = shipmentServerData.end_date;
               shipmentCal.color = data.shipment.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)";
               shipmentCal.sid = data.shipment.id;
               $rootScope.$emit('addShipmentToCalendar', {shipment: shipmentCal});
@@ -75,12 +71,6 @@
       };
 
       formShipment.showForm = function (e, data) {
-        //if data admin - show modal window with standart new-shipment template.
-        
-        //set if user is admin
-        if(data.admin)
-          formShipment.isAdmin = true;
-
         //else if not admin?
         formShipment.shipment = {
           po: '',
@@ -88,10 +78,18 @@
           startDate: data.start,
           endDate: '',
           timeElapsed: data.interval,
-          status: data.status
+          status: data.status,
+          user: data.user
         };
         formShipment.message = null;
         $scope.$apply();
+        //if data admin - show modal window with standart new-shipment template.
+        
+        //set if user is admin
+        if(data.admin) {
+          formShipment.isAdmin = true;
+          $('#myModal').modal('show');
+        }
       };
 
       $rootScope.$on('shipment:create', formShipment.showForm);

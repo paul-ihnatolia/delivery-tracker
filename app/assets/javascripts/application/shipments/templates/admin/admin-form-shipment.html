@@ -8,15 +8,15 @@
             </div>
             <div class="modal-body">
 
-              <form novalidate name="editShipment" ng-submit="formShipment.process()">
+              <form novalidate name="shipmentForm" ng-submit="formShipment.process()">
                 <div class="form-group">
                   <label for="poNumber">PO Number</label>
                   <input type="text" class="form-control" ng-model="formShipment.shipment.po" id="poNumber" placeholder="PO Number" name="poNumber" required ng-pattern="/^(\d)+$/">
-                  <div class="error-container" ng-show="createShipment.poNumber.$dirty && createShipment.poNumber.$invalid">
-                    <small class="error" ng-show="createShipment.poNumber.$error.required">
+                  <div class="error-container" ng-show="shipmentForm.poNumber.$dirty && shipmentForm.poNumber.$invalid">
+                    <small class="error" ng-show="shipmentForm.poNumber.$error.required">
                       PO number is required.
                     </small>
-                    <small class="error" ng-show="createShipment.poNumber.$error.pattern">
+                    <small class="error" ng-show="shipmentForm.poNumber.$error.pattern">
                       Enter only numbers
                     </small>
                   </div>
@@ -24,8 +24,8 @@
                 <div class="form-group">
                   <label for="company">Company</label>
                   <input type="text" class="form-control" ng-model="formShipment.shipment.company" id="company" placeholder="Company" name="company" required>
-                  <div class="error-container" ng-show="createShipment.company.$dirty && createShipment.company.$invalid">
-                    <small class="error" ng-show="createShipment.company.$error.required">
+                  <div class="error-container" ng-show="shipmentForm.company.$dirty && shipmentForm.company.$invalid">
+                    <small class="error" ng-show="shipmentForm.company.$error.required">
                       Company is required.
                     </small>
                   </div>
@@ -45,38 +45,18 @@
                     </div> 
                 </div>
                 <div class="form-group">
-                  <label for="datestart">Delivery date end</label>
-                    <div class="dropdown" >
-                      <a class="dropdown-toggle my-toggle-select" role="button" data-toggle="dropdown" data-target="#" href="">
-                        <div class="input-append">
-                          <input type="text" class="form-control" ng-model="formShipment.shipment.endDate" data-date-time-input="MMMM Do YYYY HH:mm" >
-                        </div>
-                      </a>
-                      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                          <datetimepicker data-ng-model="formShipment.shipment.endDate"
-                                          data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select' }" ></datetimepicker>
-                      </ul>
-                    </div> 
+                  <label for="carrier"> Carrier: </label>
+                  {{ formShipment.shipment.user }}
                 </div>
-
-                  <div class="form-group">
-                    <label for="status">Status</label>
-                    <select ng-model="formShipment.shipment.status" ng-options="option as option for option in formShipment.avaliableStatuses">
-                    </select>
-                    <div class="error-container" ng-show="formShipment.estimatedTime.$dirty && formShipment.estimatedTime.$invalid">
-                      <small class="error" ng-show="formShipment.estimatedTime.$error.required">
-                        Company is required.
-                      </small>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <button type="submit" class="btn btn-primary" ng-disabled="formShipment.$invalid">Submit</button>
-                  </div>
+                <div class="form-group">
+                  <label for="status">Status: </label>
+                  {{ formShipment.shipment.status }}
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary" ng-disabled="shipmentForm.$invalid">Submit</button>
                 </div>                
               </form>
+            </div>
           </div>
     </div>
 </div>
-<script type="text/javascript">
-  $('#myModal').modal('show'); 
-</script>

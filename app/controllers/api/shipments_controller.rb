@@ -25,8 +25,14 @@ class Api::ShipmentsController < ApplicationController
   end
 
   def create
+    shipment_params = shipment_params()
+    shipment_params[:user] = if current_user.admin?
+      User.find_by(email: shipment_params[:user])
+    else
+      current_user
+    end
+
     @shipment = Shipment.new(shipment_params)
-    @shipment.user = current_user
 
     if @shipment.save
       render json: { shipment: @shipment }
@@ -62,7 +68,11 @@ class Api::ShipmentsController < ApplicationController
 
   private
   def shipment_params
-    params.require(:shipment).permit(:po, :start_date, :end_date, :company, :status)
+    if current_user.admin?
+      params.require(:shipment).permit(:po, :start_date, :end_date, :company, :status, :user)
+    else
+      params.require(:shipment).permit(:po, :start_date, :end_date, :company, :status)
+    end
   end
 
   def shipment_update_params
