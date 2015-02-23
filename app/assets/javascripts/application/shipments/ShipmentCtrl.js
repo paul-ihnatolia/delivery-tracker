@@ -136,7 +136,8 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
             end: r.end_date,
             title: r.po + ' - ' + r.company,
             allDay: false,
-            color: r.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)"
+            color: r.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)",
+            user: r.user
           });
         });
         calendar.fullCalendar('addEventSource', source);
@@ -227,14 +228,14 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
 
     $scope.addShipmentToCalendar = function (e, data) {
       // type: ShippingVSReceiving
-      var calendar = getCalendar(data.status);
-      var events = getActiveShipments(data.status);
+      var calendar = getCalendar(data.shipment.status);
+      var events = getActiveShipments(data.shipment.status);
       // Algorithm works next:
       // firstly remove all sources from fullcalendar,
       // than add event to source, and then add that source again
       calendar.fullCalendar( 'removeEventSource',  events);
       events.push(data.shipment);
-      uiCalendarConfig.calendars.myCalendar.fullCalendar('addEventSource', events);
+      calendar.fullCalendar('addEventSource', events);
     };
 
     $scope.updateEvent = function (e, data) {
@@ -260,7 +261,7 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
     $scope.deleteEvent = function (e, data) {
       var sid = data.sid;
       var _id = data._id;
-      var calendar = getCalendar();
+      var calendar = getCalendar(data.status);
       calendar.fullCalendar('removeEvents', _id);
       var events = getActiveShipments();
       // Also remove it manually from event source

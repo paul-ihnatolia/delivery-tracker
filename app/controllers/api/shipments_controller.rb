@@ -43,7 +43,7 @@ class Api::ShipmentsController < ApplicationController
 
   def update
     # If user tries to update foreign shipment
-    if @shipment.user != current_user
+    if !current_user.admin? && @shipment.user != current_user
       render json: { errors: "You don't have permissions" }, status: 403
       return
     end
@@ -56,7 +56,7 @@ class Api::ShipmentsController < ApplicationController
   end
 
   def destroy
-    if @shipment.user != current_user
+    if !current_user.admin? && @shipment.user != current_user
       render json: { errors: "You don't have permissions" }, status: 403
       return
     end

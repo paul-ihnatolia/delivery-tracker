@@ -50,6 +50,10 @@
               shipmentCal.end = shipmentServerData.end_date;
               shipmentCal.color = data.shipment.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)";
               shipmentCal.sid = data.shipment.id;
+              if (formShipment.isAdmin) {
+                shipmentCal.user = shipmentServerData.user;
+                shipmentCal.status = shipmentServerData.status;
+              }
               $rootScope.$emit('addShipmentToCalendar', {shipment: shipmentCal});
               formShipment.shipment = {
                 po: '',
@@ -62,6 +66,9 @@
                 content: 'Shipment was saved.',
                 type: 'success'
               };
+              if(formShipment.isAdmin) {
+                $('#myModal').modal('hide');
+              }
             },
             function (error) {
               alert("Some errors happened!");

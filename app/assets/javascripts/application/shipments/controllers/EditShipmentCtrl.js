@@ -21,17 +21,10 @@
       var companyPo = shipmentData.title.split(/\s-\s/);
       formShipment.message = null;
       
-      //console.log(shipmentData);
-      // shipment.po = companyPo[0];
-      // shipment.company = companyPo[1];
-      // shipment.sid = shipmentData.sid;
-      // shipment._id = shipmentData._id;
-      // shipment.startDate = shipmentData.start;
-      // shipment.endDate = shipmentData.end;
-      
       //set admin
-      if(shipmentData.admin)
-        formShipment.isAdmin = true
+      if(shipmentData.admin) {
+        formShipment.isAdmin = true;
+      }
 
       formShipment.shipment = {
         po        : companyPo[0],
@@ -41,10 +34,14 @@
         startDate : shipmentData.start,
         endDate   : shipmentData.end,
         status    : shipmentData.status,
+        user      : shipmentData.user
       };
 
     //  formShipment.shipment = shipment;
       $scope.$apply();
+      if (formShipment.isAdmin) {
+        $('#myModal').modal('show');
+      }
     };
 
     $rootScope.$on('shipment:edit', formShipment.showShipment);
@@ -69,6 +66,9 @@
           type: 'success',
           content: 'Shipment was updated.'
         };
+        if (formShipment.isAdmin) {
+          $('#myModal').modal('hide');
+        }
       })
       .error(function(data, status, headers, config) {
         $scope.errors = data.errors;
@@ -81,11 +81,15 @@
         $http.delete('/api/shipments/' + shipmentId)
         .success(function (data, status) {
           $rootScope.$emit('shipment:deleteEvent', {sid: formShipment.shipment.sid,
-                                                    _id: formShipment.shipment._id});
+                                                    _id: formShipment.shipment._id,
+                                                    status: formShipment.shipment.status});
           formShipment.message = {
             type: 'success',
             content: 'Shipment was deleted.'
           };
+          if (formShipment.isAdmin) {
+            $('#myModal').modal('hide');
+          }
         }).error(function(data, status){
           $scope.errors = data.errors;
         });

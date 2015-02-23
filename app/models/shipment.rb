@@ -18,7 +18,8 @@ class Shipment < ActiveRecord::Base
     	end_date: self.end_date.to_s,
       po: self.po,
       company: self.company,
-      status: self.status
+      status: self.status,
+      user: self.user.email
    	}
   end
 end
