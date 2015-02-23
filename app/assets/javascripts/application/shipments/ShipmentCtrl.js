@@ -4,8 +4,8 @@
 
 var dtracker = angular.module('dtracker');
 
-dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '$rootScope', "uiCalendarConfig", 'Session', '$state',
-  function ($http, $scope, Shipment, $timeout, $rootScope, uiCalendarConfig, session, $state) {
+dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '$rootScope', "uiCalendarConfig", 'Session', '$state', 'CheckShipment',
+  function ($http, $scope, Shipment, $timeout, $rootScope, uiCalendarConfig, session, $state, CheckShipment) {
     // Duration of event
     var shipmentsInterval = parseInt($('.settings').data("schedule-interval"), 10);
     var slotDuration = "00:30:00";
@@ -43,7 +43,9 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
           },
           // it will passe clicked date into function
           dayClick: $scope.createShipment,
-          eventClick: $scope.editShipment
+          eventClick: $scope.editShipment,
+          eventResize: $scope.changeTime,
+          eventDrop: $scope.changeTime
         }
       };
 
@@ -175,6 +177,29 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
         }
       }
     }
+
+    // Only for admin
+    $scope.changeTime = function ( event, delta, revertFunc, jsEvent, ui, view ) {
+      var status = event.color === "#FF8C00" ? 'shipping' : 'receiving';
+      var shipment = {  start_date: moment(event.start).format("YYYY-MM-DD HH:mm:ss z"),
+                        end_date: moment(event.end).format("YYYY-MM-DD HH:mm:ss z"),
+                        id: event._id,
+                        sid: event.sid
+                      };
+      if (CheckShipment.isOverlapping(shipment, status)) {
+        alert('Shipment is overlapping existing!');
+        revertFunc();
+      } else {
+        $http.put('/api/shipments/' + shipment.sid,
+            { shipment: shipment })
+        .success(function(data, status, headers, config) {
+          // Ommit spinner
+        })
+        .error(function(data, status, headers, config) {
+          revertFunc();
+        });
+      }
+    };
 
     $scope.createShipment = function(date, jsEvent, view){
       var data = {};
