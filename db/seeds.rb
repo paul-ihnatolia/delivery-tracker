@@ -15,3 +15,5 @@ User.create(email: 'admin@dtracker.com',
             role: 'admin',
             password: '123456789',
             password_confirmation: '123456789')
+
+CalendarSetting.create(slot_duration: '00:30:00')

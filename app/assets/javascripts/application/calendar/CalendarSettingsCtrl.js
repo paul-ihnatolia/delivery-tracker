@@ -1,9 +1,10 @@
 (function () {
   'use strict';
   angular.module('dtracker')
-    .controller('CalendarSettingsCtrl', ['$scope', function ($scope) {
+    .controller('CalendarSettingsCtrl', ['$scope', '$http',
+      function ($scope, $http) {
       var calendarSettings = this;
-      calendarSettings.slot_duration = '';
+      calendarSettings.slot_duration = '00:40:00';
 
       calendarSettings.setSlotDuration = function () {
         // 01:00:00
