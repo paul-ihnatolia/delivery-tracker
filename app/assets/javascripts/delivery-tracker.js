@@ -38,25 +38,15 @@
             templateUrl: 'application/shipments/templates/admin/admin-container.html',
             abstract: true
         })
+        .state('application.adminSide.calendar_settings', {
+            url: '^/calendar-settings',
+            templateUrl: 'application/calendar/calendar_settings.html',
+            controller: 'CalendarSettingsCtrl as cs'
+        })
         .state('application.adminSide.shipments', {
             url: '/shipments',
-            //views: {
             controller: 'CalendarCtrl as cal',
             templateUrl: 'application/shipments/templates/admin/admin-shipments-container.html'
-                // '': {templateUrl: 'application/shipments/templates/admin/admin-shipments-container.html'},
-                // 'adminControls@application.adminSide.shipments': {
-                //     //controller: 'CalendarCtrl as cal',
-                //     templateUrl: 'application/shipments/templates/admin/admin-controls.html'
-                // },
-                // 'adminShipping@application.adminSide.shipments': {
-                //     //controller: 'CalendarCtrl as cal',
-                //     templateUrl: 'application/shipments/templates/admin/admin-calendar-shipping.html'
-                // },
-                // 'adminReceiving@application.adminSide.shipments': {
-                //     //controller: 'CalendarCtrl as cal',
-                //     templateUrl: 'application/shipments/templates/admin/admin-calendar-receiving.html'
-                // }
-            //}
         })
         .state('application.adminSide.shipments.newShipment', {
             url: '/new',

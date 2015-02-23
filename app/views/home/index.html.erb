@@ -1,5 +1,5 @@
 <%= javascript_include_tag "intl-tel-input/lib/libphonenumber/build/utils.js" %>
 
-<div class="settings" data-schedule-interval="30" style="visibility:hidden;"></div>
+<div class="settings" data-slot-duration="<%= CalendarSetting.first.slot_duration.strftime("%T") %>" data-schedule-interval="<%= CalendarSetting.first.to_minutes %>" style="visibility:hidden;"></div>
 <div ui-view>
 </div>

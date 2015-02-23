@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: {format: :json} do
     resources :shipments
     resources :users, only: :index
+    resource :calendar_settings, only: [:create, :update]
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

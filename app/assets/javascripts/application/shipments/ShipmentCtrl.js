@@ -8,7 +8,7 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
   function ($http, $scope, Shipment, $timeout, $rootScope, uiCalendarConfig, session, $state, CheckShipment) {
     // Duration of event
     var shipmentsInterval = parseInt($('.settings').data("schedule-interval"), 10);
-    var slotDuration = "00:30:00";
+    var slotDuration = $('.settings').data("slot-duration");// "00:30:00";
     // Object which contains carrier specific logic
     var carrier = null;
     var admin = null;
