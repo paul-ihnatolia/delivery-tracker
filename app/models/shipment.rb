@@ -13,6 +13,7 @@ class Shipment < ActiveRecord::Base
   end
 
   scope :by_email, ->(email) { joins(:user).where('users.email = ?', email) }
+  scope :not_by_email, ->(email) { joins(:user).where('users.email != ?', email) }
   scope :by_status, ->(name) { where('shipments.status = ?', Shipment::statuses[name]) }
   scope :from_today, ->{ where('shipments.start_date > ?', Time.zone.now.beginning_of_day) }
 
@@ -26,6 +27,7 @@ class Shipment < ActiveRecord::Base
     object[:po] = po if has_attribute?(:po)
     object[:company] = company if has_attribute?(:company)
     object[:status] = status if has_attribute?(:status)
+    object[:user] = self.user.email if has_attribute?(:user_id)
     object
   end
 end

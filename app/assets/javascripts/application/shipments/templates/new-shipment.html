@@ -1,3 +1,4 @@
+
 <div ng-if="newShipment.message">
   <div class="{{ 'alert alert-dismissible alert-' + newShipment.message.type}}" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -9,7 +10,7 @@
 
 <span ng-if="!newShipment.message">
   <h2>New shipment</h2>
-  <form novalidate name="createShipment" ng-submit="newShipment.createNewShipment()">
+  <form novalidate name="createShipment" ng-submit="newShipment.process()">
     <div class="form-group">
       <label for="poNumber">PO Number</label>
       <input type="text" class="form-control" ng-model="newShipment.shipment.po" id="poNumber" placeholder="PO Number" name="poNumber" required ng-pattern="/^(\d)+$/">

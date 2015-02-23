@@ -19,13 +19,13 @@
               </button>
 
               <!--logo start-->
-              <a href="index.html" class="logo" ><%= image_tag 'logo.jpg', alt:"Hanzo Logistics" %></a>
+              <a href="#" class="logo" ><%= image_tag 'logo.jpg', alt:"Hanzo Logistics" %></a>
               <!--logo end-->
               <div class="horizontal-menu navbar-collapse collapse ">
                   <ul class="nav navbar-nav">
-                      <li class="active"><a ui-sref="application.shipments">My Shipments</a></li>
-                      <li><a ui-sref="application.adminSide.shipments">Admin</a></li>
-                      <li><a href="#">Orders</a></li>
+                      <li ng-if="!currentUser.hasRole('admin')"><a ui-sref="application.shipments">My Shipments</a></li>
+                      <li ng-if="currentUser.hasRole('admin')"><a ui-sref="application.adminSide.shipments">Admin</a></li>
+                      <li ng-if="currentUser.hasRole('admin')"><a ui-sref="application.adminSide.statistics">Orders</a></li>
                   </ul>
               </div>
               <div class="top-nav ">
@@ -60,9 +60,6 @@
     <footer class="site-footer">
         <div class="text-center">
             2015 &copy; HanzoLogistics
-            <a href="#" class="go-top">
-                <i class="icon-angle-up"></i>
-            </a>
         </div>
     </footer>
     <!--footer end-->

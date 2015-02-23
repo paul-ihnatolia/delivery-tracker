@@ -3,55 +3,73 @@
   angular.module('dtracker')
     .controller('NewShipmentCtrl', ['$scope', '$rootScope','Shipment', 'CheckShipment', '$state',
       function ($scope, $rootScope, Shipment, CheckShipment, $state) {
-      var newShipment = this;
-      newShipment.shipment = {
+      var formShipment = this;
+      formShipment.shipment = {
         po: '',
         company: '',
         startDate: '',
         endDate: '',
         status: ''
       };
-      newShipment.message = null;
+      formShipment.message = null;
+      formShipment.formTitle = "Create Shipment";
+      formShipment.action = 'create';
 
-      newShipment.avaliableStatuses = ["shipping", "receiving"];
+      formShipment.isAdmin = false;
 
-      newShipment.createNewShipment = function () {
-        var shipmentCal = {};
-        var s = newShipment.shipment;
-        shipmentCal.start = s.startDate;
-        shipmentCal.title = s.po +
-        ' - ' + s.company;
-        shipmentCal.start = moment(s.startDate).format("YYYY-MM-DD HH:mm:ss z");
-        shipmentCal.end = moment(s.startDate).add(s.timeElapsed, 'minutes').format("YYYY-MM-DD HH:mm:ss z");
-        shipmentCal.allDay = false;
-        // Contact to service
-        if (CheckShipment.isOverlapping(shipmentCal)) {
+      formShipment.avaliableStatuses = ["shipping", "receiving"];
+
+      formShipment.process = function () {
+        var s = formShipment.shipment;
+        
+        //Data which will be send to server
+        var shipmentServerData = {
+          start_date: moment(s.startDate).format("YYYY-MM-DD HH:mm:ss z"),
+          end_date: moment(s.startDate).add(s.timeElapsed, 'minutes').format("YYYY-MM-DD HH:mm:ss z"),
+          po: s.po,
+          status: s.status,
+          company: s.company
+        };
+        
+        if (formShipment.isAdmin) {
+          shipmentServerData.user = s.user;
+        }
+        
+        var status = formShipment.isAdmin ? s.status : null;
+        if (CheckShipment.isOverlapping(shipmentServerData, status)) {
           alert('New shipment is overlapping existing!');
         } else {
           // Call to the server
-          newShipment.message = null;
-          var shipment = new Shipment({shipment: {start_date: shipmentCal.start,
-                                                  end_date: shipmentCal.end,
-                                                  po: s.po,
-                                                  company: s.company,
-                                                  status: s.status}});
+          formShipment.message = null;
+          var shipment = new Shipment({shipment: shipmentServerData});
           shipment.$save(
             function (data) {
-              console.log(data);
+              var shipmentCal = {};
+              shipmentCal.allDay = false;
+              shipmentCal.title = shipmentServerData.po + ' - ' + shipmentServerData.company;
+              shipmentCal.start = shipmentServerData.start_date;
+              shipmentCal.end = shipmentServerData.end_date;
               shipmentCal.color = data.shipment.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)";
               shipmentCal.sid = data.shipment.id;
+              if (formShipment.isAdmin) {
+                shipmentCal.user = shipmentServerData.user;
+                shipmentCal.status = shipmentServerData.status;
+              }
               $rootScope.$emit('addShipmentToCalendar', {shipment: shipmentCal});
-              newShipment.shipment = {
+              formShipment.shipment = {
                 po: '',
                 company: '',
                 startDate: '',
                 endDate: '',
                 timeElapsed: ''
               };
-              newShipment.message = {
+              formShipment.message = {
                 content: 'Shipment was saved.',
                 type: 'success'
               };
+              if(formShipment.isAdmin) {
+                $('#myModal').modal('hide');
+              }
             },
             function (error) {
               alert("Some errors happened!");
@@ -60,21 +78,29 @@
         }
       };
 
-      newShipment.showForm = function (e, data) {
-        console.log("showForm");
-        newShipment.shipment = {
+      formShipment.showForm = function (e, data) {
+        //else if not admin?
+        formShipment.shipment = {
           po: '',
           company: '',
           startDate: data.start,
           endDate: '',
           timeElapsed: data.interval,
-          status: data.status
+          status: data.status,
+          user: data.user
         };
-        newShipment.message = null;
+        formShipment.message = null;
         $scope.$apply();
+        //if data admin - show modal window with standart new-shipment template.
+        
+        //set if user is admin
+        if(data.admin) {
+          formShipment.isAdmin = true;
+          $('#myModal').modal('show');
+        }
       };
 
-      var createHandle = $rootScope.$on('shipment:create', newShipment.showForm);
+      var createHandle = $rootScope.$on('shipment:create', formShipment.showForm);
       $scope.$on('$destroy', createHandle);
     }]);
 }());

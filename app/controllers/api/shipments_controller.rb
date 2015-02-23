@@ -7,12 +7,13 @@ class Api::ShipmentsController < ApplicationController
     if current_user.admin?
       @shipments = Shipment.all
       
-      if params[:email].present?
-        @shipments = @shipments.by_email(params[:email])
-      end
-
       if params[:status].present?
         @shipments = @shipments.by_status(params[:status])
+      end
+
+      if params[:email].present?
+        @shipments = @shipments.by_email(params[:email]) +
+          Shipment.from_today.by_status(params[:status]).not_by_email(params[:email])
       end
     else
       if params[:date].present?
@@ -31,8 +32,14 @@ class Api::ShipmentsController < ApplicationController
   end
 
   def create
+    shipment_params = shipment_params()
+    shipment_params[:user] = if current_user.admin?
+      User.find_by(email: shipment_params[:user])
+    else
+      current_user
+    end
+
     @shipment = Shipment.new(shipment_params)
-    @shipment.user = current_user
 
     if @shipment.save
       render json: { shipment: @shipment }
@@ -43,7 +50,7 @@ class Api::ShipmentsController < ApplicationController
 
   def update
     # If user tries to update foreign shipment
-    if @shipment.user != current_user
+    if !current_user.admin? && @shipment.user != current_user
       render json: { errors: "You don't have permissions" }, status: 403
       return
     end
@@ -56,7 +63,7 @@ class Api::ShipmentsController < ApplicationController
   end
 
   def destroy
-    if @shipment.user != current_user
+    if !current_user.admin? && @shipment.user != current_user
       render json: { errors: "You don't have permissions" }, status: 403
       return
     end
@@ -68,7 +75,11 @@ class Api::ShipmentsController < ApplicationController
 
   private
   def shipment_params
-    params.require(:shipment).permit(:po, :start_date, :end_date, :company, :status)
+    if current_user.admin?
+      params.require(:shipment).permit(:po, :start_date, :end_date, :company, :status, :user)
+    else
+      params.require(:shipment).permit(:po, :start_date, :end_date, :company, :status)
+    end
   end
 
   def shipment_update_params
