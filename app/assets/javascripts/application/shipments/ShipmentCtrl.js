@@ -4,8 +4,8 @@
 
 var dtracker = angular.module('dtracker');
 
-dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '$rootScope', "uiCalendarConfig", 'Session', '$state', 'CheckShipment',
-  function ($http, $scope, Shipment, $timeout, $rootScope, uiCalendarConfig, session, $state, CheckShipment) {
+dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Shipment', '$timeout', '$rootScope', "uiCalendarConfig", 'Session', '$state', 'CheckShipment',
+  function (usSpinnerService, $http, $scope, Shipment, $timeout, $rootScope, uiCalendarConfig, session, $state, CheckShipment) {
     // Duration of event
     var shipmentsInterval = parseInt($('.settings').data("schedule-interval"), 10);
     var slotDuration = $('.settings').data("slot-duration");// "00:30:00";
@@ -129,7 +129,10 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
       }
     }
 
+
     function getEventsByEmail(userEmail, status) {
+      
+      usSpinnerService.spin(status);
       Shipment.query({email: userEmail, status: status}).$promise.then(function(data) {
       //$scope.events.splice(0, $scope.events.length);
         var source = null;
@@ -160,6 +163,8 @@ dtracker.controller('CalendarCtrl', ['$http', '$scope','Shipment', '$timeout', '
           source.push(event);
         });
         calendar.fullCalendar('addEventSource', source);
+
+        usSpinnerService.stop(status);
       });
     }
 
