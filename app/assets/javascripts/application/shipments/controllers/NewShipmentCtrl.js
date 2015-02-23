@@ -93,6 +93,7 @@
         $scope.$apply();
         //if data admin - show modal window with standart new-shipment template.
         
+        formShipment.showDeleteButton = false;
         //set if user is admin
         if(data.admin) {
           formShipment.isAdmin = true;

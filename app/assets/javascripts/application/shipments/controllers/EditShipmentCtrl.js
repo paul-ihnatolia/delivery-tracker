@@ -20,6 +20,7 @@
       var shipment = {};
       var companyPo = shipmentData.title.split(/\s-\s/);
       formShipment.message = null;
+      formShipment.showDeleteButton = true;
       
       //set admin
       if(shipmentData.admin) {
