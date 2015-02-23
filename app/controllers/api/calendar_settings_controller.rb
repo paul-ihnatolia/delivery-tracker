@@ -1,4 +1,4 @@
-class Api::CalendarSettings < ApplicationController
+class Api::CalendarSettingsController < ApplicationController
   respond_to :json
   before_action :authenticate_user!
   append_before_action :only_admin
@@ -10,8 +10,8 @@ class Api::CalendarSettings < ApplicationController
   end
 
   def update
-    @calendar_setting = CalendarSetting.find_by(id: params[:id])
-    @calendar_setting = CalendarSetting.update_attributes(calendar_params)
+    @calendar_setting = CalendarSetting.first
+    @calendar_setting.update_attributes(calendar_params)
     
     respond_with(:api, @calendar_setting)    
   end
@@ -22,8 +22,8 @@ class Api::CalendarSettings < ApplicationController
   end
   
   def only_admin
-    if current_user.admin?
-      render json: { "You don't have enough permissions." }, status: :forbidden
+    unless current_user.admin?
+      render json: { errors: "You don't have enough permissions." }, status: :forbidden
       return
     end
   end
