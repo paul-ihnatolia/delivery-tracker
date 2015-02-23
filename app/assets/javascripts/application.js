@@ -29,5 +29,7 @@
 //= require ng-table-export/ng-table-export.js
 //= require spin.js/spin.js
 //= require angular-spinner/angular-spinner.min.js
+//= require angular-bootstrap/ui-bootstrap.min.js
+//= require angular-bootstrap/ui-bootstrap-tpls.min.js
 //= require ./delivery-tracker
 //= require_tree ./application

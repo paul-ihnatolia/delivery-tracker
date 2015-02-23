@@ -7,6 +7,7 @@
     "ng-token-auth": "latest",
     "angular-resource": "latest",
     "angular-ui-calendar": "latest",
+    "angular-bootstrap": "latest",
     "angular-bootstrap-datetimepicker": "latest",
     "intl-tel-input": "latest",
     "ng-table": "latest",

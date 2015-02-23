@@ -1,3 +1,6 @@
 <div>
+<label>Set time interval</label>
+  <timepicker ng-model="cs.slot_duration" ng-change="changed()" hour-step="1" minute-step="10" show-meridian="false"></timepicker>
+
   <button class="btn btn-success" ng-click="cs.setSlotDuration">Update time slot</button>
 </div>
