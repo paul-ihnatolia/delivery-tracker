@@ -11,6 +11,10 @@ class Api::ShipmentsController < ApplicationController
         @shipments = @shipments.by_status(params[:status])
       end
 
+      if params[:date_range].present?
+        @shipments = @shipments.by_date_range(params[:date_range])
+      end
+      
       if params[:email].present?
         @shipments = @shipments.by_email(params[:email]) +
           Shipment.from_today.by_status(params[:status]).not_by_email(params[:email])

@@ -12,6 +12,12 @@ class Shipment < ActiveRecord::Base
     where.not(user_id: user.id)
   end
 
+  def self.by_date_range date_range
+    start_date = DateTime.parse(date_range.split('-').first).beginning_of_day
+    end_date = DateTime.parse(date_range.split('-').last).end_of_day
+    where(start_date: start_date..end_date)
+  end
+
   scope :by_email, ->(email) { joins(:user).where('users.email = ?', email) }
   scope :not_by_email, ->(email) { joins(:user).where('users.email != ?', email) }
   scope :by_status, ->(name) { where('shipments.status = ?', Shipment::statuses[name]) }
