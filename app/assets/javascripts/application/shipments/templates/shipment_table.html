@@ -18,11 +18,12 @@
 
                         <table ng-table="statistics.tableParams" show-filter="true" class="table table-striped table-advance" export-csv="csv">
                                 <tr ng-repeat="shipment in statistics.shipments">
+                                    <td data-title="'User'" sortable="'user'" filter="{ 'user': 'text' }"> {{ shipment.user }}</td>
                                     <td data-title="'Company'" sortable="'company'" filter="{ 'company': 'text' }">{{shipment.company}}</td>
                                     <td data-title="'Po'" sortable="'po'" filter="{ 'po': 'text' }">{{shipment.po}}</td>
-                                    <td data-title="'Time Start'" sortable="'start_date'" filter="{ 'start_date': 'text' }">{{shipment.start_date}}</td>
-                                    <td data-title="'Time End'" sortable="'end_date'" filter="{ 'end_date': 'text' }">{{shipment.end_date}}</td>
-                                    <td data-title="'Status'" sortable="'status'" filter="{ 'status': 'text' }">{{shipment.status}}</td>            
+                                    <td data-title="'Time Start'" sortable="'start_date'" >{{shipment.start_date | date : 'short'}}</td>
+                                    <td data-title="'Time End'" sortable="'end_date'">{{shipment.end_date | date : 'short'}}</td>
+                                    <td data-title="'Status'" sortable="'status'" filter="{ 'status': 'text' }">{{shipment.status}}</td>
                                 </tr>
                         </table>
                   </div>
