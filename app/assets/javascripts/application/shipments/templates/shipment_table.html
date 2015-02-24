@@ -12,6 +12,10 @@
                         <p><strong>Sorting:</strong> {{statistics.tableParams.sorting()|json}}
                         <p><strong>Filter:</strong> {{statistics.tableParams.filter()|json}}
                      
+                        <div class="form-group">
+                          <input date-range-picker class="form-control date-picker" type="text" ng-model="date" />
+                        </div>
+
                         <table ng-table="statistics.tableParams" show-filter="true" class="table table-striped table-advance" export-csv="csv">
                                 <tr ng-repeat="shipment in statistics.shipments">
                                     <td data-title="'Company'" sortable="'company'" filter="{ 'company': 'text' }">{{shipment.company}}</td>

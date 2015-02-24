@@ -17,7 +17,6 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
     $scope.adminShipmentSources = [];
     $scope.adminReceivingSources = [];
 
-
     /* Render calendar */
     $scope.changeView = function (calendarName, view) {
       uiCalendarConfig.calendars[calendarName].fullCalendar('changeView',view);
