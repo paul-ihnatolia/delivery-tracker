@@ -1,7 +1,9 @@
-<h3> Sign up: </h3>
-<auth-error></auth-error>
-<form novalidate ng-submit="reg.signUp(signUp.$valid)" name="signUp">
-  <div class="form-group">
+
+
+<form class="form-signin" novalidate ng-submit="reg.signUp(signUp.$valid)" name="signIn">
+  <h2 class="form-signin-heading">sign up now</h2>
+  <div class="login-wrap">
+        <div class="form-group">
     <label for="email"> Email: </label>
     <input type="email" ng-model="reg.credentials.email" name="email" class="form-control" required />
     <div class="error-container" 
@@ -88,18 +90,13 @@
   </div>
   <div class="form-group">
     <label for="phone_number"> Phone number: </label>
-    <intl-phone-input ng-model="reg.credentials.phone_number"></intl-phone-input>
+    <intl-phone-input style="padding-left: 50px" ng-model="reg.credentials.phone_number"></intl-phone-input>
     <div class="error-container" 
          ng-show="signUp.phone_number.$dirty && signUp.phone_number.$invalid">
       <small ng-show="signUp.phone_number.$error.intlPhoneInput"> That is not a valid phone number. Please input a valid phone number. </small>
     </div>
-<!--     <input type="phone_number" name="phone_number" id="phone_number" ng-model="reg.credentials.phone_number" class="form-control" required />
-    <div class="error-container" ng-show="signUp.phone_number.$dirty && signUp.phone_number.$invalid">
-      <small class="error" ng-show="signUp.phone_number.$error.required">
-        Your phone number is required.
-      </small>
-    </div> -->
   </div>
 
-  <button type="submit" class="btn btn-primary btn-lg" ng-disabled="signUp.$invalid">Sign up</button>
+  <button type="submit" class="btn btn-primary btn-lg" ng-submit="signUp.$invalid">Sign up</button>
+  </div>
 </form>
