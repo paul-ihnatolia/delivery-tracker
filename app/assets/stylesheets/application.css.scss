@@ -10,13 +10,13 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require bootstrap/bootstrap.min.css
+ *= require bootstrap/dist/css/bootstrap.min.css
  *= require bootstrap/bootstrap-reset.css
  *= require font-awesome/css/font-awesome.min.css
- * 
  *= require angular-bootstrap-datetimepicker/src/css/datetimepicker.css
  *= require intl-tel-input/build/css/intlTelInput.css.scss
  *= require fullcalendar/fullcalendar.css
+ *= require bootstrap-daterangepicker/daterangepicker-bs3.css
  *= require_tree .
  *= require_self
  */

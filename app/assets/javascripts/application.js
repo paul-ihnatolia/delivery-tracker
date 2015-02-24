@@ -31,5 +31,7 @@
 //= require angular-spinner/angular-spinner.min.js
 //= require angular-bootstrap/ui-bootstrap.min.js
 //= require angular-bootstrap/ui-bootstrap-tpls.min.js
+//= require bootstrap-daterangepicker/daterangepicker.js
+//= require angular-daterangepicker/js/angular-daterangepicker.js
 //= require ./delivery-tracker
 //= require_tree ./application

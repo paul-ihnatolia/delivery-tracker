@@ -11,7 +11,8 @@
         'ngTable',
         'ngTableExport',
         'angularSpinner',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'daterangepicker'
     ]);
     dtracker.config(['$urlRouterProvider', '$stateProvider', function ($urlRouterProvider, $stateProvider) {
         $urlRouterProvider.otherwise('/auth/sign_in');

@@ -2,6 +2,9 @@ var dtracker = angular.module('dtracker');
 
 dtracker.controller('ShipmentDataCtrl', ['$http', '$scope', '$filter', 'ngTableParams', function ($http, $scope, $filter, ngTableParams) {
 	var statistics = this;
+
+    $scope.date = {startDate: null, endDate: null};
+
     $http.get('/api/shipments').
     success(function(data) {
         statistics.shipments = data;

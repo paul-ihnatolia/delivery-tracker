@@ -12,6 +12,7 @@
     "intl-tel-input": "latest",
     "ng-table": "latest",
     "ng-table-export": "latest",
-    "angular-spinner": "latest"
+    "angular-spinner": "latest",
+    "angular-daterangepicker": "latest"
   }
 }
