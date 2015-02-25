@@ -7,8 +7,9 @@
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
 </head>
-<body class="full-width" ng-app="dtracker" ng-controller="ApplicationCtrl">
-  <section id="container" class="">
+<body class="full-width" ng-app="dtracker" ng-controller="ApplicationCtrl" >
+  <section class="container">
+    <div>
       <!--header start-->
       <header class="main-header white-bg">
           <div class="navbar-header">
@@ -55,15 +56,15 @@
       <%= yield %>
     
     </div>
-
-
-    <!--footer start-->
-    <footer class="site-footer">
-        <div class="text-center">
-            2015 &copy; HanzoLogistics
-        </div>
-    </footer>
-    <!--footer end-->
+    </div>
   </section>
+
+  <!--footer start-->
+  <footer class="site-footer">
+      <div class="text-center">
+          2015 &copy; HanzoLogistics
+      </div>
+  </footer>
+  <!--footer end-->
 </body>
 </html>
