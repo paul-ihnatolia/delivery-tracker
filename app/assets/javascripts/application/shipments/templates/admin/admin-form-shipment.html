@@ -31,18 +31,8 @@
                   </div>
                 </div> 
                 <div class="form-group">
-                  <label for="datestart">Delivery date start</label>
-                    <div class="dropdown" >
-                      <a class="dropdown-toggle my-toggle-select" role="button" data-toggle="dropdown" data-target="#" href="">
-                        <div class="input-append">
-                          <input type="text" class="form-control" ng-model="formShipment.shipment.startDate" data-date-time-input="MMMM Do YYYY HH:mm" >
-                        </div>
-                      </a>
-                      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                          <datetimepicker data-ng-model="formShipment.shipment.startDate"
-                                          data-datetimepicker-config="{ dropdownSelector: '.my-toggle-select' }" ></datetimepicker>
-                      </ul>
-                    </div> 
+                  <label for="datestart">Delivery date start:</label>
+                  {{formShipment.shipment.startDate._d | date:'MM-dd HH:mm'}}
                 </div>
                 <div class="form-group">
                   <label for="carrier"> Carrier: </label>
@@ -50,7 +40,7 @@
                 </div>
                 <div class="form-group">
                   <label for="status">Status: </label>
-                  {{ formShipment.shipment.status }}
+                  <span class="label label-{{ formShipment.shipment.status == 'shipping' ? 'warning' : 'success'}}">{{ formShipment.shipment.status }}</span>
                 </div>
                 <div class="form-group">
                   <button type="submit" class="btn btn-primary" ng-disabled="shipmentForm.$invalid">Submit</button>
