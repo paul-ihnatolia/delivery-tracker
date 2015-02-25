@@ -1,4 +1,4 @@
-<form class="form-signin" novalidate ng-submit="forgot.resetPass(forgotPass.$valid)" name="signIn">
+<form class="form-signin" novalidate ng-submit="forgot.resetPass(forgotPass.$valid)" name="forgotPass">
   <h2 class="form-signin-heading">Forgot password</h2>
   <div class="login-wrap">
       <auth-error></auth-error>
@@ -17,7 +17,7 @@
 
       </div>
     </div>
-    <button class="btn btn-lg btn-login btn-block" ng-submit="forgot.resetPass(forgotPass.$valid)">Restore</button>
+    <button class="btn btn-lg btn-login btn-block" ng-submit="forgot.resetPass(forgotPass.$valid)" ng-disabled="forgotPass.$invalid">Restore</button>
   </div>
 
 </form>

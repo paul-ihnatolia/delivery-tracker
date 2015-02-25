@@ -1,6 +1,4 @@
-
-
-<form class="form-signin" novalidate ng-submit="reg.signUp(signUp.$valid)" name="signIn">
+<form class="form-signin" novalidate ng-submit="reg.signUp(signUp.$valid)" name="signUp">
   <h2 class="form-signin-heading">sign up now</h2>
   <div class="login-wrap">
         <div class="form-group">
@@ -97,6 +95,6 @@
     </div>
   </div>
 
-  <button type="submit" class="btn btn-primary btn-lg" ng-submit="signUp.$invalid">Sign up</button>
+  <button type="submit" class="btn btn-primary btn-lg" ng-disabled="signUp.$invalid">Sign up</button>
   </div>
 </form>
