@@ -51,3 +51,5 @@ group :test do
   gem 'database_cleaner'
 end
 
+# Heroku
+gem 'rails_12factor', group: :production

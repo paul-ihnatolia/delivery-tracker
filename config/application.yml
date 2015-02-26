@@ -2,3 +2,8 @@ development:
   MANDRILL_USERNAME: vertoldo3@gmail.com
   MANDRILL_API_KEY: b9UNsP88NBvbNOV2b01okg
   DTRACKER_DOMAIN: localhost:3000
+production:
+  MANDRILL_USERNAME: vertoldo3@gmail.com
+  MANDRILL_API_KEY: b9UNsP88NBvbNOV2b01okg
+  DTRACKER_DOMAIN: still-escarpment-3852.herokuapp.com
+  SECRET_KEY_BASE: 514c6c3a5879f3431db4460c1be87289dfc22f8692d1b7f7523883f57ef8ef9c29dd56fa1abf6dc38b94eb30d78f72228a544234a69c7ba261d46251e943b1d0
