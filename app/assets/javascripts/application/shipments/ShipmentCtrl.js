@@ -321,10 +321,14 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
       }
     };
 
-    $rootScope.$on('addShipmentToCalendar', $scope.addShipmentToCalendar);
-    $rootScope.$on('shipment:updateEvent', $scope.updateEvent);
-    $rootScope.$on('shipment:deleteEvent', $scope.deleteEvent);
+    var addShipmentHandler = $rootScope.$on('addShipmentToCalendar', $scope.addShipmentToCalendar);
+    var updateHandler = $rootScope.$on('shipment:updateEvent', $scope.updateEvent);
+    var deleteHandler =  $rootScope.$on('shipment:deleteEvent', $scope.deleteEvent);
 
+    $scope.$on('$destroy', addShipmentHandler);
+    $scope.$on('$destroy', updateHandler);
+    $scope.$on('$destroy', deleteHandler);
+     
     function getCalendar(type) {
       if (type) {
         if (type === 'shipping') {
