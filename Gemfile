@@ -30,6 +30,7 @@ gem 'devise_token_auth', '0.1.31beta9'
 gem 'devise-async'
 gem 'delayed_job_active_record'
 gem "daemons"
+gem "font-awesome-rails"
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
