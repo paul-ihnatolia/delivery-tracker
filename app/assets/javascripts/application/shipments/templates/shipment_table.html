@@ -7,7 +7,7 @@
                   <div class="panel-body">
                       <a class="btn btn-primary" ng-mousedown="csv.generate()" ng-href="{{ csv.link() }}" download="report.csv">Export to CSV</a>
                         <button ng-click="statistics.tableParams.sorting({})" class="btn btn-default pull-right">Clear sorting</button>
-                        <button ng-click="statistics.tableParams.filter({})" class="btn btn-default pull-right" style="margin-right: 10px;">Clear filter</button>
+                        <button ng-click="statistics.clearFilters()" class="btn btn-default pull-right" style="margin-right: 10px;">Clear filter</button>
                         <div class="right-inner-addon pull-right" id="rangepick">
                          <i class="icon-calendar"></i>
                           <input date-range-picker placeholder="Choose date range" class="form-control date-picker" type="text" ng-model="date_range"/>
