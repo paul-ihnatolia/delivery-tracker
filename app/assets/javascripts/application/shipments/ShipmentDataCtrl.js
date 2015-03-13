@@ -41,6 +41,14 @@ dtracker.controller('ShipmentDataCtrl', ['$http', '$scope', '$filter', 'ngTableP
             }
         });
 
+    $scope.getShipmentClass = function(status){
+        if(status == 'shipping') {
+            return 'label label-warning';
+        } else {
+            return 'label label-success';
+        }
+    };
+
     $scope.date_range = {
         startDate: moment().subtract("days", 1),
         endDate: moment()
@@ -53,5 +61,7 @@ dtracker.controller('ShipmentDataCtrl', ['$http', '$scope', '$filter', 'ngTableP
             return;
         }
         statistics.tableParams.reload();
+
+
     }, false);
 }]);
