@@ -1,18 +1,13 @@
-<div class="row">
-  <div class="col-md-2">
-    <label>Set time interval</label>
-    <timepicker ng-model="cs.slot_duration" ng-change="changed()" hour-step="1" minute-step="10" show-meridian="false"></timepicker>
-
-    <button class="btn btn-success" ng-click="cs.setSlotDuration()">Update time slot</button>
-  </div>
-  <div class="col-md-4">
-    <div ng-if="cs.message">
-      <div class="{{ 'alert alert-dismissible alert-' + cs.message.type}}" role="alert">
+<div ng-if="cs.message">
+    <div class="alert alert-success alert-dismissible system-message" role="alert" style="margin-top: 0">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true">&times;</span>
         </button>
         {{ cs.message.content }}
-      </div>
     </div>
-  </div>
+</div>
+<div id="time-interval">
+    <label>Set time interval</label>
+    <timepicker ng-model="cs.slot_duration" ng-change="changed()" hour-step="1" minute-step="10" show-meridian="false"></timepicker>
+    <button class="btn btn-success" ng-click="cs.setSlotDuration()">Update time slot</button>
 </div>

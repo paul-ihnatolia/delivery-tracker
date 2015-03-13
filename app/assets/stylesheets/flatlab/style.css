@@ -4652,3 +4652,22 @@ tr.odd.gradeX td.sorting_1, tr.even.gradeX td.sorting_1, table.display tr.even.g
     tbody tr td {
         text-align: center;
     }
+
+#time-interval {
+    width: 500px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#time-interval
+
+    label {
+        border-bottom: 2px solid;
+        color: #F77B6F;
+        font-size: 2em;
+        font-weight: 500;
+    }
+
+    table {
+        margin: 0 auto;
+    }
