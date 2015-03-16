@@ -4671,3 +4671,15 @@ tr.odd.gradeX td.sorting_1, tr.even.gradeX td.sorting_1, table.display tr.even.g
     table {
         margin: 0 auto;
     }
+
+.top-section-calendar {
+    height:50px;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.select-carrier {
+    border-color: #ec6459;
+}

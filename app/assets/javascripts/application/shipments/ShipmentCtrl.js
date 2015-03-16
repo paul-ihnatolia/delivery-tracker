@@ -229,14 +229,23 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
         var user = null;
         if (status == 'shipping') {
           user = $scope.shippingUser;
+          if (!user) {
+            $('.admin-shipping .col-md-5 select ').addClass('select-carrier animated shake');
+            return;
+          } else {
+            $('.admin-shipping .col-md-5 select ').css({'border-color': '#e2e2e4'});
+          }
         } else {
           user = $scope.receivingUser;
+          if (!user) {
+            $('.admin-receiving .col-md-5 select ').addClass('select-carrier animated shake');
+            return;
+          }
+          else {
+            $('.admin-receiving .col-md-5 select ').css({'border-color': '#e2e2e4'});
+          }
         }
 
-        if (!user) {
-          alert('Select carrier first.');
-          return;
-        }
         data = {
           start: date,
           interval: shipmentsInterval,
