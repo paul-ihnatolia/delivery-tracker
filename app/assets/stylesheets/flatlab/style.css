@@ -3489,11 +3489,14 @@ table.sliders tr td {
     padding-left: 0px;
 }
 
-.daterangepicker .ranges label {
-    padding-bottom: 0;
-    padding-top: 8px;
+.daterangepicker {
+    left: 24%;
+    right: 24%;
 }
 
+.daterangepicker .ranges .range_inputs {
+    text-align: center;
+}
 
 .daterangepicker td.active, .daterangepicker td.active:hover,
 .datepicker td.active:hover, .datepicker td.active:hover:hover, .datepicker td.active:active, .datepicker td.active:hover:active, .datepicker td.active.active, .datepicker td.active.active:hover, .datepicker td.active.disabled, .datepicker td.active.disabled:hover, .datepicker td.active[disabled], .datepicker td.active[disabled]:hover,
@@ -4639,4 +4642,44 @@ tr.odd.gradeX td.sorting_1, tr.even.gradeX td.sorting_1, table.display tr.even.g
 
 .site-min-height {
     min-height: 900px;
+}
+
+.table
+    thead tr th {
+        text-align: center;
+        cursor: pointer;
+    }
+    tbody tr td {
+        text-align: center;
+    }
+
+#time-interval {
+    width: 500px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#time-interval
+
+    label {
+        border-bottom: 2px solid;
+        color: #F77B6F;
+        font-size: 2em;
+        font-weight: 500;
+    }
+
+    table {
+        margin: 0 auto;
+    }
+
+.top-section-calendar {
+    height:50px;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.select-carrier {
+    border-color: #ec6459;
 }
