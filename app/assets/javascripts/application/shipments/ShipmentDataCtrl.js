@@ -64,4 +64,12 @@ dtracker.controller('ShipmentDataCtrl', ['$http', '$scope', '$filter', 'ngTableP
 
 
     }, false);
+
+    statistics.clearFilters = function(){
+        statistics.tableParams.filter({});
+        $scope.date_range = {
+            startDate: moment().subtract("days", 1),
+            endDate: moment()
+        };
+    };
 }]);
