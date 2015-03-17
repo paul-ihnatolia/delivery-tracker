@@ -23,7 +23,7 @@ dtracker.controller('SessionCtrl', ['$rootScope', '$scope', '$auth', '$location'
     $rootScope.flash = flash;
     $rootScope.flash.setMessage('You successfully signed in.');
     if (user.role === "admin") {
-      $location.path('/admin/statistics');
+      $location.path('/admin/shipments');
     } else {
       $location.path('/shipments');
     }
