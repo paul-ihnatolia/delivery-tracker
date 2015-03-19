@@ -1,6 +1,10 @@
 <section id="main-content">
   <section class="wrapper">
       <!-- page start-->
+      <ul class="nav nav-tabs">
+          <li role="presentation" class="active"><a ng-click="statistics.filterByCategory('shipping')">Shipping</a></li>
+          <li role="presentation"><a ng-click="statistics.filterByCategory('receiving')">Receiving</a></li>
+      </ul>
       <div class="row">
           <aside class="col-lg-12">
               <section class="panel">
@@ -27,7 +31,9 @@
                                     <td data-title="'Po'" sortable="'po'" filter="{ 'po': 'text' }">{{shipment.po}}</td>
                                     <td data-title="'Time Start'" sortable="'start_date'" >{{shipment.start_date | date : 'short'}}</td>
                                     <td data-title="'Time End'" sortable="'end_date'">{{shipment.end_date | date : 'short'}}</td>
-                                    <td data-title="'Status'" sortable="'status'" filter="{ 'status': 'text' }">{{shipment.status}}</td>
+                                    <td data-title="'Status'" sortable="'status'">
+                                        <span class="label label-{{ shipment.status == 'completed' ? 'success' : 'info'}}">{{shipment.status}}</span>
+                                    </td>
                                 </tr>
                         </table>
                   </div>

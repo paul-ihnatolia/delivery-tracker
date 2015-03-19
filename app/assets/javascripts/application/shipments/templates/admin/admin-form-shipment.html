@@ -39,8 +39,8 @@
                   {{ formShipment.shipment.user }}
                 </div>
                 <div class="form-group">
-                  <label for="status">Status: </label>
-                  <span class="label label-{{ formShipment.shipment.status == 'shipping' ? 'warning' : 'success'}}">{{ formShipment.shipment.status }}</span>
+                  <label for="category">Category: </label>
+                  <span class="label label-{{ formShipment.shipment.category == 'shipping' ? 'warning' : 'primary'}}">{{ formShipment.shipment.category }}</span>
                 </div>
                 <div class="form-group">
                   <button type="submit" class="btn btn-primary" ng-disabled="shipmentForm.$invalid">Submit</button>

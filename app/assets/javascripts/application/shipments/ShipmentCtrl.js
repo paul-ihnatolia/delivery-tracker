@@ -51,7 +51,7 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
         // Active shippment
         $scope.carrierActiveShipment = 'shipping';
         carrier = {};
-        // Watch on active shipment status change
+        // Watch on active shipment category change
         $scope.$watch("carrierActiveShipment", function () {
           // Hide edit or show form
           $state.go("application.shipments");
@@ -63,7 +63,7 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
 
           var source = null;
           angular.forEach(data, function (r) {
-            if (r.status === 'shipping') {
+            if (r.category === 'shipping') {
               source = carrier.shippingEvents;
             } else {
               source = carrier.receivingEvents;
@@ -77,7 +77,7 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
 
             if (r.id) {
               event.sid = r.id;
-              event.color = r.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)";
+              event.color = r.category === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)";
             } else {
               event.color = 'grey';
               event.stub = true;
@@ -102,14 +102,14 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
         //$scope.adminReceivingSources.push(admin.receivings);
         // Retrieve urls
         $http.get('/api/users')
-        .success(function(data, status, headers, config) {
+        .success(function(data, category, headers, config) {
           // this callback will be called asynchronously
           // when the response is available
           $scope.shippingUsers = data;
         })
-        .error(function(data, status, headers, config) {
+        .error(function(data, category, headers, config) {
           // called asynchronously if an error occurs
-          // or server returns response with an error status.
+          // or server returns response with an error category.
           alert('Error happens when retrieving user data');
         });
         
@@ -129,14 +129,14 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
     }
 
 
-    function getEventsByEmail(userEmail, status) {
+    function getEventsByEmail(userEmail, category) {
       
-      usSpinnerService.spin(status);
-      Shipment.query({email: userEmail, status: status}).$promise.then(function(data) {
+      usSpinnerService.spin(category);
+      Shipment.query({email: userEmail, category: category}).$promise.then(function(data) {
       //$scope.events.splice(0, $scope.events.length);
         var source = null;
-        var calendar = getCalendar(status);
-        if (status === 'shipping') {
+        var calendar = getCalendar(category);
+        if (category === 'shipping') {
           calendar.fullCalendar('removeEventSource', admin.shippings);
           admin.shippings = [];
           source = admin.shippings;
@@ -157,17 +157,17 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
           if (r.user != userEmail) {
             event.color = 'grey';
           } else {
-            event.color = r.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)";
+            event.color = r.category === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)";
           }
           source.push(event);
         });
         calendar.fullCalendar('addEventSource', source);
 
-        usSpinnerService.stop(status);
+        usSpinnerService.stop(category);
       });
     }
 
-    // Change events source, when shipment status changed for carrier
+    // Change events source, when shipment category changed for carrier
     function changeShipmentSource () {
       // It fails first time, so wee need to
       // make a check
@@ -183,7 +183,7 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
       }
     }
 
-    function getActiveShipments (status) {
+    function getActiveShipments (category) {
       if (carrier) {
         if ($scope.carrierActiveShipment === 'shipping') {
           return carrier.shippingEvents;
@@ -191,7 +191,7 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
           return carrier.receivingEvents;
         }
       } else {
-        if (status === 'shipping') {
+        if (category === 'shipping') {
           return admin.shippings;
         } else {
           return admin.receivings;
@@ -201,22 +201,22 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
 
     // Only for admin
     $scope.changeTime = function ( event, delta, revertFunc, jsEvent, ui, view ) {
-      var status = event.color === "#FF8C00" ? 'shipping' : 'receiving';
+      var category = event.color === "#FF8C00" ? 'shipping' : 'receiving';
       var shipment = {  start_date: moment(event.start).format("YYYY-MM-DD HH:mm:ss z"),
                         end_date: moment(event.end).format("YYYY-MM-DD HH:mm:ss z"),
                         id: event._id,
                         sid: event.sid
                       };
-      if (CheckShipment.isOverlapping(shipment, status)) {
+      if (CheckShipment.isOverlapping(shipment, category)) {
         alert('Shipment is overlapping existing!');
         revertFunc();
       } else {
         $http.put('/api/shipments/' + shipment.sid,
             { shipment: shipment })
-        .success(function(data, status, headers, config) {
+        .success(function(data, category, headers, config) {
           // Ommit spinner
         })
-        .error(function(data, status, headers, config) {
+        .error(function(data, category, headers, config) {
           revertFunc();
         });
       }
@@ -225,9 +225,9 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
     $scope.createShipment = function(date, jsEvent, view){
       var data = {};
       if (admin) {
-        var status = $(jsEvent.target).parents('.shipping-calendar').length > 0 ? 'shipping' : 'receiving';
+        var category = $(jsEvent.target).parents('.shipping-calendar').length > 0 ? 'shipping' : 'receiving';
         var user = null;
-        if (status == 'shipping') {
+        if (category == 'shipping') {
           user = $scope.shippingUser;
           if (!user) {
             $('.admin-shipping .col-md-5 select ').addClass('select-carrier animated shake');
@@ -249,7 +249,7 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
         data = {
           start: date,
           interval: shipmentsInterval,
-          status: status,
+          category: category,
           user: user,
           admin: true
         };
@@ -257,10 +257,10 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
       } else {
         data = {start: date,
                 interval: shipmentsInterval,
-                status: $scope.carrierActiveShipment};
+                category: $scope.carrierActiveShipment};
         $state.go('application.shipments.newShipment');
       }
-      //broadcast status on
+      //broadcast category on
       setTimeout(function () {
         $rootScope.$emit("shipment:create", data);
       }, 100);
@@ -271,7 +271,7 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
         return;
       if (admin) {
         data.admin = true;
-        data.status = data.color === "#FF8C00" ? 'shipping' : 'receiving';
+        data.category = data.color === "#FF8C00" ? 'shipping' : 'receiving';
         $state.go('application.adminSide.shipments.editShipment');
       }
       else {
@@ -285,8 +285,8 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
 
     $scope.addShipmentToCalendar = function (e, data) {
       // type: ShippingVSReceiving
-      var calendar = getCalendar(data.shipment.status);
-      var events = getActiveShipments(data.shipment.status);
+      var calendar = getCalendar(data.shipment.category);
+      var events = getActiveShipments(data.shipment.category);
       // Algorithm works next:
       // firstly remove all sources from fullcalendar,
       // than add event to source, and then add that source again
@@ -296,9 +296,9 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
     };
 
     $scope.updateEvent = function (e, data) {
-      var calendar = getCalendar(data.status);
+      var calendar = getCalendar(data.category);
       var events = calendar.fullCalendar('clientEvents');
-      var sourceEvents = getActiveShipments(data.status);
+      var sourceEvents = getActiveShipments(data.category);
       angular.forEach(events, function(e, i) {
         if (e.sid === data.sid ) {
           e.title = data.po + ' - ' + data.company;
@@ -318,7 +318,7 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
     $scope.deleteEvent = function (e, data) {
       var sid = data.sid;
       var _id = data._id;
-      var calendar = getCalendar(data.status);
+      var calendar = getCalendar(data.category);
       calendar.fullCalendar('removeEvents', _id);
       var events = getActiveShipments();
       // Also remove it manually from event source

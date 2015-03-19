@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150223161910) do
+ActiveRecord::Schema.define(version: 20150319130409) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pgcrypto"
 
   create_table "calendar_settings", force: :cascade do |t|
     t.time     "slot_duration"
@@ -45,8 +46,9 @@ ActiveRecord::Schema.define(version: 20150223161910) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.string   "company"
-    t.integer  "status",     default: 0
+    t.integer  "category",   default: 0
     t.integer  "user_id"
+    t.integer  "status"
   end
 
   create_table "users", force: :cascade do |t|

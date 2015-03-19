@@ -9,7 +9,7 @@
         company: '',
         startDate: '',
         endDate: '',
-        status: ''
+        category: ''
       };
       formShipment.message = null;
       formShipment.formTitle = "Create Shipment";
@@ -17,7 +17,7 @@
 
       formShipment.isAdmin = false;
 
-      formShipment.avaliableStatuses = ["shipping", "receiving"];
+      formShipment.avaliableCategories = ["shipping", "receiving"];
 
       formShipment.process = function () {
         var s = formShipment.shipment;
@@ -27,7 +27,7 @@
           start_date: moment(s.startDate).format("YYYY-MM-DD HH:mm:ss z"),
           end_date: moment(s.startDate).add(s.timeElapsed, 'minutes').format("YYYY-MM-DD HH:mm:ss z"),
           po: s.po,
-          status: s.status,
+          category: s.category,
           company: s.company
         };
         
@@ -35,8 +35,8 @@
           shipmentServerData.user = s.user;
         }
         
-        var status = formShipment.isAdmin ? s.status : null;
-        if (CheckShipment.isOverlapping(shipmentServerData, status)) {
+        var category = formShipment.isAdmin ? s.category : null;
+        if (CheckShipment.isOverlapping(shipmentServerData, category)) {
           alert('New shipment is overlapping existing!');
         } else {
           // Call to the server
@@ -49,11 +49,11 @@
               shipmentCal.title = shipmentServerData.po + ' - ' + shipmentServerData.company;
               shipmentCal.start = shipmentServerData.start_date;
               shipmentCal.end = shipmentServerData.end_date;
-              shipmentCal.color = data.shipment.status === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)";
+              shipmentCal.color = data.shipment.category === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)";
               shipmentCal.sid = data.shipment.id;
               if (formShipment.isAdmin) {
                 shipmentCal.user = shipmentServerData.user;
-                shipmentCal.status = shipmentServerData.status;
+                shipmentCal.category = shipmentServerData.category;
               }
               $rootScope.$emit('addShipmentToCalendar', {shipment: shipmentCal});
               formShipment.shipment = {
@@ -86,7 +86,7 @@
           startDate: data.start,
           endDate: '',
           timeElapsed: data.interval,
-          status: data.status,
+          category: data.category,
           user: data.user
         };
         formShipment.message = null;
