@@ -1,10 +1,10 @@
 angular.module('dtracker')
   .factory('CheckShipment', ['uiCalendarConfig', function (uiCalendarConfig) {
     return {
-      isOverlapping: function(event, status){
+      isOverlapping: function(event, category){
         var calendar = null;
-        if (status) {
-          if (status == 'shipping') {
+        if (category) {
+          if (category == 'shipping') {
             calendar = uiCalendarConfig.calendars.shippingCal;
           } else {
             calendar = uiCalendarConfig.calendars.receivingCal;

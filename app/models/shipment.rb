@@ -1,6 +1,6 @@
 class Shipment < ActiveRecord::Base
   validates :po, presence: true
-  enum status: { shipping: 0, receiving: 1 }
+  enum category: { shipping: 0, receiving: 1 }
   belongs_to :user
 
   def self.by_user user
@@ -20,7 +20,7 @@ class Shipment < ActiveRecord::Base
 
   scope :by_email, ->(email) { joins(:user).where('users.email = ?', email) }
   scope :not_by_email, ->(email) { joins(:user).where('users.email != ?', email) }
-  scope :by_status, ->(name) { where('shipments.status = ?', Shipment::statuses[name]) }
+  scope :by_category, ->(name) { where('shipments.category = ?', Shipment::categories[name]) }
   scope :from_today, ->{ where('shipments.start_date > ?', Time.zone.now.beginning_of_day) }
 
   validates_presence_of :user_id, message: "Your are not logged in."
@@ -32,7 +32,7 @@ class Shipment < ActiveRecord::Base
     object[:end_date] = end_date.strftime("%m-%d-%Y %I:%M%p") if has_attribute?(:end_date)
     object[:po] = po if has_attribute?(:po)
     object[:company] = company if has_attribute?(:company)
-    object[:status] = status if has_attribute?(:status)
+    object[:category] = category if has_attribute?(:category)
     object[:user] = self.user.email if has_attribute?(:user_id)
     object
   end

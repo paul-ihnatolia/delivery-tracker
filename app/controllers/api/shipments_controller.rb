@@ -7,8 +7,8 @@ class Api::ShipmentsController < ApplicationController
     if current_user.admin?
       @shipments = Shipment.all
       
-      if params[:status].present?
-        @shipments = @shipments.by_status(params[:status])
+      if params[:category].present?
+        @shipments = @shipments.by_category(params[:category])
       end
 
       if params[:date_range].present?
@@ -17,7 +17,7 @@ class Api::ShipmentsController < ApplicationController
       
       if params[:email].present?
         @shipments = @shipments.by_email(params[:email]) +
-          Shipment.from_today.by_status(params[:status]).not_by_email(params[:email])
+          Shipment.from_today.by_category(params[:category]).not_by_email(params[:email])
       end
     else
       if params[:date].present?
@@ -25,7 +25,7 @@ class Api::ShipmentsController < ApplicationController
         @shipments = Shipment.by_date(params[:date])
       else
         @shipments = Shipment.by_user(current_user) + 
-          Shipment.from_today.not_by_user(current_user).select(:start_date, :end_date, :status);
+          Shipment.from_today.not_by_user(current_user).select(:start_date, :end_date, :category);
       end
     end
     respond_with(@shipments)
@@ -80,9 +80,9 @@ class Api::ShipmentsController < ApplicationController
   private
   def shipment_params
     if current_user.admin?
-      params.require(:shipment).permit(:po, :start_date, :end_date, :company, :status, :user)
+      params.require(:shipment).permit(:po, :start_date, :end_date, :company, :category, :user)
     else
-      params.require(:shipment).permit(:po, :start_date, :end_date, :company, :status)
+      params.require(:shipment).permit(:po, :start_date, :end_date, :company, :category)
     end
   end
 
@@ -90,7 +90,7 @@ class Api::ShipmentsController < ApplicationController
     if current_user.admin?
       params.require(:shipment).permit(:po, :start_date, :end_date, :company)
     else
-      # Carrier can only update a shiping status
+      # Carrier can only update a shiping category
       params.require(:shipment).permit(:po, :company)
     end
   end

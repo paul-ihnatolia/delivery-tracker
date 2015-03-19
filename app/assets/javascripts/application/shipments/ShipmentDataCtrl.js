@@ -41,8 +41,8 @@ dtracker.controller('ShipmentDataCtrl', ['$http', '$scope', '$filter', 'ngTableP
             }
         });
 
-    $scope.getShipmentClass = function(status){
-        if(status == 'shipping') {
+    $scope.getShipmentClass = function(category){
+        if(category == 'shipping') {
             return 'label label-warning';
         } else {
             return 'label label-success';

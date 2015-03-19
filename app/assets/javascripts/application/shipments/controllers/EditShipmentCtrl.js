@@ -11,7 +11,7 @@
     formShipment.action = 'edit';
     formShipment.isAdmin = false;
 
-    formShipment.avaliableStatuses = ["shipping", "receiving"];
+    formShipment.avaliableCategories = ["shipping", "receiving"];
 
     formShipment.message = null;
 
@@ -34,7 +34,7 @@
         _id       : shipmentData._id,
         startDate : shipmentData.start,
         endDate   : shipmentData.end,
-        status    : shipmentData.status,
+        category    : shipmentData.category,
         user      : shipmentData.user
       };
 
@@ -62,7 +62,7 @@
       }
 
 
-      update.success(function(data, status, headers, config) {
+      update.success(function(data, category, headers, config) {
         $rootScope.$emit('shipment:updateEvent', formShipment.shipment);
         formShipment.message = {
           type: 'success',
@@ -72,7 +72,7 @@
           $('#myModal').modal('hide');
         }
       })
-      .error(function(data, status, headers, config) {
+      .error(function(data, category, headers, config) {
         $scope.errors = data.errors;
       });
     };
@@ -81,10 +81,10 @@
       var shipmentId = formShipment.shipment.sid;
       if (shipmentId && confirm('Are you sure?')) {
         $http.delete('/api/shipments/' + shipmentId)
-        .success(function (data, status) {
+        .success(function (data, category) {
           $rootScope.$emit('shipment:deleteEvent', {sid: formShipment.shipment.sid,
                                                     _id: formShipment.shipment._id,
-                                                    status: formShipment.shipment.status});
+                                                    category: formShipment.shipment.category});
           formShipment.message = {
             type: 'success',
             content: 'Shipment was deleted.'
@@ -92,7 +92,7 @@
           if (formShipment.isAdmin) {
             $('#myModal').modal('hide');
           }
-        }).error(function(data, status){
+        }).error(function(data, category){
           $scope.errors = data.errors;
         });
       }
