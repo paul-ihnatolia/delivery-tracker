@@ -39,7 +39,7 @@
 
       <div class="form-group">
         <label for="category">Category:</label>
-        <span class="label label-{{ newShipment.shipment.category == 'shipping' ? 'warning' : 'success'}}">{{ newShipment.shipment.category }}</span>
+        <span class="label label-{{ newShipment.shipment.category == 'shipping' ? 'warning' : 'primary'}}">{{ newShipment.shipment.category }}</span>
         <div class="error-container" ng-show="createShipment.estimatedTime.$dirty && createShipment.estimatedTime.$invalid">
           <small class="error" ng-show="createShipment.estimatedTime.$error.required">
             Company is required.
