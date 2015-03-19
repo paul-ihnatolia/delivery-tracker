@@ -8,7 +8,8 @@ dtracker.controller('ShipmentDataCtrl', ['$http', '$scope', '$filter', 'ngTableP
             page: 1,
             count: 25,
             filter: {
-                company: ''
+                company: '',
+                category: 'shipping'
             },
             sorting: {
                 user: 'asc',
@@ -65,11 +66,27 @@ dtracker.controller('ShipmentDataCtrl', ['$http', '$scope', '$filter', 'ngTableP
 
     }, false);
 
-    statistics.clearFilters = function(){
-        statistics.tableParams.filter({});
+    statistics.clearFilters = function() {
+        if ($('.wrapper ul.nav-tabs li:first-child').hasClass('active')) {
+            statistics.tableParams.filter({category: 'shipping'});
+        } else if ($('.wrapper ul.nav-tabs li:last-child').hasClass('active')) {
+            statistics.tableParams.filter({category: 'receiving'});
+        }
         $scope.date_range = {
             startDate: moment().subtract("days", 1),
             endDate: moment()
         };
+    };
+
+    statistics.filterByCategory =function(category) {
+        if (category == 'shipping') {
+            statistics.tableParams.filter({category: category});
+            $('.wrapper ul.nav-tabs li:first-child').addClass('active');
+            $('.wrapper ul.nav-tabs li:last-child').removeClass('active');
+        } else if (category == 'receiving') {
+            statistics.tableParams.filter({category: category});
+            $('.wrapper ul.nav-tabs li:first-child').removeClass('active');
+            $('.wrapper ul.nav-tabs li:last-child').addClass('active');
+        }
     };
 }]);
