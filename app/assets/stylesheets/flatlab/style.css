@@ -4654,7 +4654,7 @@ tr.odd.gradeX td.sorting_1, tr.even.gradeX td.sorting_1, table.display tr.even.g
 }
 
 .table
-    thead tr th {
+    thead tr th div {
         text-align: center;
         cursor: pointer;
     }
@@ -4695,4 +4695,16 @@ tr.odd.gradeX td.sorting_1, tr.even.gradeX td.sorting_1, table.display tr.even.g
 
 .wrapper ul.nav-tabs li {
     cursor: pointer;
+}
+
+#users-table {
+    padding: 10px;
+    margin-top: 1px;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.admin-panel {
+    padding-left: 20px;
+    border-bottom: none;
 }

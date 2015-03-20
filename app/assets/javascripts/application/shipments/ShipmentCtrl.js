@@ -105,7 +105,7 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
         .success(function(data, category, headers, config) {
           // this callback will be called asynchronously
           // when the response is available
-          $scope.shippingUsers = data;
+          $scope.shippingUsers = data.emails;
         })
         .error(function(data, category, headers, config) {
           // called asynchronously if an error occurs

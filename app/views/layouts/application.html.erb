@@ -25,7 +25,7 @@
               <div class="horizontal-menu navbar-collapse collapse ">
                   <ul class="nav navbar-nav">
                       <li ng-if="currentUser.hasRole('carrier')" ui-sref-active="active"><a ui-sref="application.shipments">My Shipments</a></li>
-                      <li ng-if="currentUser.hasRole('admin')" ui-sref-active="active"><a ui-sref="application.adminSide.shipments">Admin</a></li>
+                      <li ng-if="currentUser.hasRole('admin')" ui-sref-active="active"><a ui-sref="application.adminSide.control_panel.shipments">Admin</a></li>
                       <li ng-if="currentUser.hasRole('admin')" ui-sref-active="active"><a ui-sref="application.adminSide.statistics">Orders statistic</a></li>
                       <li ng-if="currentUser.hasRole('admin')" ui-sref-active="active"><a ui-sref="application.adminSide.calendar_settings">Time slot configuration</a></li>
                   </ul>

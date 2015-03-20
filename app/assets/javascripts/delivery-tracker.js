@@ -40,28 +40,19 @@
             url: '^/admin',
             templateUrl: 'application/shipments/templates/admin/admin-container.html',
             abstract: true
-        })
-        .state('application.adminSide.calendar_settings', {
+        }).state('application.adminSide.calendar_settings', {
             url: '^/calendar-settings',
             templateUrl: 'application/calendar/calendar_settings.html',
             controller: 'CalendarSettingsCtrl as cs'
-        })
-        .state('application.adminSide.shipments', {
-            url: '/shipments',
-            controller: 'CalendarCtrl as cal',
-            templateUrl: 'application/shipments/templates/admin/admin-shipments-container.html'
-        })
-        .state('application.adminSide.shipments.newShipment', {
+        }).state('application.adminSide.shipments.newShipment', {
             url: '/new',
             controller: "NewShipmentCtrl as formShipment",
             templateUrl: 'application/shipments/templates/admin/admin-form-shipment.html'
-        })
-        .state('application.adminSide.shipments.editShipment', {
+        }).state('application.adminSide.shipments.editShipment', {
             url: '/edit',
             controller: "EditShipmentCtrl as formShipment",
             templateUrl: 'application/shipments/templates/admin/admin-form-shipment.html'
-        })
-        .state('application.shipments.newShipment', {
+        }).state('application.shipments.newShipment', {
             url: '/new',
             controller: 'NewShipmentCtrl as newShipment',
             templateUrl: 'application/shipments/templates/new-shipment.html'
@@ -69,8 +60,7 @@
             url: '/edit',
             controller: 'EditShipmentCtrl as editShipment',
             templateUrl: 'application/shipments/templates/edit.html'
-        })
-        .state('application.auth', {
+        }).state('application.auth', {
             url: '^/auth',
             templateUrl: 'application/auth/templates/container.html',
             controller: function ($scope) {}
@@ -98,6 +88,18 @@
             url: "/statistics",
             templateUrl : 'application/shipments/templates/shipment_table.html',
             controller  : 'ShipmentDataCtrl as statistics'
+        }).state('application.adminSide.control_panel', {
+            url: "/control_panel",
+            templateUrl : 'application/shipments/templates/admin/admin-control-panel.html',
+            controller  : 'ControlPanelCtrl as control_panel'
+        }).state('application.adminSide.control_panel.users', {
+            url: "/carriers",
+            templateUrl: 'application/users/templates/index.html',
+            controller: 'UsersCtrl as users'
+        }).state('application.adminSide.control_panel.shipments', {
+            url: '/shipments',
+            controller: 'CalendarCtrl as cal',
+            templateUrl: 'application/shipments/templates/admin/admin-shipments-container.html'
         });
     }]).config(['$httpProvider',function($httpProvider) {
         //Http Intercpetor to check auth failures for xhr requests

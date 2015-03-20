@@ -1,0 +1,18 @@
+<div id="users-table">
+    <a class="btn btn-primary pull-left" ng-mousedown="csv.generate()" ng-href="{{ csv.link() }}" download="report.csv">Export to CSV</a>
+    <div class="btn-group pull-right">
+        <button ng-click="clearSorting()" class="btn btn-default">Clear sorting</button>
+        <button ng-click="clearFilter()" class="btn btn-default">Clear filter</button>
+    </div>
+    <table ng-table="tableParams" show-filter="true" class="table" export-csv="csv">
+        <tr ng-repeat="user in  $data">
+            <td data-title="'Name'" sortable="'name'" filter="{ 'name': 'text' }">{{user.name}}</td>
+            <td data-title="'Email'" sortable="'email'" filter="{ 'email': 'text' }">{{user.email}}</td>
+            <td data-title="'Phone number'" sortable="'phone_number'">{{user.phone_number}}</td>
+            <td data-title="'Company'" sortable="'company'">{{user.company}}</td>
+            <td data-title="'Provider'" sortable="'provider'">{{user.provider}}</td>
+            <td data-title="'UID'" sortable="'uid'">{{user.uid}}</td>
+            <td data-title="'Created at'" sortable="'created_at'">{{user.created_at}}</td>
+        </tr>
+    </table>
+</div>
