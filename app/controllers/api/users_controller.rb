@@ -5,7 +5,9 @@ class Api::UsersController < ApplicationController
 
   def index
     @user_emails = User.where(role: 0).map(&:email)
-    respond_with(@user_emails)
+    @users = User.all.where(role: 0)
+    respond_with(emails: @user_emails,
+                 carriers: @users)
   end
 
   private
