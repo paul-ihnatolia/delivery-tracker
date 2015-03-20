@@ -35,7 +35,7 @@
                       <!-- user login dropdown start-->
                       <li ng-hide="currentUser"><a ui-sref="application.auth.sign_in"> Sign in </a></li>
                       <li ng-show="currentUser">
-                        <a> Hello, {{ currentUser.getEmail() }} </a>
+                        <a> Hello, {{ currentUser.getName() }} </a>
                       </li>
                       <li ng-show="currentUser"><a ui-sref="application.auth.logout"> Logout </a></li>
                       <!-- user login dropdown end -->

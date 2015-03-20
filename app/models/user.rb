@@ -28,6 +28,7 @@ class User < ActiveRecord::Base
     object[:id] = id if has_attribute? :id
     object[:role]= role if has_attribute? :role
     object[:name] = "#{last_name}, #{first_name}" if (has_attribute? :last_name) || (has_attribute? :first_name)
+    object[:first_name] = first_name if has_attribute? :first_name
     object[:email] = email if has_attribute? :email
     object[:uid] = uid if has_attribute? :uis
     object[:phone_number] = phone_number if has_attribute? :phone_number
