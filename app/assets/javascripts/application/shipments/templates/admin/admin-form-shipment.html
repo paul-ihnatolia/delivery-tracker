@@ -7,46 +7,45 @@
                 <h4 class="modal-title">{{formShipment.formTitle}}</h4>
             </div>
             <div class="modal-body">
-
-              <form novalidate name="shipmentForm" ng-submit="formShipment.process()">
-                <div class="form-group">
-                  <label for="poNumber">PO Number</label>
-                  <input type="text" class="form-control" ng-model="formShipment.shipment.po" id="poNumber" placeholder="PO Number" name="poNumber" required ng-pattern="/^(\d)+$/">
-                  <div class="error-container" ng-show="shipmentForm.poNumber.$dirty && shipmentForm.poNumber.$invalid">
-                    <small class="error" ng-show="shipmentForm.poNumber.$error.required">
-                      PO number is required.
-                    </small>
-                    <small class="error" ng-show="shipmentForm.poNumber.$error.pattern">
-                      Enter only numbers
-                    </small>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="company">Company</label>
-                  <input type="text" class="form-control" ng-model="formShipment.shipment.company" id="company" placeholder="Company" name="company" required>
-                  <div class="error-container" ng-show="shipmentForm.company.$dirty && shipmentForm.company.$invalid">
-                    <small class="error" ng-show="shipmentForm.company.$error.required">
-                      Company is required.
-                    </small>
-                  </div>
-                </div> 
-                <div class="form-group">
-                  <label for="datestart">Delivery date start:</label>
-                  {{formShipment.shipment.startDate._d | date:'MM-dd HH:mm'}}
-                </div>
-                <div class="form-group">
-                  <label for="carrier"> Carrier: </label>
-                  {{ formShipment.shipment.user }}
-                </div>
-                <div class="form-group">
-                  <label for="category">Category: </label>
-                  <span class="label label-{{ formShipment.shipment.category == 'shipping' ? 'warning' : 'primary'}}">{{ formShipment.shipment.category }}</span>
-                </div>
-                <div class="form-group">
-                  <button type="submit" class="btn btn-primary" ng-disabled="shipmentForm.$invalid">Submit</button>
-                  <button type="button" ng-show="formShipment.showDeleteButton" class="btn btn-danger" ng-click="formShipment.deleteShipment()">Delete</button>
-                </div>              
-              </form>
+                <form novalidate name="shipmentForm" ng-submit="formShipment.process()">
+                    <div class="form-group">
+                        <label for="poNumber">PO Number</label>
+                        <input type="text" class="form-control" ng-model="formShipment.shipment.po" id="poNumber" placeholder="PO Number" name="poNumber" required ng-pattern="/^(\d)+$/">
+                        <div class="error-container" ng-show="shipmentForm.poNumber.$dirty && shipmentForm.poNumber.$invalid">
+                            <small class="error" ng-show="shipmentForm.poNumber.$error.required">
+                                PO number is required.
+                            </small>
+                            <small class="error" ng-show="shipmentForm.poNumber.$error.pattern">
+                                Enter only numbers
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Company</label>
+                        <input type="text" class="form-control" ng-model="formShipment.shipment.company" id="company" placeholder="Company" name="company" required>
+                        <div class="error-container" ng-show="shipmentForm.company.$dirty && shipmentForm.company.$invalid">
+                            <small class="error" ng-show="shipmentForm.company.$error.required">
+                                Company is required.
+                            </small>
+                        </div>
+                    </div>
+                    <dl class="dl-horizontal">
+                        <dt>Delivery date start:</dt>
+                        <dd>{{ getDate() }}</dd>
+                    </dl>
+                    <dl class="dl-horizontal">
+                        <dt>Carrier:</dt>
+                        <dd>{{ formShipment.shipment.user }}</dd>
+                    </dl>
+                    <dl class="dl-horizontal">
+                        <dt>Category:</dt>
+                        <dd><span class="label label-{{ formShipment.shipment.category == 'shipping' ? 'warning' : 'primary'}}">{{ formShipment.shipment.category }}</span></dd>
+                    </dl>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" ng-disabled="shipmentForm.$invalid">Submit</button>
+                        <button type="button" ng-show="formShipment.showDeleteButton" class="btn btn-danger" ng-click="formShipment.deleteShipment()">Delete</button>
+                    </div>
+                </form>
             </div>
           </div>
     </div>

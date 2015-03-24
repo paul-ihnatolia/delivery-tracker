@@ -97,5 +97,9 @@
         });
       }
     };
+
+    $scope.getDate = function() {
+        return moment(formShipment.shipment.startDate).format("YYYY-MM-DD, HH:mm A")
+    };
   }]);
 }());
