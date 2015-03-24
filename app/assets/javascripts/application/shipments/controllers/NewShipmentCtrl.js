@@ -21,7 +21,7 @@
 
       formShipment.process = function () {
         var s = formShipment.shipment;
-        
+
         //Data which will be send to server
         var shipmentServerData = {
           start_date: moment(s.startDate).format("YYYY-MM-DD HH:mm:ss z"),
@@ -103,5 +103,9 @@
 
       var createHandle = $rootScope.$on('shipment:create', formShipment.showForm);
       $scope.$on('$destroy', createHandle);
+
+      $scope.getDate = function() {
+        return moment(formShipment.shipment.startDate).format("YYYY-MM-DD, HH:mm A")
+      };
     }]);
 }());
