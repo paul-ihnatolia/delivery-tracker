@@ -38,8 +38,10 @@ class Shipment < ActiveRecord::Base
   def as_json(options={})
     object = {}
     object[:id] = id if has_attribute?(:id)
-    object[:start_date] = start_date.strftime("%m-%d-%Y %I:%M%p") if has_attribute?(:start_date)
-    object[:end_date] = end_date.strftime("%m-%d-%Y %I:%M%p") if has_attribute?(:end_date)
+    object[:start_date] = start_date.to_s if has_attribute?(:start_date)
+    object[:end_date] = end_date.to_s if has_attribute?(:end_date)
+    object[:start_date_12h] = start_date.strftime("%m-%d-%Y %I:%M%p") if has_attribute?(:start_date)
+    object[:end_date_12h] = end_date.strftime("%m-%d-%Y %I:%M%p") if has_attribute?(:end_date)
     object[:po] = po if has_attribute?(:po)
     object[:company] = company if has_attribute?(:company)
     object[:category] = category if has_attribute?(:category)
