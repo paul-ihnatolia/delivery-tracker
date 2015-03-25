@@ -33,6 +33,8 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
           slotEventOverlap: false,
           minTime: "08:00:00",
           maxTime: "23:00:00",
+          timezone: "America/Indiana/Indianapolis",
+          ignoreTimezone: false,
           slotDuration: slotDuration,
           header:{
             left: 'title',

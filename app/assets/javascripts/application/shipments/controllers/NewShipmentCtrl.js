@@ -24,13 +24,12 @@
 
         //Data which will be send to server
         var shipmentServerData = {
-          start_date: moment(s.startDate).format("YYYY-MM-DD HH:mm:ss z"),
-          end_date: moment(s.startDate).add(s.timeElapsed, 'minutes').format("YYYY-MM-DD HH:mm:ss z"),
+          start_date: moment(s.startDate.toISOString()).format("YYYY-MM-DD HH:mm:ss z"),
+          end_date: moment(s.startDate.toISOString()).add(s.timeElapsed, 'minutes').format("YYYY-MM-DD HH:mm:ss z"),
           po: s.po,
           category: s.category,
           company: s.company
         };
-        
         if (formShipment.isAdmin) {
           shipmentServerData.user = s.user;
         }
@@ -105,7 +104,7 @@
       $scope.$on('$destroy', createHandle);
 
       $scope.getDate = function() {
-        return moment(formShipment.shipment.startDate).format("YYYY-MM-DD, HH:mm A")
+        return moment(formShipment.shipment.startDate).format("YYYY-MM-DD, hh:mm A")
       };
     }]);
 }());
