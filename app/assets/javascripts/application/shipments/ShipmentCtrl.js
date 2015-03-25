@@ -150,8 +150,8 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
         angular.forEach(data, function (r) {
           var event = {
             sid: r.id,
-            start: r.start_date,
-            end: r.end_date,
+            start: moment.utc(r.start_date).format("YYYY-MM-DD HH:mm:ss"),
+            end: moment.utc(r.end_date).format("YYYY-MM-DD HH:mm:ss"),
             title: r.po + ' - ' + r.company,
             allDay: false,
             user: r.user
@@ -204,8 +204,8 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
     // Only for admin
     $scope.changeTime = function ( event, delta, revertFunc, jsEvent, ui, view ) {
       var category = event.color === "#FF8C00" ? 'shipping' : 'receiving';
-      var shipment = {  start_date: moment(event.start).format("YYYY-MM-DD HH:mm:ss z"),
-                        end_date: moment(event.end).format("YYYY-MM-DD HH:mm:ss z"),
+      var shipment = {  start_date: moment(event.start.toISOString()).format("YYYY-MM-DD HH:mm:ss z"),
+                        end_date: moment(event.end.toISOString()).format("YYYY-MM-DD HH:mm:ss z"),
                         id: event._id,
                         sid: event.sid
                       };
