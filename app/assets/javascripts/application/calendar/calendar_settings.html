@@ -1,5 +1,5 @@
 <div ng-if="cs.message">
-    <div class="alert alert-success alert-dismissible system-message" role="alert" style="margin-top: 0">
+    <div class="alert alert-{{cs.message.type == 'error' ? 'danger' : 'success'}} alert-dismissible system-message" role="alert" style="margin-top: 0">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
