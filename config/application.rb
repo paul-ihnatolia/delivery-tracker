@@ -23,14 +23,15 @@ module DeliveryTracker
     # Do not swallow errors in after_commit/after_rollback callbacks.
 
     config.active_record.raise_in_transactional_callbacks = true
-    # Configure Mandril through :smtp
-    config.action_mailer.delivery_method = :smtp
-    ActionMailer::Base.smtp_settings = {
-      :address   => "smtp.mandrillapp.com",
-      :port      => 587,
-      :user_name => ENV['MANDRILL_USERNAME'],
-      :password  => ENV['MANDRILL_API_KEY'],
-      :domain    => ENV['DTRACKER_DOMAIN']
-  }
+    # Configure Mandril through :smtp\
+    config.action_mailer.smtp_settings = {
+        :address   => "smtp.mandrillapp.com",
+        :port      => 587,
+        :enable_starttls_auto => true,
+        :user_name => "rishko92@gmail.com",
+        :password  => "3lJTr47SpA3aqWvUCBEctg",
+        :authentication => 'login'
+    }
+    Rails.application.routes.default_url_options[:host] = '93.183.226.199:5006'
   end
 end
