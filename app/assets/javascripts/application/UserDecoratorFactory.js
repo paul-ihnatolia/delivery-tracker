@@ -31,8 +31,8 @@
       return this.user ? this.user.role : null;
     };
 
-    UserDecorator.prototype.getEmail = function () {
-      return this.user.email;
+    UserDecorator.prototype.getName = function () {
+      return this.user.first_name + ' ' + this.user.last_name;
     };
     return (UserDecorator);
   }]);
