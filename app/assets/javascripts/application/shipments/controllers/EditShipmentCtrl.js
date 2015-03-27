@@ -91,6 +91,7 @@
           };
           if (formShipment.isAdmin) {
             $('#myModal').modal('hide');
+            location.reload();
           }
         }).error(function(data, category){
           $scope.errors = data.errors;
