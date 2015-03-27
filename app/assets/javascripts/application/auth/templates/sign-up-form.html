@@ -92,7 +92,7 @@
       <intl-phone-input style="padding-left: 50px" ng-model="reg.credentials.phone_number"></intl-phone-input>
       <div class="error-container" 
            ng-show="signUp.phone_number.$dirty && signUp.phone_number.$invalid">
-        <small ng-show="signUp.phone_number.$error.intlPhoneInput"> That is not a valid phone number. Please input a valid phone number. </small>
+        <small class="error" ng-show="signUp.phone_number.$error.intlPhoneInput"> That is not a valid phone number. Please input a valid phone number. </small>
       </div>
     </div>
 
