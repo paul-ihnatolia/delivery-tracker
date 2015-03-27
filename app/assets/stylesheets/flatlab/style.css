@@ -4696,3 +4696,24 @@ tr.odd.gradeX td.sorting_1, tr.even.gradeX td.sorting_1, table.display tr.even.g
 .wrapper ul.nav-tabs li {
     cursor: pointer;
 }
+
+.form-group input {
+    color: #3B3B3B;
+}
+
+.login-wrap input {
+    color: #3B3B3B;
+}
+
+.ng-table-filters input {
+    color: #3B3B3B;
+    font-weight: 500;
+}
+
+.panel-body select {
+    color: #3B3B3B;
+}
+
+.panel-body .row input {
+    color: #3B3B3B;
+}
