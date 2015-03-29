@@ -33,5 +33,6 @@
 //= require angular-bootstrap/ui-bootstrap-tpls.min.js
 //= require bootstrap-daterangepicker/daterangepicker.js
 //= require angular-daterangepicker/js/angular-daterangepicker.js
+//= require angular-flash-alert/js/angular-flash.js
 //= require ./delivery-tracker
 //= require_tree ./application
