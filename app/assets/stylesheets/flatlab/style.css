@@ -4717,3 +4717,10 @@ tr.odd.gradeX td.sorting_1, tr.even.gradeX td.sorting_1, table.display tr.even.g
 .panel-body .row input {
     color: #3B3B3B;
 }
+
+#table-user,
+#table-company,
+#table-po {
+    max-width: 300px;
+    word-wrap: break-word;
+}
