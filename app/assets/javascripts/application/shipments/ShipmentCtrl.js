@@ -73,8 +73,8 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
 
             var event = {
               allDay: false,
-              start: r.start_date,
-              end: r.end_date
+              start: moment.utc(r.start_date).format("YYYY-MM-DD HH:mm:ss"),
+              end: moment.utc(r.end_date).format("YYYY-MM-DD HH:mm:ss")
             };
 
             if (r.id) {
