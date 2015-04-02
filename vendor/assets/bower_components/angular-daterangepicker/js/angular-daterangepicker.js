@@ -5,7 +5,23 @@
 
   picker.value('dateRangePickerConfig', {
     separator: ' - ',
-    format: 'YYYY-MM-DD'
+    format: 'YYYY-MM-DD',
+    ranges: {
+      'Today': [moment(), moment()],
+      'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+      'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+      'This Month': [moment().startOf('month'), moment().endOf('month')]
+    },
+    locale: {
+      applyLabel: 'Submit',
+      cancelLabel: 'Cancel',
+      fromLabel: 'From',
+      toLabel: 'To',
+      customRangeLabel: 'Custom',
+      daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
+      monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      firstDay: 1
+    }
   });
 
   picker.directive('dateRangePicker', ['$compile', '$timeout', '$parse', 'dateRangePickerConfig', function($compile, $timeout, $parse, dateRangePickerConfig) {

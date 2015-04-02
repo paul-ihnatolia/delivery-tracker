@@ -23,8 +23,8 @@ class Shipment < ActiveRecord::Base
   end
 
   def self.by_date_range date_range
-    start_date = DateTime.parse(date_range.split('-').first).beginning_of_day
-    end_date = DateTime.parse(date_range.split('-').last).end_of_day
+    start_date = DateTime.parse(date_range.split('-').first).beginning_of_day.change(:offset => "-0400")
+    end_date = DateTime.parse(date_range.split('-').last).end_of_day.change(:offset => "-0400")
     where(start_date: start_date..end_date)
   end
 

@@ -6,7 +6,7 @@ dtracker.controller('ShipmentDataCtrl', ['$http', '$scope', '$filter', 'ngTableP
     statistics.tableParams = new ngTableParams(
         {
             page: 1,
-            count: 25,
+            count: 10,
             filter: {
                 company: '',
                 category: 'shipping'
@@ -42,17 +42,17 @@ dtracker.controller('ShipmentDataCtrl', ['$http', '$scope', '$filter', 'ngTableP
             }
         });
 
+    $scope.date_range = {
+        startDate: moment(),
+        endDate: moment()
+    };
+
     $scope.getShipmentClass = function(category){
         if(category == 'shipping') {
             return 'label label-warning';
         } else {
             return 'label label-success';
         }
-    };
-
-    $scope.date_range = {
-        startDate: moment().subtract("days", 1),
-        endDate: moment()
     };
 
     var preventFirstLoading = true;
@@ -73,7 +73,7 @@ dtracker.controller('ShipmentDataCtrl', ['$http', '$scope', '$filter', 'ngTableP
             statistics.tableParams.filter({category: 'receiving'});
         }
         $scope.date_range = {
-            startDate: moment().subtract("days", 1),
+            startDate: moment(),
             endDate: moment()
         };
     };
