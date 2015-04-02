@@ -73,8 +73,8 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
 
             var event = {
               allDay: false,
-              start: moment.utc(r.start_date).format("YYYY-MM-DD HH:mm:ss"),
-              end: moment.utc(r.end_date).format("YYYY-MM-DD HH:mm:ss")
+              start: new Date(r.start_date),
+              end: new Date(r.end_date)
             };
 
             if (r.id) {
@@ -150,8 +150,8 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
         angular.forEach(data, function (r) {
           var event = {
             sid: r.id,
-            start: moment.utc(r.start_date).format("YYYY-MM-DD HH:mm:ss"),
-            end: moment.utc(r.end_date).format("YYYY-MM-DD HH:mm:ss"),
+            start: new Date(r.start_date),
+            end: new Date(r.end_date),
             title: r.po + ' - ' + r.company,
             allDay: false,
             user: r.user
