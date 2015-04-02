@@ -158,7 +158,10 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
           };
           if (r.user != userEmail) {
             event.color = 'grey';
+            event.editable = false;
+            event.className = 'disable-shipment';
           } else {
+            event.editable = true;
             event.color = r.category === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)";
           }
           source.push(event);
@@ -268,13 +271,17 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
       }, 100);
     };
 
-    $scope.editShipment = function (data, jsEvent, view) {
+    $scope.editShipment = function (data) {
       if (data.stub)
         return;
       if (admin) {
-        data.admin = true;
-        data.category = data.color === "#FF8C00" ? 'shipping' : 'receiving';
-        $state.go('application.adminSide.shipments.editShipment');
+        if(!data.editable) {
+          return
+        } else {
+          data.admin = true;
+          data.category = data.color === "#FF8C00" ? 'shipping' : 'receiving';
+          $state.go('application.adminSide.shipments.editShipment');
+        }
       }
       else {
         $state.go('application.shipments.editShipment');

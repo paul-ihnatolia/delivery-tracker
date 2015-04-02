@@ -4724,3 +4724,7 @@ tr.odd.gradeX td.sorting_1, tr.even.gradeX td.sorting_1, table.display tr.even.g
     max-width: 300px;
     word-wrap: break-word;
 }
+
+.disable-shipment {
+    cursor: not-allowed;
+}
