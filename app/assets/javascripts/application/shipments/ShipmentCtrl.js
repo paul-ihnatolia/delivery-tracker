@@ -227,7 +227,7 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
       }
     };
 
-    $scope.createShipment = function(date, jsEvent, view){
+    $scope.createShipment = function(date, jsEvent){
       var data = {};
       if (admin) {
         var category = $(jsEvent.target).parents('.shipping-calendar').length > 0 ? 'shipping' : 'receiving';
@@ -272,16 +272,12 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
     };
 
     $scope.editShipment = function (data) {
-      if (data.stub)
-        return;
-      if (admin) {
-        if(!data.editable) {
-          return
-        } else {
+      if (admin && data.editable) {
           data.admin = true;
           data.category = data.color === "#FF8C00" ? 'shipping' : 'receiving';
           $state.go('application.adminSide.shipments.editShipment');
-        }
+      } else if (!data.editable) {
+          return
       }
       else {
         $state.go('application.shipments.editShipment');

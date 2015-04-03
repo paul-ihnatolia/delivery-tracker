@@ -15,7 +15,7 @@ angular.module('dtracker')
         var array = calendar.fullCalendar('clientEvents');
         for(var i = 0; i < array.length; i++) {
           if(array[i]._id != event.id){
-            if (moment.utc(array[i].start) < moment.utc(event.end_date) && moment.utc(array[i].end) > moment.utc(event.start_date)) {
+            if (moment(array[i].start) < moment(event.end_date) && moment(array[i].end) > moment(event.start_date)) {
               return true;
             }
           }

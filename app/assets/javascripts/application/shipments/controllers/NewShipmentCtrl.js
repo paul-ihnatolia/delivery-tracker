@@ -50,6 +50,7 @@
               shipmentCal.end = shipmentServerData.end_date;
               shipmentCal.color = data.shipment.category === "shipping" ? "#FF8C00" : "rgb(138, 192, 7)";
               shipmentCal.sid = data.shipment.id;
+              shipmentCal.editable = true;
               if (formShipment.isAdmin) {
                 shipmentCal.user = shipmentServerData.user;
                 shipmentCal.category = shipmentServerData.category;
