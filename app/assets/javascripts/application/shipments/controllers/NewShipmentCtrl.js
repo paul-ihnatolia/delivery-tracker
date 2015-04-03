@@ -24,8 +24,8 @@
 
         //Data which will be send to server
         var shipmentServerData = {
-          start_date: moment(s.startDate.toISOString()).format("YYYY-MM-DD HH:mm:ss z"),
-          end_date: moment(s.startDate.toISOString()).add(s.timeElapsed, 'minutes').format("YYYY-MM-DD HH:mm:ss z"),
+          start_date: moment(s.startDate.toISOString()).format("YYYY-MM-DD HH:mm"),
+          end_date: moment(s.startDate.toISOString()).add(s.timeElapsed, 'minutes').format("YYYY-MM-DD HH:mm"),
           po: s.po,
           category: s.category,
           company: s.company
