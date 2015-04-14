@@ -47,7 +47,7 @@ class Shipment < ActiveRecord::Base
     object[:company] = company if has_attribute?(:company)
     object[:category] = category if has_attribute?(:category)
     object[:user] = self.user.email if has_attribute?(:user_id)
-    Time.zone.now > object[:end_date] ? self.status = 1 : self.status = 0
+    Time.zone.now > end_date ? self.status = 1 : self.status = 0
     object[:status] = status
     object
   end
