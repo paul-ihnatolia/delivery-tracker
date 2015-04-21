@@ -4728,3 +4728,7 @@ tr.odd.gradeX td.sorting_1, tr.even.gradeX td.sorting_1, table.display tr.even.g
 .disable-shipment {
     cursor: not-allowed;
 }
+
+.label-rescheduled {
+    background-color: #4129D0;
+}

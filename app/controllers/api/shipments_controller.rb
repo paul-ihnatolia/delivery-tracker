@@ -88,7 +88,7 @@ class Api::ShipmentsController < ApplicationController
 
   def shipment_update_params
     if current_user.admin?
-      params.require(:shipment).permit(:po, :start_date, :end_date, :company)
+      params.require(:shipment).permit(:po, :start_date, :end_date, :company, :status)
     else
       # Carrier can only update a shiping category
       params.require(:shipment).permit(:po, :company)

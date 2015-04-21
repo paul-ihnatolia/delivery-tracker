@@ -5,7 +5,7 @@ class Shipment < ActiveRecord::Base
   validates :po, presence: true
 
   enum category: { shipping: 0, receiving: 1 }
-  enum status: { scheduled: 0, completed: 1 }
+  enum status: { scheduled: 0, completed: 1, rescheduled: 2 }
 
   before_create :set_status
 
@@ -47,7 +47,11 @@ class Shipment < ActiveRecord::Base
     object[:company] = company if has_attribute?(:company)
     object[:category] = category if has_attribute?(:category)
     object[:user] = self.user.email if has_attribute?(:user_id)
-    Time.zone.now > end_date ? self.status = 1 : self.status = 0
+    if Time.zone.now > end_date
+      self.status = 1
+    else
+      self.status.to_s == "scheduled" ? self.status = 0 : self.status = 2
+    end
     object[:status] = status
     object
   end

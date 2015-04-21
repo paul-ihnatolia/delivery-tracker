@@ -210,7 +210,8 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
       var shipment = {  start_date: moment(event.start.toISOString()).format("YYYY-MM-DD HH:mm"),
                         end_date: moment(event.end.toISOString()).format("YYYY-MM-DD HH:mm"),
                         id: event._id,
-                        sid: event.sid
+                        sid: event.sid,
+                        status: 'rescheduled'
                       };
       if (CheckShipment.isOverlapping(shipment, category)) {
         alert('Shipment is overlapping existing!');
