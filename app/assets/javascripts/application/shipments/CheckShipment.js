@@ -15,7 +15,13 @@ angular.module('dtracker')
         var array = calendar.fullCalendar('clientEvents');
         for(var i = 0; i < array.length; i++) {
           if(array[i]._id != event.id){
-            if (moment(array[i].start) < moment(event.end_date) && moment(array[i].end) > moment(event.start_date)) {
+
+              var eventStart = moment(event.start_date).format('MMMM Do YYYY, h:mm:ss');
+              var eventEnd = moment(event.end_date).format('MMMM Do YYYY, h:mm:ss');
+              var arrayEventStart = moment(array[i].start).format('MMMM Do YYYY, h:mm:ss');
+              var arrayEventEnd = moment(array[i].end).format('MMMM Do YYYY, h:mm:ss');
+
+            if (arrayEventStart < eventEnd && arrayEventEnd > eventStart) {
               return true;
             }
           }
