@@ -47,12 +47,19 @@ class Shipment < ActiveRecord::Base
     object[:company] = company if has_attribute?(:company)
     object[:category] = category if has_attribute?(:category)
     object[:user] = self.user.email if has_attribute?(:user_id)
-    if Time.zone.now > end_date
-      self.status = 1
-    else
-      self.status.to_s == "scheduled" ? self.status = 0 : self.status = 2
-    end
-    object[:status] = status
+    get_status(object)
     object
+  end
+
+  private
+  def get_status(obj)
+    if has_attribute?(:status)
+      if Time.zone.now > end_date
+        self.status = 1
+      else
+        self.status.to_s == "scheduled" ? self.status = 0 : self.status = 2
+      end
+      obj[:status] = status
+    end
   end
 end
