@@ -273,14 +273,13 @@ dtracker.controller('CalendarCtrl', ['usSpinnerService', '$http', '$scope','Ship
     };
 
     $scope.editShipment = function (data) {
-      if (admin && data.editable) {
+      if(admin && data.editable) {
           data.admin = true;
           data.category = data.color === "#FF8C00" ? 'shipping' : 'receiving';
           $state.go('application.adminSide.shipments.editShipment');
-      } else if (!data.editable) {
+      } else if(data.color === "grey") {
           return
-      }
-      else {
+      } else {
         $state.go('application.shipments.editShipment');
       }
 
